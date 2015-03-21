@@ -110,7 +110,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/alarm-priority:
 
-Writing command line to /tmp/C8S163emLT.dsk...
+Writing command line to /tmp/vZKC45fbcS.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run alarm-priority
@@ -164,7 +164,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-change:
 
-Writing command line to /tmp/VPsYfJpMEW.dsk...
+Writing command line to /tmp/0Hh4Pr8ZpD.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-change
@@ -215,7 +215,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-preempt:
 
-Writing command line to /tmp/ij1vE9ZUZ2.dsk...
+Writing command line to /tmp/F7N80c9cZ3.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-preempt
@@ -243,7 +243,7 @@ First iteration does not list all threads 0...15
 
 OUTPUT FROM tests/threads/priority-fifo:
 
-Writing command line to /tmp/iaLa7JcY2Q.dsk...
+Writing command line to /tmp/sP0Ettn73o.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-fifo
@@ -335,7 +335,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-sema:
 
-Writing command line to /tmp/GDBXMpHdN8.dsk...
+Writing command line to /tmp/yaOjCKwE7k.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-sema
@@ -439,7 +439,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-condvar:
 
-Writing command line to /tmp/Kr1LuHs0de.dsk...
+Writing command line to /tmp/3HC9s7sclU.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-condvar
@@ -507,7 +507,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-one:
 
-Writing command line to /tmp/nC91niPkaF.dsk...
+Writing command line to /tmp/019SnfmIOl.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-one
@@ -568,7 +568,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-multiple:
 
-Writing command line to /tmp/yxnAOSrqxZ.dsk...
+Writing command line to /tmp/Ew1n3M8wd5.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-multiple
@@ -631,7 +631,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-multiple2:
 
-Writing command line to /tmp/i863InY2Uv.dsk...
+Writing command line to /tmp/tEQDJS8P8Q.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-multiple2
@@ -693,7 +693,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-nest:
 
-Writing command line to /tmp/lyJ3Ynxxh6.dsk...
+Writing command line to /tmp/iDefHL4RiI.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-nest
@@ -818,7 +818,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-chain:
 
-Writing command line to /tmp/0DMRj72DH1.dsk...
+Writing command line to /tmp/KktRV4mWjh.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-chain
@@ -880,7 +880,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-sema:
 
-Writing command line to /tmp/SnyGSamzzE.dsk...
+Writing command line to /tmp/5tcRsc2lYS.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-sema
@@ -934,7 +934,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-lower:
 
-Writing command line to /tmp/gWsuV5MlVv.dsk...
+Writing command line to /tmp/m2YUDw0YV8.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-lower
@@ -975,7 +975,7 @@ Translation of call stack:
 
 OUTPUT FROM tests/threads/mlfqs-load-1:
 
-Writing command line to /tmp/M8x5IIYHhw.dsk...
+Writing command line to /tmp/vwkSGgVovj.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-load-1
@@ -1098,7 +1098,7 @@ Some load average values were missing or differed from those expected by more th
 
 OUTPUT FROM tests/threads/mlfqs-load-60:
 
-Writing command line to /tmp/2cEsdUHU2J.dsk...
+Writing command line to /tmp/PIAvc1yFRI.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-load-60
@@ -1308,7 +1308,7 @@ Some load average values were missing or differed from those expected by more th
 
 OUTPUT FROM tests/threads/mlfqs-load-avg:
 
-Writing command line to /tmp/a5ZSCZztK7.dsk...
+Writing command line to /tmp/H03zuzcfUW.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-load-avg
@@ -1518,7 +1518,7 @@ Some recent_cpu values were missing or differed from those expected by more than
 
 OUTPUT FROM tests/threads/mlfqs-recent-1:
 
-Writing command line to /tmp/ebR1r0CfTT.dsk...
+Writing command line to /tmp/lFXtAfUUVz.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-recent-1
@@ -1640,7 +1640,7 @@ thread   actual <-> expected explanation
 
 OUTPUT FROM tests/threads/mlfqs-nice-2:
 
-Writing command line to /tmp/70f5WbiuhI.dsk...
+Writing command line to /tmp/JfKY0Q391m.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-nice-2
@@ -1684,7 +1684,7 @@ thread   actual <-> expected explanation
 
 OUTPUT FROM tests/threads/mlfqs-nice-10:
 
-Writing command line to /tmp/uIJ0XQcpin.dsk...
+Writing command line to /tmp/8w1cagCV97.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-nice-10
@@ -1747,7 +1747,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/mlfqs-block:
 
-Writing command line to /tmp/uO7IOOgQfw.dsk...
+Writing command line to /tmp/8TMs3yzuAI.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-block
