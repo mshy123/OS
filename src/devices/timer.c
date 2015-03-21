@@ -100,8 +100,8 @@ timer_elapsed (int64_t then)
 
 static bool wakeup_ord(const struct list_elem* x, const struct list_elem* y, void* aux UNUSED)
 {
-  const struct thread* tx = list_entry(x, struct thread, elem);
-  const struct thread* ty = list_entry(y, struct thread, elem);
+  const struct thread* tx = list_entry(x, struct thread, wakeup_elem);
+  const struct thread* ty = list_entry(y, struct thread, wakeup_elem);
 
   return (tx->wakeup_time < ty->wakeup_time);
 }
@@ -117,7 +117,7 @@ timer_sleep (int64_t ticks)
   old_level = intr_disable();
 
   t->wakeup_time = wakeup_time;
-  list_insert_ordered(&sleep_list, &t->elem, wakeup_ord, NULL);
+  list_insert_ordered(&sleep_list, &t->wakeup_elem, wakeup_ord, NULL);
   thread_block();
 
   intr_set_level (old_level);
@@ -156,7 +156,7 @@ thread_wakeup (void)
 {
   struct thread *t;
   while(!list_empty(&sleep_list)) {
-    t = list_entry(list_front(&sleep_list), struct thread, elem);
+    t = list_entry(list_front(&sleep_list), struct thread, wakeup_elem);
     if (t->wakeup_time <= ticks) {
       list_pop_front(&sleep_list);
       thread_unblock(t);

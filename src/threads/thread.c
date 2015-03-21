@@ -84,6 +84,15 @@ static tid_t allocate_tid (void);
 
    It is not safe to call thread_current() until this function
    finishes. */
+
+static bool priority_ord (const struct list_elem *x, const struct list_elem *y, void *aux UNUSED)
+{
+  const struct thread *tx = list_entry(x, struct thread, elem);
+  const struct thread *ty = list_entry(y, struct thread, elem);
+
+  return (tx->priority > ty->priority);
+}
+
 void
 thread_init (void) 
 {
@@ -199,6 +208,8 @@ thread_create (const char *name, int priority,
   /* Add to run queue. */
   thread_unblock (t);
 
+  if (priority > thread_current()->priority) thread_yield();
+
   return tid;
 }
 
@@ -237,6 +248,9 @@ thread_unblock (struct thread *t)
   ASSERT (t->status == THREAD_BLOCKED);
   list_push_back (&ready_list, &t->elem);
   t->status = THREAD_READY;
+  //if (thread_current() != idle_thread) thread_yield();
+  //if (t->priority > thread_current()->priority)
+  //  thread_yield();
   intr_set_level (old_level);
 }
 
@@ -315,6 +329,7 @@ void
 thread_set_priority (int new_priority) 
 {
   thread_current ()->priority = new_priority;
+  if(thread_current() != idle_thread) thread_yield();
 }
 
 /* Returns the current thread's priority. */
@@ -463,10 +478,12 @@ alloc_frame (struct thread *t, size_t size)
 static struct thread *
 next_thread_to_run (void) 
 {
-  if (list_empty (&ready_list))
+  if (list_empty (&ready_list)) {
     return idle_thread;
-  else
+  } else {
+    list_sort (&ready_list, priority_ord, NULL);
     return list_entry (list_pop_front (&ready_list), struct thread, elem);
+  }
 }
 
 /* Completes a thread switch by activating the new thread's page

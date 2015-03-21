@@ -97,6 +97,7 @@ struct thread
     uint32_t *pagedir;                  /* Page directory. */
 #endif
 
+    struct list_elem wakeup_elem;
     int64_t wakeup_time;
 
     /* Owned by thread.c. */
