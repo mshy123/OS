@@ -97,8 +97,15 @@ struct thread
     uint32_t *pagedir;                  /* Page directory. */
 #endif
 
+    /* Project 1. Alarm Clock */
     struct list_elem wakeup_elem;
     int64_t wakeup_time;
+
+    /* Project 1. Priority Donation */
+    int old_priority;
+    int priority_candidate;
+    struct lock* blocking_lock;
+    struct list holded_locks;
 
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */

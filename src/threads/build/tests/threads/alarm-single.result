@@ -1,1 +1,2 @@
-PASS
+FAIL
+run: TIMEOUT after 60 seconds of host CPU time

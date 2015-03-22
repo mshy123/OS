@@ -85,6 +85,7 @@ static tid_t allocate_tid (void);
    It is not safe to call thread_current() until this function
    finishes. */
 
+/* Project 1. Priority Scheduling */
 static bool priority_ord (const struct list_elem *x, const struct list_elem *y, void *aux UNUSED)
 {
   const struct thread *tx = list_entry(x, struct thread, elem);
@@ -208,6 +209,7 @@ thread_create (const char *name, int priority,
   /* Add to run queue. */
   thread_unblock (t);
 
+  /* Project 1. Priority Scheduling */
   if (priority > thread_current()->priority) thread_yield();
 
   return tid;
@@ -248,9 +250,6 @@ thread_unblock (struct thread *t)
   ASSERT (t->status == THREAD_BLOCKED);
   list_push_back (&ready_list, &t->elem);
   t->status = THREAD_READY;
-  //if (thread_current() != idle_thread) thread_yield();
-  //if (t->priority > thread_current()->priority)
-  //  thread_yield();
   intr_set_level (old_level);
 }
 
@@ -328,8 +327,16 @@ thread_yield (void)
 void
 thread_set_priority (int new_priority) 
 {
-  thread_current ()->priority = new_priority;
-  if(thread_current() != idle_thread) thread_yield();
+  /* Project 1. Priority Donation */
+  struct thread *t = thread_current();
+  t->old_priority = new_priority;
+  if (t->priority_candidate > new_priority)
+    t->priority = t->priority_candidate;
+  else
+    t->priority = new_priority;
+
+  /* Project 1. Priority Scheduling */
+  if(t != idle_thread) thread_yield();
 }
 
 /* Returns the current thread's priority. */
@@ -455,6 +462,12 @@ init_thread (struct thread *t, const char *name, int priority)
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
   t->magic = THREAD_MAGIC;
+
+  /* Project 1. Priority Donation */
+  t->old_priority = priority;
+  t->priority_candidate = PRI_MIN;
+  t->blocking_lock = NULL;
+  list_init(&t->holded_locks);
 }
 
 /* Allocates a SIZE-byte frame at the top of thread T's stack and
@@ -481,7 +494,9 @@ next_thread_to_run (void)
   if (list_empty (&ready_list)) {
     return idle_thread;
   } else {
+    /* Project 1. Priority Scheduling */
     list_sort (&ready_list, priority_ord, NULL);
+
     return list_entry (list_pop_front (&ready_list), struct thread, elem);
   }
 }
