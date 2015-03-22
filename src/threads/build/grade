@@ -1,4 +1,4 @@
-TOTAL TESTING SCORE: 41.3%
+TOTAL TESTING SCORE: 44.4%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -7,10 +7,10 @@ SUMMARY BY TEST SET
 Test Set                                      Pts Max  % Ttl  % Max
 --------------------------------------------- --- --- ------ ------
 tests/threads/Rubric.alarm                     18/ 18  20.0%/ 20.0%
-tests/threads/Rubric.priority                  12/ 38  12.6%/ 40.0%
+tests/threads/Rubric.priority                  15/ 38  15.8%/ 40.0%
 tests/threads/Rubric.mlfqs                      8/ 37   8.6%/ 40.0%
 --------------------------------------------- --- --- ------ ------
-Total                                                  41.3%/100.0%
+Total                                                  44.4%/100.0%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -35,7 +35,7 @@ Functionality of priority scheduler (tests/threads/Rubric.priority):
 
 	     3/ 3 tests/threads/priority-fifo
 	     3/ 3 tests/threads/priority-sema
-	  ** 0/ 3 tests/threads/priority-condvar
+	     3/ 3 tests/threads/priority-condvar
 
 	  ** 0/ 3 tests/threads/priority-donate-one
 	  ** 0/ 3 tests/threads/priority-donate-multiple
@@ -46,8 +46,8 @@ Functionality of priority scheduler (tests/threads/Rubric.priority):
 	  ** 0/ 3 tests/threads/priority-donate-lower
 
 	- Section summary.
-	      4/ 12 tests passed
-	     12/ 38 points subtotal
+	      5/ 12 tests passed
+	     15/ 38 points subtotal
 
 Functionality of advanced scheduler (tests/threads/Rubric.mlfqs):
 	  ** 0/ 5 tests/threads/mlfqs-load-1
@@ -68,176 +68,6 @@ Functionality of advanced scheduler (tests/threads/Rubric.mlfqs):
 	      2/  9 tests passed
 	      8/ 37 points subtotal
 
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/threads/priority-condvar FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (priority-condvar) begin
-  (priority-condvar) Thread priority 23 starting.
-  (priority-condvar) Thread priority 22 starting.
-  (priority-condvar) Thread priority 21 starting.
-  (priority-condvar) Thread priority 30 starting.
-  (priority-condvar) Thread priority 29 starting.
-  (priority-condvar) Thread priority 28 starting.
-  (priority-condvar) Thread priority 27 starting.
-  (priority-condvar) Thread priority 26 starting.
-  (priority-condvar) Thread priority 25 starting.
-  (priority-condvar) Thread priority 24 starting.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 30 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 29 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 28 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 27 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 26 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 25 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 24 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 23 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 22 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 21 woke up.
-  (priority-condvar) end
-Differences in `diff -u' format:
-  (priority-condvar) begin
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 23 starting.
-+ (priority-condvar) finish make
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 22 starting.
-+ (priority-condvar) finish make
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 21 starting.
-+ (priority-condvar) finish make
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 30 starting.
-+ (priority-condvar) finish make
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 29 starting.
-+ (priority-condvar) finish make
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 28 starting.
-+ (priority-condvar) finish make
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 27 starting.
-+ (priority-condvar) finish make
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 26 starting.
-+ (priority-condvar) finish make
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 25 starting.
-+ (priority-condvar) finish make
-+ (priority-condvar) make thread
-  (priority-condvar) Thread priority 24 starting.
-+ (priority-condvar) finish make
-  (priority-condvar) Signaling...
-+ (priority-condvar) Thread priority 23 woke up.
-+ (priority-condvar) Signaling...
-+ (priority-condvar) Thread priority 22 woke up.
-+ (priority-condvar) Signaling...
-+ (priority-condvar) Thread priority 21 woke up.
-+ (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 30 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 29 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 28 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 27 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 26 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 25 woke up.
-  (priority-condvar) Signaling...
-  (priority-condvar) Thread priority 24 woke up.
-- (priority-condvar) Signaling...
-- (priority-condvar) Thread priority 23 woke up.
-- (priority-condvar) Signaling...
-- (priority-condvar) Thread priority 22 woke up.
-- (priority-condvar) Signaling...
-- (priority-condvar) Thread priority 21 woke up.
-  (priority-condvar) end
-
-OUTPUT FROM tests/threads/priority-condvar:
-
-Writing command line to /tmp/WW6x7ka2m0.dsk...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-Kernel command line: -q run priority-condvar
-Pintos booting with 4,096 kB RAM...
-374 pages available in kernel pool.
-374 pages available in user pool.
-Calibrating timer...  102,400 loops/s.
-Boot complete.
-Executing 'priority-condvar':
-(priority-condvar) begin
-(priority-condvar) make thread
-(priority-condvar) Thread priority 23 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
-(priority-condvar) Thread priority 22 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
-(priority-condvar) Thread priority 21 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
-(priority-condvar) Thread priority 30 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
-(priority-condvar) Thread priority 29 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
-(priority-condvar) Thread priority 28 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
-(priority-condvar) Thread priority 27 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
-(priority-condvar) Thread priority 26 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
-(priority-condvar) Thread priority 25 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
-(priority-condvar) Thread priority 24 starting.
-(priority-condvar) finish make
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 23 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 22 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 21 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 30 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 29 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 28 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 27 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 26 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 25 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 24 woke up.
-(priority-condvar) end
-Execution of 'priority-condvar' complete.
-Timer: 369 ticks
-Thread: 0 idle ticks, 372 kernel ticks, 0 user ticks
-Console: 2285 characters output
-Keyboard: 0 keys pressed
-Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -272,7 +102,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-one:
 
-Writing command line to /tmp/jHa6T5opbh.dsk...
+Writing command line to /tmp/GAI815Ravi.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-one
@@ -337,7 +167,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-multiple:
 
-Writing command line to /tmp/W4eHSRHfif.dsk...
+Writing command line to /tmp/QUJ0tavkxC.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-multiple
@@ -407,7 +237,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-multiple2:
 
-Writing command line to /tmp/aOq9XEEJ6O.dsk...
+Writing command line to /tmp/94CVU0gWmL.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-multiple2
@@ -474,7 +304,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-nest:
 
-Writing command line to /tmp/06GbC7349S.dsk...
+Writing command line to /tmp/A4TbYeWvLA.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-nest
@@ -612,7 +442,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-chain:
 
-Writing command line to /tmp/zYjH9YGus9.dsk...
+Writing command line to /tmp/RL19WIEPRU.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-chain
@@ -697,7 +527,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-sema:
 
-Writing command line to /tmp/idxKLKkp9X.dsk...
+Writing command line to /tmp/exW46zjIOS.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-sema
@@ -750,7 +580,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/priority-donate-lower:
 
-Writing command line to /tmp/AApqure0c0.dsk...
+Writing command line to /tmp/uGoBYfCkYP.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-donate-lower
@@ -781,19 +611,19 @@ Powering off...
 DETAILS OF tests/threads/mlfqs-load-1 FAILURE:
 
 Kernel panic in run: PANIC at ../../tests/threads/tests.c:94 in fail(): test failed
-Call stack: 0xc01072d6 0xc01093f5 0xc010b132 0xc010934a 0xc010052f 0xc01005f6 0xc010009e
+Call stack: 0xc0107326 0xc0109445 0xc010b172 0xc010939a 0xc010052f 0xc01005f6 0xc010009e
 Translation of call stack:
-0xc01072d6: debug_panic (.../../lib/kernel/debug.c:34)
-0xc01093f5: pass (...tests/threads/tests.c:100)
-0xc010b132: test_mlfqs_load_1 (...threads/mlfqs-load-1.c:29)
-0xc010934a: run_test (.../tests/threads/tests.c:58)
+0xc0107326: debug_panic (.../../lib/kernel/debug.c:34)
+0xc0109445: pass (...tests/threads/tests.c:100)
+0xc010b172: test_mlfqs_load_1 (...threads/mlfqs-load-1.c:29)
+0xc010939a: run_test (.../tests/threads/tests.c:58)
 0xc010052f: run_task (.../../../threads/init.c:270)
 0xc01005f6: run_actions (.../../../threads/init.c:319)
 0xc010009e: main (.../../../threads/init.c:124)
 
 OUTPUT FROM tests/threads/mlfqs-load-1:
 
-Writing command line to /tmp/wHM9cZDSyN.dsk...
+Writing command line to /tmp/0nY9PG4QUj.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-load-1
@@ -807,7 +637,7 @@ Executing 'mlfqs-load-1':
 (mlfqs-load-1) spinning for up to 45 seconds, please wait...
 (mlfqs-load-1) FAIL: load average stayed below 0.5 for more than 45 seconds
 Kernel PANIC at ../../tests/threads/tests.c:94 in fail(): test failed
-Call stack: 0xc01072d6 0xc01093f5 0xc010b132 0xc010934a 0xc010052f 0xc01005f6 0xc010009e.
+Call stack: 0xc0107326 0xc0109445 0xc010b172 0xc010939a 0xc010052f 0xc01005f6 0xc010009e.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
@@ -916,7 +746,7 @@ Some load average values were missing or differed from those expected by more th
 
 OUTPUT FROM tests/threads/mlfqs-load-60:
 
-Writing command line to /tmp/kfyFCFh23V.dsk...
+Writing command line to /tmp/j16pMKMieK.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-load-60
@@ -1126,7 +956,7 @@ Some load average values were missing or differed from those expected by more th
 
 OUTPUT FROM tests/threads/mlfqs-load-avg:
 
-Writing command line to /tmp/VfMxOH73jK.dsk...
+Writing command line to /tmp/ksa7SJd4OQ.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-load-avg
@@ -1336,7 +1166,7 @@ Some recent_cpu values were missing or differed from those expected by more than
 
 OUTPUT FROM tests/threads/mlfqs-recent-1:
 
-Writing command line to /tmp/fehufy7u9x.dsk...
+Writing command line to /tmp/UosC8T1xj1.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-recent-1
@@ -1458,7 +1288,7 @@ thread   actual <-> expected explanation
 
 OUTPUT FROM tests/threads/mlfqs-nice-2:
 
-Writing command line to /tmp/dgdDmh9Bu9.dsk...
+Writing command line to /tmp/RI3eZ5NG1H.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-nice-2
@@ -1502,7 +1332,7 @@ thread   actual <-> expected explanation
 
 OUTPUT FROM tests/threads/mlfqs-nice-10:
 
-Writing command line to /tmp/ZPQVnYVSNw.dsk...
+Writing command line to /tmp/h4IZiYK5wv.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-nice-10
@@ -1567,7 +1397,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/mlfqs-block:
 
-Writing command line to /tmp/8T3REc2Iir.dsk...
+Writing command line to /tmp/WftlRtZpEX.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-block

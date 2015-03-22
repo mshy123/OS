@@ -325,6 +325,20 @@ cond_wait (struct condition *cond, struct lock *lock)
    An interrupt handler cannot acquire a lock, so it does not
    make sense to try to signal a condition variable within an
    interrupt handler. */
+
+static bool
+semaphore_ord (const struct list_elem *x, const struct list_elem *y, void *aux UNUSED)
+{
+  struct semaphore_elem *sex = list_entry(x, struct semaphore_elem, elem);
+  struct semaphore_elem *sey = list_entry(y, struct semaphore_elem, elem);
+  struct semaphore *sx = &sex->semaphore;
+  struct semaphore *sy = &sey->semaphore;
+
+  struct thread *tx = list_entry(list_front (&sx->waiters), struct thread, elem);
+  struct thread *ty = list_entry(list_front (&sy->waiters), struct thread, elem);
+  return tx->priority > ty->priority;
+}
+
 void
 cond_signal (struct condition *cond, struct lock *lock UNUSED) 
 {
@@ -333,9 +347,11 @@ cond_signal (struct condition *cond, struct lock *lock UNUSED)
   ASSERT (!intr_context ());
   ASSERT (lock_held_by_current_thread (lock));
 
-  if (!list_empty (&cond->waiters)) 
+  if (!list_empty (&cond->waiters)) {
+	list_sort(&cond->waiters, semaphore_ord, NULL);
     sema_up (&list_entry (list_pop_front (&cond->waiters),
                           struct semaphore_elem, elem)->semaphore);
+  }
 }
 
 /* Wakes up all threads, if any, waiting on COND (protected by

@@ -1,4 +1,4 @@
-Writing command line to /tmp/WW6x7ka2m0.dsk...
+Writing command line to /tmp/nBlDfFpSLL.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q run priority-condvar
@@ -9,42 +9,16 @@ Calibrating timer...  102,400 loops/s.
 Boot complete.
 Executing 'priority-condvar':
 (priority-condvar) begin
-(priority-condvar) make thread
 (priority-condvar) Thread priority 23 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
 (priority-condvar) Thread priority 22 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
 (priority-condvar) Thread priority 21 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
 (priority-condvar) Thread priority 30 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
 (priority-condvar) Thread priority 29 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
 (priority-condvar) Thread priority 28 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
 (priority-condvar) Thread priority 27 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
 (priority-condvar) Thread priority 26 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
 (priority-condvar) Thread priority 25 starting.
-(priority-condvar) finish make
-(priority-condvar) make thread
 (priority-condvar) Thread priority 24 starting.
-(priority-condvar) finish make
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 23 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 22 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 21 woke up.
 (priority-condvar) Signaling...
 (priority-condvar) Thread priority 30 woke up.
 (priority-condvar) Signaling...
@@ -59,10 +33,16 @@ Executing 'priority-condvar':
 (priority-condvar) Thread priority 25 woke up.
 (priority-condvar) Signaling...
 (priority-condvar) Thread priority 24 woke up.
+(priority-condvar) Signaling...
+(priority-condvar) Thread priority 23 woke up.
+(priority-condvar) Signaling...
+(priority-condvar) Thread priority 22 woke up.
+(priority-condvar) Signaling...
+(priority-condvar) Thread priority 21 woke up.
 (priority-condvar) end
 Execution of 'priority-condvar' complete.
-Timer: 369 ticks
-Thread: 0 idle ticks, 372 kernel ticks, 0 user ticks
-Console: 2285 characters output
+Timer: 276 ticks
+Thread: 0 idle ticks, 279 kernel ticks, 0 user ticks
+Console: 1665 characters output
 Keyboard: 0 keys pressed
 Powering off...
