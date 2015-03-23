@@ -219,33 +219,33 @@ lock_acquire (struct lock *lock)
 
   /* Project 1. Priority Donation */
   if (lock->holder == NULL) {
-    list_push_back(&lock->holder->holded_locks, &lock->elem);
+      list_push_back(&thread_current()->holded_locks, &lock->elem);
   } else {
-    struct thread *holder = lock->holder;
-    struct thread *acquirer = thread_current();
+      struct thread *holder = lock->holder;
+      struct thread *acquirer = thread_current();
 
-    acquirer->blocking_lock = lock;
+      acquirer->blocking_lock = lock;
 
-    while (holder != NULL) {
-      if (acquirer->blocking_lock->priority_candidate < acquirer->priority) {
-        acquirer->blocking_lock->priority_candidate = acquirer->priority;
-      }
+      while (holder != NULL) {
+          if (acquirer->blocking_lock->priority_candidate < acquirer->priority) {
+              acquirer->blocking_lock->priority_candidate = acquirer->priority;
+          }
 
-      if (holder->priority < acquirer->priority) {
-        holder->priority = acquirer->priority;
-      }
-        
-      if (holder->priority_candidate < acquirer->priority) {
-        holder->priority_candidate = acquirer->priority;
-      }
+          if (holder->priority < acquirer->priority) {
+              holder->priority = acquirer->priority;
+          }
 
-      acquirer = holder;
-      if (holder->blocking_lock != NULL) {
-        holder = holder->blocking_lock->holder;
-      } else {
-        holder = NULL;
+          if (holder->priority_candidate < acquirer->priority) {
+              holder->priority_candidate = acquirer->priority;
+          }
+
+          acquirer = holder;
+          if (holder->blocking_lock != NULL) {
+              holder = holder->blocking_lock->holder;
+          } else {
+              holder = NULL;
+          }
       }
-    }
   }
 
   sema_down (&lock->semaphore);
@@ -297,6 +297,7 @@ lock_release (struct lock *lock)
   ASSERT (lock_held_by_current_thread (lock));
 
   /* Project 1. Priority Donation */
+
   list_remove(&lock->elem);
   lock->holder->priority_candidate = list_entry(list_max(&lock->holder->holded_locks, priority_candidate_ord, NULL), struct lock, elem)->priority_candidate;
 
