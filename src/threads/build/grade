@@ -86,7 +86,7 @@ Translation of call stack:
 
 OUTPUT FROM tests/threads/mlfqs-load-1:
 
-Writing command line to /tmp/FgQefIZUS5.dsk...
+Writing command line to /tmp/zHTLb2vYQC.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-load-1
@@ -209,7 +209,7 @@ Some load average values were missing or differed from those expected by more th
 
 OUTPUT FROM tests/threads/mlfqs-load-60:
 
-Writing command line to /tmp/KZU4XeyRah.dsk...
+Writing command line to /tmp/keM1GiE1sf.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-load-60
@@ -419,7 +419,7 @@ Some load average values were missing or differed from those expected by more th
 
 OUTPUT FROM tests/threads/mlfqs-load-avg:
 
-Writing command line to /tmp/qOlwadRWBf.dsk...
+Writing command line to /tmp/jYnzC8diOk.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-load-avg
@@ -629,7 +629,7 @@ Some recent_cpu values were missing or differed from those expected by more than
 
 OUTPUT FROM tests/threads/mlfqs-recent-1:
 
-Writing command line to /tmp/ydQ7dDHubl.dsk...
+Writing command line to /tmp/BtBGht832V.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-recent-1
@@ -751,7 +751,7 @@ thread   actual <-> expected explanation
 
 OUTPUT FROM tests/threads/mlfqs-nice-2:
 
-Writing command line to /tmp/dfVBU5uBz1.dsk...
+Writing command line to /tmp/46V4lxIqMp.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-nice-2
@@ -795,7 +795,7 @@ thread   actual <-> expected explanation
 
 OUTPUT FROM tests/threads/mlfqs-nice-10:
 
-Writing command line to /tmp/sJinvlykUW.dsk...
+Writing command line to /tmp/i6yWUVR9RI.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-nice-10
@@ -860,7 +860,7 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/threads/mlfqs-block:
 
-Writing command line to /tmp/AIA7RIQDqD.dsk...
+Writing command line to /tmp/tZLkzh7u9y.dsk...
 warning: can't find squish-pty, so terminal input will fail
 bochs -q
 Kernel command line: -q -mlfqs run mlfqs-block

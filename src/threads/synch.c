@@ -243,7 +243,7 @@ lock_acquire (struct lock *lock)
           if (holder->blocking_lock != NULL) {
               holder = holder->blocking_lock->holder;
           } else {
-              holder = NULL;
+              break;
           }
       }
   }
@@ -278,10 +278,7 @@ static bool priority_candidate_ord(const struct list_elem *x, const struct list_
   struct lock *lx = list_entry(x, struct lock, elem);
   struct lock *ly = list_entry(y, struct lock, elem);
 
-  struct thread *tx = lx->holder;
-  struct thread *ty = ly->holder;
-
-  return (tx->priority_candidate > ty->priority_candidate);
+  return (lx->priority_candidate < ly->priority_candidate);
 }
 
 /* Releases LOCK, which must be owned by the current thread.
