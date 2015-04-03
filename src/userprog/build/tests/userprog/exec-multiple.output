@@ -1,0 +1,27 @@
+Copying tests/userprog/exec-multiple into /tmp/mhnFkvLsSY.dsk...
+Copying tests/userprog/child-simple into /tmp/mhnFkvLsSY.dsk...
+Writing command line to /tmp/Q4TxG2Fe7Y.dsk...
+qemu -hda /tmp/Q4TxG2Fe7Y.dsk -hdb /tmp/290G3J30Uq.dsk -hdc /tmp/mhnFkvLsSY.dsk -m 4 -net none -nographic -monitor null
+Kernel command line: -q -f put exec-multiple put child-simple run exec-multiple
+Pintos booting with 4,096 kB RAM...
+375 pages available in kernel pool.
+374 pages available in user pool.
+Calibrating timer...  78,540,800 loops/s.
+hd0:0: detected 129 sector (64 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 145 sector (72 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+Formatting file system...done.
+Boot complete.
+Putting 'exec-multiple' into the file system...
+Putting 'child-simple' into the file system...
+Executing 'exec-multiple':
+Execution of 'exec-multiple' complete.
+Timer: 69 ticks
+Thread: 0 idle ticks, 69 kernel ticks, 0 user ticks
+hd0:0: 0 reads, 0 writes
+hd0:1: 57 reads, 300 writes
+hd1:0: 145 reads, 0 writes
+Console: 827 characters output
+Keyboard: 0 keys pressed
+Exception: 0 page faults
+Powering off...

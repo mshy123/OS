@@ -84,16 +84,6 @@ static tid_t allocate_tid (void);
 
    It is not safe to call thread_current() until this function
    finishes. */
-
-/* Project 1. Priority Scheduling */
-static bool priority_ord (const struct list_elem *x, const struct list_elem *y, void *aux UNUSED)
-{
-  const struct thread *tx = list_entry(x, struct thread, elem);
-  const struct thread *ty = list_entry(y, struct thread, elem);
-
-  return (tx->priority > ty->priority);
-}
-
 void
 thread_init (void) 
 {
@@ -208,9 +198,6 @@ thread_create (const char *name, int priority,
 
   /* Add to run queue. */
   thread_unblock (t);
-
-  /* Project 1. Priority Scheduling */
-  if (priority > thread_current()->priority) thread_yield();
 
   return tid;
 }
@@ -327,16 +314,7 @@ thread_yield (void)
 void
 thread_set_priority (int new_priority) 
 {
-  /* Project 1. Priority Donation */
-  struct thread *t = thread_current();
-  t->old_priority = new_priority;
-  if (t->priority_candidate > new_priority)
-    t->priority = t->priority_candidate;
-  else
-    t->priority = new_priority;
-
-  /* Project 1. Priority Scheduling */
-  if(t != idle_thread) thread_yield();
+  thread_current ()->priority = new_priority;
 }
 
 /* Returns the current thread's priority. */
@@ -462,13 +440,6 @@ init_thread (struct thread *t, const char *name, int priority)
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
   t->magic = THREAD_MAGIC;
-
-  /* Project 1. Priority Donation */
-  t->old_priority = priority;
-  t->priority_candidate = PRI_MIN;
-  t->blocking_lock = NULL;
-  list_init (&t->holded_locks);
-
 }
 
 /* Allocates a SIZE-byte frame at the top of thread T's stack and
@@ -492,14 +463,10 @@ alloc_frame (struct thread *t, size_t size)
 static struct thread *
 next_thread_to_run (void) 
 {
-  if (list_empty (&ready_list)) {
+  if (list_empty (&ready_list))
     return idle_thread;
-  } else {
-    /* Project 1. Priority Scheduling */
-    list_sort (&ready_list, priority_ord, NULL);
-
+  else
     return list_entry (list_pop_front (&ready_list), struct thread, elem);
-  }
 }
 
 /* Completes a thread switch by activating the new thread's page
