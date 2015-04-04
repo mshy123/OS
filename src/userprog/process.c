@@ -18,6 +18,8 @@
 #include "threads/malloc.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
+#include "threads/synch.h"
+#include "userprog/syscall.h"
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp, char **save_ptr);
@@ -58,7 +60,8 @@ start_process (void *f_name)
   char *file_name = f_name;
   struct intr_frame if_;
   bool success;
-  
+
+  /* Argument Passing : Tokenize the Name of file_name */
   char *save_ptr;
   file_name = strtok_r(file_name, " ", &save_ptr);
 
@@ -67,6 +70,7 @@ start_process (void *f_name)
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
+  /* Argument Passing : add save_ptr */
   success = load (file_name, &if_.eip, &if_.esp, &save_ptr);
 
   /* If load failed, quit. */
@@ -96,9 +100,22 @@ start_process (void *f_name)
 int
 process_wait (tid_t child_tid UNUSED) 
 {
-  while(1) {
+  struct own_process *o_p = get_child_process(child_tid);
+  int status;
+
+  hex_dump(child_tid, &child_tid, 4, true);
+  if(o_p == NULL || o_p->wait) return -1;
+  o_p->wait = true;
+  
+  if (!o_p->exit) barrier();
+  if(o_p != NULL && o_p->exit == true) {
+  hex_dump(child_tid, &child_tid, 4, true);
   }
-  return -1;
+
+  status = o_p->status;
+  list_remove(&o_p->elem);
+
+  return status;
 }
 
 /* Free the current process's resources. */
@@ -107,6 +124,12 @@ process_exit (void)
 {
   struct thread *curr = thread_current ();
   uint32_t *pd;
+
+  /* System Call Add */
+  remove_child_process_all();
+  printf("%s: exit(%d)\n", curr->name, curr->o_p->status);
+  curr->o_p->exit = true;
+  printf("now, op is change to %b\n", curr->o_p->exit);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
@@ -506,6 +529,7 @@ setup_stack (void **esp, const char *file_name, char **save_ptr)
   /* Argument Passing : Add 0 size of void* and free argv */
   *esp -= sizeof(void *);
   memcpy(*esp, &argv[argc], sizeof(void *));
+  hex_dump(*esp, *esp, 100, true);  
   free(argv);
 
   return success;

@@ -196,7 +196,10 @@ thread_create (const char *name, int priority,
   sf = alloc_frame (t, sizeof *sf);
   sf->eip = switch_entry;
 
-  /* Add to run queue. */
+  /* add: Make Process : Add parent tid and process to run queue. */
+  t->parent_tid = thread_tid();
+  t->o_p = create_child_process(t->tid);
+
   thread_unblock (t);
 
   return tid;
@@ -440,6 +443,9 @@ init_thread (struct thread *t, const char *name, int priority)
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
   t->magic = THREAD_MAGIC;
+  /* add : Make process : list_init & parent_tid*/
+  list_init(&t->child_list);
+  t->parent_tid = -1;
 }
 
 /* Allocates a SIZE-byte frame at the top of thread T's stack and
