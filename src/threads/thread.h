@@ -4,6 +4,9 @@
 #include <debug.h>
 #include <list.h>
 #include <stdint.h>
+#include "threads/synch.h"
+#include "filesys/file.h"
+
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -85,11 +88,20 @@ struct own_process
   {
     int pid;
     int status;
-    int success_load;
     bool exit;
     bool wait;
+    struct semaphore first_sema;
+    struct semaphore second_sema;
     struct list_elem elem;
   };
+
+struct file_info
+{
+   int fd;
+   struct file *file;
+   struct list_elem elem;
+};
+
 struct thread
   {
     /* Owned by thread.c. */
@@ -107,12 +119,17 @@ struct thread
     uint32_t *pagedir;                  /* Page directory. */
 #endif
 
+    struct list file_list;
+    int max_fd;
+
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
     tid_t parent_tid;
     struct list child_list;
 
     struct own_process *o_p;
+
+    struct file *own_file;
   };
 
 /* If false (default), use round-robin scheduler.

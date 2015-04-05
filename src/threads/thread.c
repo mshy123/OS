@@ -443,9 +443,12 @@ init_thread (struct thread *t, const char *name, int priority)
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
   t->magic = THREAD_MAGIC;
-  /* add : Make process : list_init & parent_tid*/
+  /* add : Make process : list_init & sema_init & parent_tid*/
   list_init(&t->child_list);
+  list_init (&t->file_list);
   t->parent_tid = -1;
+  t->max_fd = 2;
+  t->own_file = NULL;
 }
 
 /* Allocates a SIZE-byte frame at the top of thread T's stack and

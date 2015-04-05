@@ -24,6 +24,8 @@
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp, char **save_ptr);
 
+struct semaphore success_load;
+
 /* Starts a new thread running a user program loaded from
    FILENAME.  The new thread may be scheduled (and may even exit)
    before process_execute() returns.  Returns the new process's
@@ -33,6 +35,8 @@ process_execute (const char *file_name)
 {
   char *fn_copy;
   tid_t tid;
+
+  sema_init(&success_load, 0);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
@@ -45,8 +49,13 @@ process_execute (const char *file_name)
   char *save_ptr;
   file_name = strtok_r((char *)file_name, " ", &save_ptr);
 
+
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
+
+
+  sema_down(&success_load);
+
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy); 
   return tid;
@@ -73,6 +82,7 @@ start_process (void *f_name)
   /* Argument Passing : add save_ptr */
   success = load (file_name, &if_.eip, &if_.esp, &save_ptr);
 
+  sema_up(&success_load);
   /* If load failed, quit. */
   palloc_free_page (file_name);
   if (!success) 
@@ -103,17 +113,16 @@ process_wait (tid_t child_tid UNUSED)
   struct own_process *o_p = get_child_process(child_tid);
   int status;
 
-  hex_dump(child_tid, &child_tid, 4, true);
   if(o_p == NULL || o_p->wait) return -1;
   o_p->wait = true;
   
-  if (!o_p->exit) barrier();
-  if(o_p != NULL && o_p->exit == true) {
-  hex_dump(child_tid, &child_tid, 4, true);
-  }
+  sema_down(&o_p->first_sema);
 
+  if (!o_p->exit) return - 1;
   status = o_p->status;
   list_remove(&o_p->elem);
+  
+  sema_up(&o_p->second_sema);
 
   return status;
 }
@@ -129,7 +138,8 @@ process_exit (void)
   remove_child_process_all();
   printf("%s: exit(%d)\n", curr->name, curr->o_p->status);
   curr->o_p->exit = true;
-  printf("now, op is change to %b\n", curr->o_p->exit);
+  sema_up(&curr->o_p->first_sema);
+  sema_down(&curr->o_p->second_sema);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
@@ -263,6 +273,8 @@ load (const char *file_name, void (**eip) (void), void **esp, char **save_ptr)
       printf ("load: %s: open failed\n", file_name);
       goto done; 
     }
+
+  file_deny_write (file);
 
   /* Read and verify executable header. */
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr
@@ -529,7 +541,7 @@ setup_stack (void **esp, const char *file_name, char **save_ptr)
   /* Argument Passing : Add 0 size of void* and free argv */
   *esp -= sizeof(void *);
   memcpy(*esp, &argv[argc], sizeof(void *));
-  hex_dump(*esp, *esp, 100, true);  
+  
   free(argv);
 
   return success;
