@@ -33,13 +33,10 @@ void check_valid_user_pointer(const void *user_pointer);
 int uaddr_to_kaddr(const void *uaddr);
 void get_args(struct intr_frame *f, int *args, int num);
 
-struct lock file_lock;
-
 void
 syscall_init (void) 
 {
   intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
-  lock_init(&file_lock);
 }
 
 static void
@@ -61,7 +58,8 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_EXEC:                   /* Start another process. */ 
       get_args(f, args, 1);
-      f->eax = exec((const char *)uaddr_to_kaddr((const void *)args[0]));
+      check_valid_user_pointer((const void *)args[0]);  
+      f->eax = exec((const char *)(uaddr_to_kaddr(args[0])));
       break;
 
     case SYS_WAIT:                   /* Wait for a child process to die. */
@@ -71,17 +69,20 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_CREATE:                 /* Create a file. */
       get_args(f, args, 2);
-      f->eax = create((const char *)uaddr_to_kaddr((const void *)args[0]), (unsigned)args[1]);
+      check_valid_user_pointer((const void *)args[0]);  
+      f->eax = create((const char *)(uaddr_to_kaddr(args[0])), (unsigned)args[1]);
       break;
 
     case SYS_REMOVE:                 /* Delete a file. */
       get_args(f, args, 1);
-      f->eax = remove((const char *)uaddr_to_kaddr((const void *)args[0]));
+      check_valid_user_pointer((const void *)args[0]);  
+      f->eax = remove((const char *)(uaddr_to_kaddr(args[0])));
       break;
 
     case SYS_OPEN:                   /* Open a file. */
       get_args(f, args, 1);
-      f->eax = open((const char *)uaddr_to_kaddr((const void *)args[0]));
+      check_valid_user_pointer((const void *)args[0]);  
+      f->eax = open((const char *)(uaddr_to_kaddr(args[0])));
       break;
 
     case SYS_FILESIZE:               /* Obtain a file's size. */
@@ -91,12 +92,14 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_READ:                   /* Read from a file. */
       get_args(f, args, 3);
-      f->eax = read(args[0], (void *)uaddr_to_kaddr((const void *)args[1]), (unsigned)args[2]);
+      check_valid_user_pointer((const void *)args[1]);  
+      f->eax = read(args[0], (void *)(uaddr_to_kaddr(args[1])), (unsigned)args[2]);
       break;
 
     case SYS_WRITE:                  /* Write to a file. */
       get_args(f, args, 3);
-      f->eax = write(args[0], (const void *)uaddr_to_kaddr((const void *)args[1]), (unsigned)args[2]);
+      check_valid_user_pointer((const void *)args[1]);  
+      f->eax = write(args[0], (const void *)(uaddr_to_kaddr(args[1])), (unsigned)args[2]);
       break;
 
     case SYS_SEEK:                   /* Change position in a file. */
@@ -122,8 +125,7 @@ void check_valid_user_pointer(const void *user_pointer) {
   
   pd = curr->pagedir;
 
-  if(user_pointer == NULL || !is_user_vaddr(user_pointer) || pagedir_get_page(pd, user_pointer) == NULL) 
-    exit(-1);
+  if(user_pointer == NULL || is_kernel_vaddr(user_pointer) || pagedir_get_page(pd, user_pointer) == NULL) exit(-1);
 }
 
 void halt(void) {
@@ -132,7 +134,7 @@ void halt(void) {
 
 void exit (int status) {
     struct thread *t = thread_current();
-    t->o_p->status = status;
+    t->exit_status = status;
     thread_exit();
 }
 
@@ -187,6 +189,9 @@ int read (int fd, void *buffer, unsigned size) {
         
         return size;
     }
+    else if(fd == 1) {
+        return -1;
+    }
     else {
         struct file *f = fd_to_file(fd);
         
@@ -202,6 +207,9 @@ int write (int fd, const void *buffer, unsigned size) {
     if(fd == 1) {
         putbuf(buffer, size);
         return size;
+    }
+    else if(fd == 0) {
+      return -1;
     }
     else {
         struct file *f = fd_to_file(fd);
@@ -274,7 +282,6 @@ void get_args(struct intr_frame *f, int *args, int num) {
 }
 
 int uaddr_to_kaddr(const void *user_pointer) {
-    check_valid_user_pointer(user_pointer);
     void *kaddr = pagedir_get_page(thread_current()->pagedir, user_pointer);
 
     if(kaddr == NULL) exit(-1);
@@ -282,43 +289,28 @@ int uaddr_to_kaddr(const void *user_pointer) {
     return (int) kaddr;
 }
 
-struct own_process *get_child_process(int pid) {
+void remove_all_file(void) {
     struct thread *t = thread_current();
-    struct list_elem *c_elem = list_begin(&t->child_list);
-    struct own_process *c_p;
+    struct file_info *fi;
+    struct list_elem *f_elem;
 
-    while(c_elem != list_end(&t->child_list)) {
-        c_p = list_entry(c_elem, struct own_process, elem);
-        if(c_p->pid == pid) {
-            return c_p;
-        }
-        c_elem = list_next(c_elem);
+    while(!list_empty(&t->file_list)) {
+        f_elem = list_pop_front(&t->file_list);
+        fi = list_entry(f_elem, struct file_info, elem);
+        file_close(fi->file);
+        free(fi);
     }
-    return NULL;
-}
-
-struct own_process *create_child_process(int pid) {
-    struct own_process *o_p = malloc(sizeof(struct own_process));
-    
-    o_p->pid = pid;
-    o_p->wait = false;
-    o_p->exit = false;
-
-    sema_init(&o_p->first_sema, 0);
-    sema_init(&o_p->second_sema, 0);
-    
-    list_push_back(&thread_current()->child_list, &o_p->elem);
-    
-    return o_p;
 }
 
 void remove_child_process_all(void) {
     struct thread *t = thread_current();
+    struct thread *c_p;
     struct list_elem *c_elem;
 
     while(!list_empty(&t->child_list)) {
         c_elem = list_pop_front(&t->child_list);
-        free(list_entry(c_elem, struct own_process, elem));
+        c_p = list_entry(c_elem, struct thread, c_elem);
+        sema_up(&c_p->p_sema);
     }
 }
 

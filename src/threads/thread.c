@@ -197,10 +197,8 @@ thread_create (const char *name, int priority,
   sf->eip = switch_entry;
 
   /* add: Make Process : Add parent tid and process to run queue. */
-  t->parent_tid = thread_tid();
-  t->o_p = create_child_process(t->tid);
-
   thread_unblock (t);
+  t->parent_t = thread_current();
 
   return tid;
 }
@@ -282,7 +280,7 @@ void
 thread_exit (void) 
 {
   ASSERT (!intr_context ());
-
+  file_close (thread_current()->own_file);
 #ifdef USERPROG
   process_exit ();
 #endif
@@ -443,12 +441,18 @@ init_thread (struct thread *t, const char *name, int priority)
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
   t->magic = THREAD_MAGIC;
-  /* add : Make process : list_init & sema_init & parent_tid*/
+
+  /* add : Make process : list_init & sema_init & parent_tid */
+#ifdef USERPROG
   list_init(&t->child_list);
   list_init (&t->file_list);
-  t->parent_tid = -1;
+  sema_init(&t->c_sema, 0);
+  sema_init(&t->p_sema, 0);
+  sema_init(&t->success_load, 0);
+  t->success_b = false;
   t->max_fd = 2;
-  t->own_file = NULL;
+  t->exit_status = -1;
+#endif
 }
 
 /* Allocates a SIZE-byte frame at the top of thread T's stack and

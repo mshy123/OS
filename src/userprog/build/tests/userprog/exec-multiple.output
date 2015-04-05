@@ -1,7 +1,7 @@
-Copying tests/userprog/exec-multiple into /tmp/mLbFu04ebi.dsk...
-Copying tests/userprog/child-simple into /tmp/mLbFu04ebi.dsk...
-Writing command line to /tmp/aGb8Q3o632.dsk...
-qemu -hda /tmp/aGb8Q3o632.dsk -hdb /tmp/wEKkrfC3pP.dsk -hdc /tmp/mLbFu04ebi.dsk -m 4 -net none -nographic -monitor null
+Copying tests/userprog/exec-multiple into /tmp/0zGrOJRrwK.dsk...
+Copying tests/userprog/child-simple into /tmp/0zGrOJRrwK.dsk...
+Writing command line to /tmp/b3tV33t1ZI.dsk...
+qemu -hda /tmp/b3tV33t1ZI.dsk -hdb /tmp/LLRco8XOwq.dsk -hdc /tmp/0zGrOJRrwK.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put exec-multiple put child-simple run exec-multiple
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -26,5 +26,13 @@ child-simple: exit(81)
 child-simple: exit(81)
 (exec-multiple) end
 exec-multiple: exit(0)
-
-TIMEOUT after 61 seconds of wall-clock time - load average: 0.13, 0.65, 0.58
+Execution of 'exec-multiple' complete.
+Timer: 68 ticks
+Thread: 0 idle ticks, 68 kernel ticks, 0 user ticks
+hd0:0: 0 reads, 0 writes
+hd0:1: 222 reads, 300 writes
+hd1:0: 145 reads, 0 writes
+Console: 1061 characters output
+Keyboard: 0 keys pressed
+Exception: 0 page faults
+Powering off...

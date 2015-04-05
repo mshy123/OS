@@ -20,11 +20,10 @@
 #include "threads/vaddr.h"
 #include "threads/synch.h"
 #include "userprog/syscall.h"
+#include <list.h>
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp, char **save_ptr);
-
-struct semaphore success_load;
 
 /* Starts a new thread running a user program loaded from
    FILENAME.  The new thread may be scheduled (and may even exit)
@@ -35,8 +34,6 @@ process_execute (const char *file_name)
 {
   char *fn_copy;
   tid_t tid;
-
-  sema_init(&success_load, 0);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
@@ -52,12 +49,15 @@ process_execute (const char *file_name)
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
-
-
-  sema_down(&success_load);
-
+  
+  sema_down(&thread_current()->success_load);
+  
+  if(!thread_current()->success_b) {
+      return -1;
+  }
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy); 
+
   return tid;
 }
 
@@ -82,9 +82,14 @@ start_process (void *f_name)
   /* Argument Passing : add save_ptr */
   success = load (file_name, &if_.eip, &if_.esp, &save_ptr);
 
-  sema_up(&success_load);
+  thread_current()->parent_t->success_b = success;
+
   /* If load failed, quit. */
   palloc_free_page (file_name);
+  if (success) {
+      list_push_back(&thread_current()->parent_t->child_list, &thread_current()->c_elem);
+  }
+  sema_up(&thread_current()->parent_t->success_load);
   if (!success) 
     thread_exit ();
 
@@ -107,22 +112,40 @@ start_process (void *f_name)
 
    This function will be implemented in problem 2-2.  For now, it
    does nothing. */
+struct thread *get_child_process(int pid) {
+    enum intr_level old_level = intr_disable();
+
+    struct thread *t = thread_current();
+    struct list_elem *c_elem = list_begin(&t->child_list);
+    struct thread *c_p;
+
+    while(c_elem != list_end(&t->child_list)) {
+        c_p = list_entry(c_elem, struct thread, c_elem);
+        if(c_p->tid == pid) {
+            intr_set_level (old_level);
+            return c_p;
+        }
+        c_elem = list_next(c_elem);
+    }
+    intr_set_level (old_level);
+
+    return NULL;
+}
+
 int
 process_wait (tid_t child_tid UNUSED) 
 {
-  struct own_process *o_p = get_child_process(child_tid);
+  struct thread *c_p = get_child_process(child_tid);
   int status;
 
-  if(o_p == NULL || o_p->wait) return -1;
-  o_p->wait = true;
+  if(c_p == NULL || c_p->wait) return -1;
+  c_p->wait = true;
   
-  sema_down(&o_p->first_sema);
+  sema_down(&c_p->c_sema);
 
-  if (!o_p->exit) return - 1;
-  status = o_p->status;
-  list_remove(&o_p->elem);
-  
-  sema_up(&o_p->second_sema);
+  status = c_p->exit_status;
+  list_remove(&c_p->c_elem);
+  sema_up(&c_p->p_sema);
 
   return status;
 }
@@ -135,14 +158,17 @@ process_exit (void)
   uint32_t *pd;
 
   /* System Call Add */
+ 
+  printf("%s: exit(%d)\n", curr->name, curr->exit_status);
   remove_child_process_all();
-  printf("%s: exit(%d)\n", curr->name, curr->o_p->status);
-  curr->o_p->exit = true;
-  sema_up(&curr->o_p->first_sema);
-  sema_down(&curr->o_p->second_sema);
-
+  remove_all_file();
+  
+  sema_up(&curr->c_sema);
+  sema_down(&curr->p_sema);
+ 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
+  
   pd = curr->pagedir;
   if (pd != NULL) 
     {
@@ -264,18 +290,18 @@ load (const char *file_name, void (**eip) (void), void **esp, char **save_ptr)
     goto done;
   process_activate ();
 
-  /* Argument Passing : Tokenize the Name */
-  //file_name = strtok_r((char *)file_name, " ", &save_ptr);
-  /* Open executable file. */
   file = filesys_open (file_name);
+  
   if (file == NULL) 
     {
       printf ("load: %s: open failed\n", file_name);
       goto done; 
     }
 
-  file_deny_write (file);
-
+  /* Project 2 : rox */
+  file_deny_write(file);
+  t->own_file = file;
+  
   /* Read and verify executable header. */
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr
       || memcmp (ehdr.e_ident, "\177ELF\1\1\1", 7)
@@ -362,7 +388,6 @@ load (const char *file_name, void (**eip) (void), void **esp, char **save_ptr)
 
  done:
   /* We arrive here whether the load is successful or not. */
-  file_close (file);
 
   return success;
 }
