@@ -9,11 +9,13 @@
 #include "threads/malloc.h"
 #include "userprog/process.h"
 #include "userprog/pagedir.h"
+#include "devices/input.h"
 #include "filesys/file.h"
 #include "filesys/filesys.h"
 
 static void syscall_handler (struct intr_frame *);
 
+/* Project2 : Syscall function */
 void halt (void);
 void exit (int status);
 int exec (const char *cmd_line);
@@ -28,8 +30,9 @@ void seek (int fd, unsigned position);
 unsigned tell (int fd);
 void close (int fd);
 
-struct file *fd_to_file (int fd);
+/* Project2 : additiona function */
 void check_valid_user_pointer(const void *user_pointer);
+struct file *fd_to_file (int fd);
 int uaddr_to_kaddr(const void *uaddr);
 void get_args(struct intr_frame *f, int *args, int num);
 
@@ -59,7 +62,7 @@ syscall_handler (struct intr_frame *f UNUSED)
     case SYS_EXEC:                   /* Start another process. */ 
       get_args(f, args, 1);
       check_valid_user_pointer((const void *)args[0]);  
-      f->eax = exec((const char *)(uaddr_to_kaddr(args[0])));
+      f->eax = exec((const char *)(uaddr_to_kaddr((const void *)args[0])));
       break;
 
     case SYS_WAIT:                   /* Wait for a child process to die. */
@@ -70,19 +73,19 @@ syscall_handler (struct intr_frame *f UNUSED)
     case SYS_CREATE:                 /* Create a file. */
       get_args(f, args, 2);
       check_valid_user_pointer((const void *)args[0]);  
-      f->eax = create((const char *)(uaddr_to_kaddr(args[0])), (unsigned)args[1]);
+      f->eax = create((const char *)(uaddr_to_kaddr((const void *)args[0])), (unsigned)args[1]);
       break;
 
     case SYS_REMOVE:                 /* Delete a file. */
       get_args(f, args, 1);
       check_valid_user_pointer((const void *)args[0]);  
-      f->eax = remove((const char *)(uaddr_to_kaddr(args[0])));
+      f->eax = remove((const char *)(uaddr_to_kaddr((const void *)args[0])));
       break;
 
     case SYS_OPEN:                   /* Open a file. */
       get_args(f, args, 1);
       check_valid_user_pointer((const void *)args[0]);  
-      f->eax = open((const char *)(uaddr_to_kaddr(args[0])));
+      f->eax = open((const char *)(uaddr_to_kaddr((const void *)args[0])));
       break;
 
     case SYS_FILESIZE:               /* Obtain a file's size. */
@@ -93,13 +96,13 @@ syscall_handler (struct intr_frame *f UNUSED)
     case SYS_READ:                   /* Read from a file. */
       get_args(f, args, 3);
       check_valid_user_pointer((const void *)args[1]);  
-      f->eax = read(args[0], (void *)(uaddr_to_kaddr(args[1])), (unsigned)args[2]);
+      f->eax = read(args[0], (void *)(uaddr_to_kaddr((const void *)args[1])), (unsigned)args[2]);
       break;
 
     case SYS_WRITE:                  /* Write to a file. */
       get_args(f, args, 3);
       check_valid_user_pointer((const void *)args[1]);  
-      f->eax = write(args[0], (const void *)(uaddr_to_kaddr(args[1])), (unsigned)args[2]);
+      f->eax = write(args[0], (const void *)(uaddr_to_kaddr((const void *)args[1])), (unsigned)args[2]);
       break;
 
     case SYS_SEEK:                   /* Change position in a file. */
@@ -182,7 +185,7 @@ int filesize (int fd) {
 
 int read (int fd, void *buffer, unsigned size) {
     if(fd == 0) {
-        int i;
+        unsigned i;
         uint8_t *local_buf = (uint8_t *)buffer;
 
         for(i = 0; i < size; i++) local_buf[i] = input_getc();
@@ -226,7 +229,7 @@ int write (int fd, const void *buffer, unsigned size) {
 void seek (int fd, unsigned position) {
     struct file *f = fd_to_file(fd);
 
-    if(f == NULL) return -1;
+    if(f == NULL) return;
 
     file_seek(f, position);
 }

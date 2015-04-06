@@ -25,6 +25,29 @@
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp, char **save_ptr);
 
+/* Project2 : get child process from pid */
+struct thread *get_child_process(int pid);
+
+struct thread *get_child_process(int pid) {
+    enum intr_level old_level = intr_disable();
+
+    struct thread *t = thread_current();
+    struct list_elem *c_elem = list_begin(&t->child_list);
+    struct thread *c_p;
+
+    while(c_elem != list_end(&t->child_list)) {
+        c_p = list_entry(c_elem, struct thread, c_elem);
+        if(c_p->tid == pid) {
+            intr_set_level (old_level);
+            return c_p;
+        }
+        c_elem = list_next(c_elem);
+    }
+    intr_set_level (old_level);
+
+    return NULL;
+}
+
 /* Starts a new thread running a user program loaded from
    FILENAME.  The new thread may be scheduled (and may even exit)
    before process_execute() returns.  Returns the new process's
@@ -42,19 +65,21 @@ process_execute (const char *file_name)
     return TID_ERROR;
   strlcpy (fn_copy, file_name, PGSIZE);
 
-  /* Argument Passing : Tokenize the Name of file_name */
+  /* Project2 : Argument Passing , Tokenize the Name of file_name */
   char *save_ptr;
   file_name = strtok_r((char *)file_name, " ", &save_ptr);
-
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
   
+  /* Project2 : Wait for child thread success */
   sema_down(&thread_current()->success_load);
   
+  /* Project2 : If child fail to success */
   if(!thread_current()->success_b) {
       return -1;
   }
+
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy); 
 
@@ -70,7 +95,7 @@ start_process (void *f_name)
   struct intr_frame if_;
   bool success;
 
-  /* Argument Passing : Tokenize the Name of file_name */
+  /* Project2 : Argument Passing , Tokenize the Name of file_name */
   char *save_ptr;
   file_name = strtok_r(file_name, " ", &save_ptr);
 
@@ -79,17 +104,23 @@ start_process (void *f_name)
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
-  /* Argument Passing : add save_ptr */
+  
+  /* Project2 : Argument Passing , add save_ptr */
   success = load (file_name, &if_.eip, &if_.esp, &save_ptr);
 
+  /* Project2 : Return own success to their parent thread */
   thread_current()->parent_t->success_b = success;
 
-  /* If load failed, quit. */
   palloc_free_page (file_name);
+
+  /* Project2 : if success, add child list to their parent thread */ 
   if (success) {
       list_push_back(&thread_current()->parent_t->child_list, &thread_current()->c_elem);
   }
+  /*Project2 : Finish success, so up their parent's sema */
   sema_up(&thread_current()->parent_t->success_load);
+
+  /* If load failed, quit. */
   if (!success) 
     thread_exit ();
 
@@ -112,39 +143,26 @@ start_process (void *f_name)
 
    This function will be implemented in problem 2-2.  For now, it
    does nothing. */
-struct thread *get_child_process(int pid) {
-    enum intr_level old_level = intr_disable();
-
-    struct thread *t = thread_current();
-    struct list_elem *c_elem = list_begin(&t->child_list);
-    struct thread *c_p;
-
-    while(c_elem != list_end(&t->child_list)) {
-        c_p = list_entry(c_elem, struct thread, c_elem);
-        if(c_p->tid == pid) {
-            intr_set_level (old_level);
-            return c_p;
-        }
-        c_elem = list_next(c_elem);
-    }
-    intr_set_level (old_level);
-
-    return NULL;
-}
 
 int
 process_wait (tid_t child_tid UNUSED) 
 {
+  /* Project2 : Get child thread */
   struct thread *c_p = get_child_process(child_tid);
   int status;
 
+  /* Project2 : Not a child thread, or thread already wait, reutn -1 */
   if(c_p == NULL || c_p->wait) return -1;
   c_p->wait = true;
   
+  /* Project2 : Wait for child thread exit */
   sema_down(&c_p->c_sema);
 
+  /* Project2 : Get child's exit status and remove them from child list */
   status = c_p->exit_status;
   list_remove(&c_p->c_elem);
+  
+  /* Project2 : up child sema to they can delete their structure */
   sema_up(&c_p->p_sema);
 
   return status;
@@ -157,12 +175,15 @@ process_exit (void)
   struct thread *curr = thread_current ();
   uint32_t *pd;
 
-  /* System Call Add */
- 
+  /* Project2 : File allow write when executable file thread exit */
+  file_close (thread_current()->own_file);
+  
+  /* Project2 : print it exit, and remove it's child list and file structure */
   printf("%s: exit(%d)\n", curr->name, curr->exit_status);
   remove_child_process_all();
   remove_all_file();
   
+  /* Project2 : Wait for parent get our structure */
   sema_up(&curr->c_sema);
   sema_down(&curr->p_sema);
  
@@ -298,7 +319,7 @@ load (const char *file_name, void (**eip) (void), void **esp, char **save_ptr)
       goto done; 
     }
 
-  /* Project 2 : rox */
+  /* Project 2 : Cannot write excutable file, and save thread to it's file */
   file_deny_write(file);
   t->own_file = file;
   
@@ -375,12 +396,10 @@ load (const char *file_name, void (**eip) (void), void **esp, char **save_ptr)
     }
 
   /* Set up stack. */
-  /* Argument Passing : pass the file name and save pointer */
+  /* Project2 : Argument Passing , pass the file name and save pointer */
   if (!setup_stack (esp, file_name, save_ptr))
     goto done;
-
-  //hex_dump(0, PHYS_BASE, 100, true);
-
+  
   /* Start address. */
   *eip = (void (*) (void)) ehdr.e_entry;
 
@@ -518,7 +537,7 @@ setup_stack (void **esp, const char *file_name, char **save_ptr)
         palloc_free_page (kpage);
     }
 
-  /* Argument Passing */
+  /* Project2 : Argument Passing */
   int argc = 0;
   int argv_size = 2;
   int four;
@@ -526,9 +545,7 @@ setup_stack (void **esp, const char *file_name, char **save_ptr)
   char *token = (char *)file_name;
   char **argv = malloc(argv_size * sizeof(char *));
 
-  ASSERT(*esp == PHYS_BASE);
-
-  /* Add File name and Argument to the esp */
+  /* Project2 : Add File name and Argument to the esp */
   while(token != NULL) {
       if(argv_size <= argc) {
           argv_size *= 2;
@@ -542,14 +559,14 @@ setup_stack (void **esp, const char *file_name, char **save_ptr)
   }
   argv[argc] = 0;
  
-  /* Argument Passing : Fill the esp with \0 to make multiple of 4 */
+  /* Project2 : Argument Passing , Fill the esp with \0 to make multiple of 4 */
   four = (size_t) *esp % 4;
   if(four != 0) {
       *esp -= four;
       memcpy(*esp, &argv[argc], four);
   }
 
-  /* Argument Passing : Add argument pointer to the esp */
+  /* Project2 : Argument Passing , Add argument pointer to the esp */
   for(i = argc; i >= 0; i--) {
       *esp -= sizeof(char *);
       memcpy(*esp, &argv[i], sizeof(char *));
@@ -559,11 +576,11 @@ setup_stack (void **esp, const char *file_name, char **save_ptr)
   *esp -= sizeof(char **);
   memcpy(*esp, &token, sizeof(char **));
 
-  /* Argument Passing : Add number of argument */
+  /* Project2 : Argument Passing , Add number of argument */
   *esp -= sizeof(int);
   memcpy(*esp, &argc, sizeof(int));
 
-  /* Argument Passing : Add 0 size of void* and free argv */
+  /* Project2 : Argument Passing , Add 0 size of void* and free argv */
   *esp -= sizeof(void *);
   memcpy(*esp, &argv[argc], sizeof(void *));
   

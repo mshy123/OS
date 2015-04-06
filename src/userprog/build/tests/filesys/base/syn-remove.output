@@ -1,6 +1,6 @@
-Copying tests/filesys/base/syn-remove into /tmp/OZwWp8pDxx.dsk...
-Writing command line to /tmp/FWCoBwIdjH.dsk...
-qemu -hda /tmp/FWCoBwIdjH.dsk -hdb /tmp/cXjxEEmGOZ.dsk -hdc /tmp/OZwWp8pDxx.dsk -m 4 -net none -nographic -monitor null
+Copying tests/filesys/base/syn-remove into /tmp/VUL4p0We4A.dsk...
+Writing command line to /tmp/30mxJegits.dsk...
+qemu -hda /tmp/30mxJegits.dsk -hdb /tmp/3L30C3O6ww.dsk -hdc /tmp/VUL4p0We4A.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put syn-remove run syn-remove
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -24,8 +24,8 @@ Executing 'syn-remove':
 (syn-remove) end
 syn-remove: exit(0)
 Execution of 'syn-remove' complete.
-Timer: 62 ticks
-Thread: 0 idle ticks, 60 kernel ticks, 2 user ticks
+Timer: 63 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 96 reads, 175 writes
 hd1:0: 77 reads, 0 writes

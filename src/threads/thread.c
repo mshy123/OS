@@ -196,8 +196,9 @@ thread_create (const char *name, int priority,
   sf = alloc_frame (t, sizeof *sf);
   sf->eip = switch_entry;
 
-  /* add: Make Process : Add parent tid and process to run queue. */
   thread_unblock (t);
+
+  /* Project2 : Add parent thread to child */
   t->parent_t = thread_current();
 
   return tid;
@@ -280,7 +281,7 @@ void
 thread_exit (void) 
 {
   ASSERT (!intr_context ());
-  file_close (thread_current()->own_file);
+
 #ifdef USERPROG
   process_exit ();
 #endif
@@ -442,7 +443,7 @@ init_thread (struct thread *t, const char *name, int priority)
   t->priority = priority;
   t->magic = THREAD_MAGIC;
 
-  /* add : Make process : list_init & sema_init & parent_tid */
+  /* Project2 : Initialize thread structure */
 #ifdef USERPROG
   list_init(&t->child_list);
   list_init (&t->file_list);

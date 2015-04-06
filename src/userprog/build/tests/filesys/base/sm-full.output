@@ -1,6 +1,6 @@
-Copying tests/filesys/base/sm-full into /tmp/JHmsPTEjqO.dsk...
-Writing command line to /tmp/3eamvYjxSW.dsk...
-qemu -hda /tmp/3eamvYjxSW.dsk -hdb /tmp/0xSieRlzbB.dsk -hdc /tmp/JHmsPTEjqO.dsk -m 4 -net none -nographic -monitor null
+Copying tests/filesys/base/sm-full into /tmp/UcN9G0aglv.dsk...
+Writing command line to /tmp/hFgShw5OFd.dsk...
+qemu -hda /tmp/hFgShw5OFd.dsk -hdb /tmp/H1SONsIUXk.dsk -hdc /tmp/UcN9G0aglv.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put sm-full run sm-full
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -24,8 +24,8 @@ Executing 'sm-full':
 (sm-full) end
 sm-full: exit(0)
 Execution of 'sm-full' complete.
-Timer: 62 ticks
-Thread: 0 idle ticks, 59 kernel ticks, 3 user ticks
+Timer: 63 ticks
+Thread: 0 idle ticks, 60 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 102 reads, 188 writes
 hd1:0: 76 reads, 0 writes

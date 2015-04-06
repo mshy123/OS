@@ -84,6 +84,7 @@ typedef int tid_t;
    ready state is on the run queue, whereas only a thread in the
    blocked state is on a semaphore wait list. */
 
+/* Project2 : Thread file structure, match fd with file */
 struct file_info
 {
    int fd;
@@ -107,22 +108,22 @@ struct thread
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */
 #endif
+    /* Project2 : Structure using in Userprog */
+    struct list file_list;              /* Each thread has file list */
+    int max_fd;                         /* Number of open file */
 
-    struct list file_list;
-    int max_fd;
+    struct list child_list;             /* child thread list */
 
-    struct list child_list;
+    int exit_status;                    /* Save exit_status */
+    bool wait;                          /* true if parent already call wait */
+    bool success_b;                     /* When child thread create, save it is success to load */
+    struct semaphore c_sema;            /* sema for wait */
+    struct semaphore p_sema;            /* sema for delete child thread */
+    struct list_elem c_elem;            /* List element */
+    struct thread *parent_t;            /* parent thread */
+    struct file* own_file;              /* Save thread's file */
 
-    int exit_status;
-    bool wait;
-    bool success_b;
-    struct semaphore c_sema;
-    struct semaphore p_sema;
-    struct list_elem c_elem;
-    struct thread *parent_t;
-    struct file* own_file;
-
-    struct semaphore success_load;
+    struct semaphore success_load;      /* sema for success load */
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
   };

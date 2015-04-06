@@ -3,9 +3,8 @@
 
 void syscall_init (void);
 
+/* Project2 : Using in process.c function */
 void remove_child_process_all(void);
 void remove_all_file(void);
-struct thread *create_child_process(int pid);
-
 
 #endif /* userprog/syscall.h */
