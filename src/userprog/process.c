@@ -21,6 +21,10 @@
 #include "threads/synch.h"
 #include "userprog/syscall.h"
 #include <list.h>
+#include "vm/frame.h"
+#include "vm/page.h"
+#include "vm/swap.h"
+
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp, char **save_ptr);
@@ -182,6 +186,9 @@ process_exit (void)
   printf("%s: exit(%d)\n", curr->name, curr->exit_status);
   remove_child_process_all();
   remove_all_file();
+
+  /* Project3 : remove frame entry */
+  frame_free(curr);
   
   /* Project2 : Wait for parent get our structure */
   sema_up(&curr->c_sema);
@@ -397,9 +404,10 @@ load (const char *file_name, void (**eip) (void), void **esp, char **save_ptr)
 
   /* Set up stack. */
   /* Project2 : Argument Passing , pass the file name and save pointer */
+  
   if (!setup_stack (esp, file_name, save_ptr))
     goto done;
-  
+ 
   /* Start address. */
   *eip = (void (*) (void)) ehdr.e_entry;
 
@@ -492,14 +500,17 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
       size_t page_zero_bytes = PGSIZE - page_read_bytes;
 
       /* Get a page of memory. */
-      uint8_t *kpage = palloc_get_page (PAL_USER);
+      uint8_t *kpage;
+      if (page_read_bytes == 0) kpage = frame_alloc (PAL_USER | PAL_ZERO, upage, writable); 
+      else kpage = frame_alloc (PAL_USER, upage, writable);
+      
       if (kpage == NULL)
         return false;
 
       /* Load this page. */
       if (file_read (file, kpage, page_read_bytes) != (int) page_read_bytes)
         {
-          palloc_free_page (kpage);
+          single_frame_free (kpage);
           return false; 
         }
       memset (kpage + page_read_bytes, 0, page_zero_bytes);
@@ -507,7 +518,7 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
       /* Add the page to the process's address space. */
       if (!install_page (upage, kpage, writable)) 
         {
-          palloc_free_page (kpage);
+          single_frame_free (kpage);
           return false; 
         }
 
@@ -527,15 +538,19 @@ setup_stack (void **esp, const char *file_name, char **save_ptr)
   uint8_t *kpage;
   bool success = false;
 
-  kpage = palloc_get_page (PAL_USER | PAL_ZERO);
+  /* Project3-1: add frame table */
+  thread_current()->bottom_stack_pointer = ((uint8_t *) PHYS_BASE);
+  kpage = frame_alloc (PAL_USER | PAL_ZERO, ((uint8_t *) PHYS_BASE) - PGSIZE, true);
   if (kpage != NULL) 
     {
       success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
       if (success)
         *esp = PHYS_BASE;
       else
-        palloc_free_page (kpage);
+        single_frame_free (kpage);
     }
+
+  thread_current()->bottom_stack_pointer = ((uint8_t *) PHYS_BASE) - PGSIZE;
 
   /* Project2 : Argument Passing */
   int argc = 0;

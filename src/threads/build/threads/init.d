@@ -9,4 +9,5 @@ threads/init.o: ../../threads/init.c ../../threads/init.h \
   ../../threads/malloc.h ../../threads/palloc.h ../../threads/pte.h \
   ../../threads/vaddr.h ../../threads/thread.h ../../lib/kernel/list.h \
   ../../threads/synch.h ../../filesys/file.h ../../filesys/off_t.h \
-  ../../tests/threads/tests.h
+  ../../vm/frame.h ../../threads/thread.h ../../threads/synch.h \
+  ../../threads/palloc.h ../../tests/threads/tests.h

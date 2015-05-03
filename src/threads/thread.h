@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include "threads/synch.h"
 #include "filesys/file.h"
-
+#include "vm/frame.h"
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -124,6 +124,11 @@ struct thread
     struct file* own_file;              /* Save thread's file */
 
     struct semaphore success_load;      /* sema for success load */
+
+    /* Project3 : supplemental page table */
+    struct list sup_page_table;
+    void *bottom_stack_pointer;
+
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
   };

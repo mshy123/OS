@@ -36,6 +36,9 @@ struct file *fd_to_file (int fd);
 int uaddr_to_kaddr(const void *uaddr);
 void get_args(struct intr_frame *f, int *args, int num);
 
+/* Project3 : check this page is writable */
+void check_write (void *uaddr);
+
 void
 syscall_init (void) 
 {
@@ -94,15 +97,19 @@ syscall_handler (struct intr_frame *f UNUSED)
       break;
 
     case SYS_READ:                   /* Read from a file. */
-      get_args(f, args, 3);
+      get_args(f, args, 3); 
+      check_write((void *)args[1]);
       check_valid_user_pointer((const void *)args[1]);  
-      f->eax = read(args[0], (void *)(uaddr_to_kaddr((const void *)args[1])), (unsigned)args[2]);
+      check_valid_user_pointer((const void *)args[1] + args[2]);  
+      f->eax = read(args[0], (void *)args[1], (unsigned)args[2]);
       break;
 
     case SYS_WRITE:                  /* Write to a file. */
       get_args(f, args, 3);
+      check_write((void *)args[1]);
       check_valid_user_pointer((const void *)args[1]);  
-      f->eax = write(args[0], (const void *)(uaddr_to_kaddr((const void *)args[1])), (unsigned)args[2]);
+      check_valid_user_pointer((const void *)args[1] + args[2]);  
+      f->eax = write(args[0], (const void *)args[1], (unsigned)args[2]);
       break;
 
     case SYS_SEEK:                   /* Change position in a file. */
@@ -221,7 +228,6 @@ int write (int fd, const void *buffer, unsigned size) {
 
         int write_bytes = file_write(f, buffer, size);
         return write_bytes;
-    
     }
     return -1;
 }
@@ -302,6 +308,21 @@ void remove_all_file(void) {
         fi = list_entry(f_elem, struct file_info, elem);
         file_close(fi->file);
         free(fi);
+    }
+}
+
+void check_write (void *uaddr) {
+    struct thread *t = thread_current();
+    struct frame_table_entry *fte;
+    struct list_elem *f_elem = list_begin(&frame_table);
+
+    while(f_elem != list_end(&frame_table)) {
+        fte = list_entry (f_elem, struct frame_table_entry, elem);
+        if (fte->own_thread->tid == t->tid && fte->page == pg_round_down(uaddr)) {
+            if (fte->writable == false) exit (-1);
+            else return;
+        }
+        f_elem = list_next(f_elem);
     }
 }
 

@@ -2,8 +2,13 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include "userprog/gdt.h"
+#include "userprog/pagedir.h"
 #include "threads/interrupt.h"
 #include "threads/thread.h"
+#include "threads/vaddr.h"
+#include "vm/page.h"
+#include "vm/frame.h"
+#include "vm/swap.h"
 
 /* Number of page faults processed. */
 static long long page_fault_cnt;
@@ -151,11 +156,38 @@ page_fault (struct intr_frame *f)
   /* To implement virtual memory, delete the rest of the function
      body, and replace it with code that brings in the page to
      which fault_addr refers. */
-  printf ("Page fault at %p: %s error %s page in %s context.\n",
-          fault_addr,
-          not_present ? "not present" : "rights violation",
-          write ? "writing" : "reading",
-          user ? "user" : "kernel");
-  kill (f);
+
+  /* Project3 : Page fault handler */
+  bool success = false;
+  
+  if (is_user_vaddr(fault_addr)) {
+      void *uaddr = pg_round_down(fault_addr);
+      struct thread *t = thread_current();
+      struct sup_page_table_entry *spte = get_sup_page_table_entry (t, uaddr);
+
+      if (spte != NULL) {
+          success = load_page(spte);
+      }
+      else if (fault_addr >= f->esp - 32) {
+          while(t->bottom_stack_pointer > uaddr) {
+              t->bottom_stack_pointer -= PGSIZE;
+              uint8_t *frame = frame_alloc(PAL_USER | PAL_ZERO, t->bottom_stack_pointer, true);
+
+              if (frame != NULL) {
+                  success = (pagedir_get_page (t->pagedir, t->bottom_stack_pointer) == NULL && pagedir_set_page (t->pagedir, t->bottom_stack_pointer, frame, true));
+                  if(!success) single_frame_free (frame);
+              }
+          }
+      }
+  }
+
+  if (!success) {
+      printf ("Page fault at %p: %s error %s page in %s context.\n",
+              fault_addr,
+              not_present ? "not present" : "rights violation",
+              write ? "writing" : "reading",
+              user ? "user" : "kernel");
+      kill (f);
+  }
 }
 

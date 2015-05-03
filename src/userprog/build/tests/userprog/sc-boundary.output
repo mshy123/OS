@@ -1,6 +1,6 @@
-Copying tests/userprog/sc-boundary into /tmp/vhl8Ml54gh.dsk...
-Writing command line to /tmp/PGrF8LZpL3.dsk...
-qemu -hda /tmp/PGrF8LZpL3.dsk -hdb /tmp/ciOmFNaTFi.dsk -hdc /tmp/vhl8Ml54gh.dsk -m 4 -net none -nographic -monitor null
+Copying tests/userprog/sc-boundary into /tmp/R6pS2agxBo.dsk...
+Writing command line to /tmp/cMoXctu81Q.dsk...
+qemu -hda /tmp/cMoXctu81Q.dsk -hdb /tmp/GkCv4poL6j.dsk -hdc /tmp/R6pS2agxBo.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put sc-boundary run sc-boundary
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -16,8 +16,8 @@ Executing 'sc-boundary':
 (sc-boundary) begin
 sc-boundary: exit(42)
 Execution of 'sc-boundary' complete.
-Timer: 61 ticks
-Thread: 0 idle ticks, 60 kernel ticks, 1 user ticks
+Timer: 64 ticks
+Thread: 0 idle ticks, 63 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 59 reads, 158 writes
 hd1:0: 75 reads, 0 writes

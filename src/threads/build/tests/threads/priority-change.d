@@ -3,4 +3,6 @@ tests/threads/priority-change.o: ../../tests/threads/priority-change.c \
   ../../lib/stdbool.h ../../lib/stddef.h ../../lib/stdint.h \
   ../../lib/kernel/stdio.h ../../tests/threads/tests.h \
   ../../threads/init.h ../../threads/thread.h ../../lib/kernel/list.h \
-  ../../threads/synch.h ../../filesys/file.h ../../filesys/off_t.h
+  ../../threads/synch.h ../../filesys/file.h ../../filesys/off_t.h \
+  ../../vm/frame.h ../../threads/thread.h ../../threads/synch.h \
+  ../../threads/palloc.h

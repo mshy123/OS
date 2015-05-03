@@ -1,0 +1,39 @@
+Copying tests/vm/mmap-zero into /tmp/kusXl5I5Tr.dsk...
+Writing command line to /tmp/UVh9fkEPsc.dsk...
+qemu -hda /tmp/UVh9fkEPsc.dsk -hdb /tmp/hjOv9ff9ZI.dsk -hdc /tmp/kusXl5I5Tr.dsk -hdd /tmp/9HkkwYjxvd.dsk -m 4 -net none -nographic -monitor null
+Kernel command line: -q -f put mmap-zero run mmap-zero
+Pintos booting with 4,096 kB RAM...
+374 pages available in kernel pool.
+373 pages available in user pool.
+Calibrating timer...  78,540,800 loops/s.
+hd0:0: detected 145 sector (72 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 73 sector (36 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
+Formatting file system...done.
+Boot complete.
+Putting 'mmap-zero' into the file system...
+Executing 'mmap-zero':
+(mmap-zero) begin
+(mmap-zero) create empty file "empty"
+(mmap-zero) open "empty"
+(mmap-zero) mmap "empty"
+Page fault at 0x7f000000: not present error reading page in user context.
+mmap-zero: dying due to interrupt 0x0e (#PF Page-Fault Exception).
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048124
+ cr2=7f000000 error=00000004
+ eax=00000002 ebx=00000002 ecx=0804bb00 edx=7f000000
+ esi=7f000000 edi=00000000 esp=bfffff90 ebp=bfffffa8
+ cs=001b ds=0023 es=0023 ss=0023
+mmap-zero: exit(-1)
+Execution of 'mmap-zero' complete.
+Timer: 62 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
+hd0:0: 0 reads, 0 writes
+hd0:1: 85 reads, 158 writes
+hd1:0: 73 reads, 0 writes
+hd1:1: 0 reads, 0 writes
+Console: 1342 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...

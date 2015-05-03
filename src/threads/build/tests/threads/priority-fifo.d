@@ -5,4 +5,5 @@ tests/threads/priority-fifo.o: ../../tests/threads/priority-fifo.c \
   ../../threads/init.h ../../devices/timer.h ../../lib/round.h \
   ../../threads/malloc.h ../../threads/synch.h ../../lib/kernel/list.h \
   ../../threads/thread.h ../../threads/synch.h ../../filesys/file.h \
-  ../../filesys/off_t.h
+  ../../filesys/off_t.h ../../vm/frame.h ../../threads/thread.h \
+  ../../threads/synch.h ../../threads/palloc.h
