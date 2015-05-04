@@ -35,10 +35,11 @@ void swap_in(disk_sector_t sec_n, void *frame) {
     int i;
 
     lock_acquire(&swap_lock);
-    bitmap_flip(swap_table, (size_t)sec_n/DISK_UNIT_SIZE);
+    bitmap_flip(swap_table, (size_t)sec_n);
 
     for(i=0; i<DISK_UNIT_SIZE; i++) {
       disk_read(swap_disk, (disk_sector_t)sec_n*DISK_UNIT_SIZE + i, (void *)(frame + i*DISK_SECTOR_SIZE));
+
     }
 
     lock_release(&swap_lock);
@@ -46,6 +47,6 @@ void swap_in(disk_sector_t sec_n, void *frame) {
 
 void reset_disk_sector (disk_sector_t sec_n) {
     lock_acquire(&swap_lock);
-    bitmap_flip(swap_table, (size_t)sec_n/DISK_UNIT_SIZE);
+    bitmap_flip(swap_table, (size_t)sec_n);
     lock_release(&swap_lock);
 }

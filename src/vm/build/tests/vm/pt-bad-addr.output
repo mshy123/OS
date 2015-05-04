@@ -1,6 +1,6 @@
-Copying tests/vm/pt-bad-addr into /tmp/GQBLJELxwT.dsk...
-Writing command line to /tmp/uZsq09FfxT.dsk...
-qemu -hda /tmp/uZsq09FfxT.dsk -hdb /tmp/73mVcPFNu5.dsk -hdc /tmp/GQBLJELxwT.dsk -hdd /tmp/XPTRFI2Tki.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/pt-bad-addr into /tmp/bko7xs0dz2.dsk...
+Writing command line to /tmp/ozmPe7LMBy.dsk...
+qemu -hda /tmp/ozmPe7LMBy.dsk -hdb /tmp/ru7wNi08S8.dsk -hdc /tmp/bko7xs0dz2.dsk -hdd /tmp/UdgD9hbtOd.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put pt-bad-addr run pt-bad-addr
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -24,13 +24,13 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x80480a6
  cs=001b ds=0023 es=0023 ss=0023
 pt-bad-addr: exit(-1)
 Execution of 'pt-bad-addr' complete.
-Timer: 61 ticks
-Thread: 0 idle ticks, 60 kernel ticks, 1 user ticks
+Timer: 62 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 59 reads, 154 writes
 hd1:0: 73 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1269 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 5 page faults
 Powering off...

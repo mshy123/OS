@@ -1,7 +1,7 @@
-Copying tests/vm/page-merge-stk into /tmp/acHcbrbLf9.dsk...
-Copying tests/vm/child-qsort into /tmp/acHcbrbLf9.dsk...
-Writing command line to /tmp/23pXgGnfdv.dsk...
-qemu -hda /tmp/23pXgGnfdv.dsk -hdb /tmp/Uco4nV5w5X.dsk -hdc /tmp/acHcbrbLf9.dsk -hdd /tmp/jRBFJGfK8C.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/page-merge-stk into /tmp/q5YB9UJsXr.dsk...
+Copying tests/vm/child-qsort into /tmp/q5YB9UJsXr.dsk...
+Writing command line to /tmp/2vjInVgrno.dsk...
+qemu -hda /tmp/2vjInVgrno.dsk -hdb /tmp/kATmRpm6bm.dsk -hdc /tmp/q5YB9UJsXr.dsk -hdd /tmp/eKPkHnwTuQ.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put page-merge-stk put child-qsort run page-merge-stk
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -24,22 +24,37 @@ child-qsort: exit(72)
 (page-merge-stk) sort chunk 2
 child-qsort: exit(72)
 (page-merge-stk) sort chunk 3
-Page fault at 0xbffffda8: not present error reading page in user context.
-page-merge-stk: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804a52c
- cr2=bffffda8 error=00000004
- eax=00020000 ebx=00000005 ecx=080ac4a0 edx=00020000
- esi=bffffed0 edi=00000003 esp=bffffda8 ebp=bffffda8
- cs=001b ds=0023 es=0023 ss=0023
-page-merge-stk: exit(-1)
+child-qsort: exit(72)
+(page-merge-stk) sort chunk 4
+child-qsort: exit(72)
+(page-merge-stk) sort chunk 5
+child-qsort: exit(72)
+(page-merge-stk) sort chunk 6
+child-qsort: exit(72)
+(page-merge-stk) sort chunk 7
+child-qsort: exit(72)
+(page-merge-stk) wait for child 0
+(page-merge-stk) wait for child 1
+(page-merge-stk) wait for child 2
+(page-merge-stk) wait for child 3
+(page-merge-stk) wait for child 4
+(page-merge-stk) wait for child 5
+(page-merge-stk) wait for child 6
+(page-merge-stk) wait for child 7
+child-qsort: exit(72)
+(page-merge-stk) merge
+(page-merge-stk) verify
+(page-merge-stk) success, buf_idx=1,048,576
+(page-merge-stk) end
+page-merge-stk: exit(0)
 Execution of 'page-merge-stk' complete.
-Timer: 641 ticks
-Thread: 0 idle ticks, 70 kernel ticks, 571 user ticks
+Timer: 505 ticks
+Thread: 0 idle ticks, 71 kernel ticks, 434 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 1108 reads, 2906 writes
+hd0:1: 4840 reads, 6506 writes
 hd1:0: 160 reads, 0 writes
-hd1:1: 2088 reads, 4160 writes
-Console: 1556 characters output
+hd1:1: 432 reads, 1592 writes
+Console: 1817 characters output
 Keyboard: 0 keys pressed
-Exception: 265 page faults
+Exception: 859 page faults
 Powering off...

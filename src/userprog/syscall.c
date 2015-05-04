@@ -12,13 +12,16 @@
 #include "devices/input.h"
 #include "filesys/file.h"
 #include "filesys/filesys.h"
+#include "vm/frame.h"
+#include "vm/page.h"
+#include "vm/swap.h"
 
 static void syscall_handler (struct intr_frame *);
 
 /* Project2 : Syscall function */
 void halt (void);
 void exit (int status);
-int exec (const char *cmd_line);
+int exec (char *cmd_line);
 int wait (int pid);
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
@@ -31,7 +34,8 @@ unsigned tell (int fd);
 void close (int fd);
 
 /* Project2 : additiona function */
-void check_valid_user_pointer(const void *user_pointer);
+void check_valid_user_pointer(const void *user_pointer, void *esp);
+void check_valid_string (const void *user_pointer, void *esp);
 struct file *fd_to_file (int fd);
 int uaddr_to_kaddr(const void *uaddr);
 void get_args(struct intr_frame *f, int *args, int num);
@@ -48,10 +52,10 @@ syscall_init (void)
 static void
 syscall_handler (struct intr_frame *f UNUSED) 
 {
-  check_valid_user_pointer((const void *)f->esp);
+  check_valid_user_pointer((const void *)f->esp, f->esp);
   
   int args[4];
-
+  
   switch(*(int *) f->esp) {
     case SYS_HALT:                   /* Halt the operating system. */
       halt();
@@ -64,8 +68,8 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_EXEC:                   /* Start another process. */ 
       get_args(f, args, 1);
-      check_valid_user_pointer((const void *)args[0]);  
-      f->eax = exec((const char *)(uaddr_to_kaddr((const void *)args[0])));
+      check_valid_string((const void *)args[0], f->esp);  
+      f->eax = exec((char *)args[0]);
       break;
 
     case SYS_WAIT:                   /* Wait for a child process to die. */
@@ -75,20 +79,20 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_CREATE:                 /* Create a file. */
       get_args(f, args, 2);
-      check_valid_user_pointer((const void *)args[0]);  
-      f->eax = create((const char *)(uaddr_to_kaddr((const void *)args[0])), (unsigned)args[1]);
+      check_valid_string((const void *)args[0], f->esp);  
+      f->eax = create((const char *)args[0], (unsigned)args[1]);
       break;
 
     case SYS_REMOVE:                 /* Delete a file. */
       get_args(f, args, 1);
-      check_valid_user_pointer((const void *)args[0]);  
-      f->eax = remove((const char *)(uaddr_to_kaddr((const void *)args[0])));
+      check_valid_string((const void *)args[0], f->esp);  
+      f->eax = remove((const char *)args[0]);
       break;
 
     case SYS_OPEN:                   /* Open a file. */
       get_args(f, args, 1);
-      check_valid_user_pointer((const void *)args[0]);  
-      f->eax = open((const char *)(uaddr_to_kaddr((const void *)args[0])));
+      check_valid_string((const void *)args[0], f->esp);  
+      f->eax = open((const char *)args[0]);
       break;
 
     case SYS_FILESIZE:               /* Obtain a file's size. */
@@ -98,17 +102,17 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_READ:                   /* Read from a file. */
       get_args(f, args, 3); 
+
+      check_valid_user_pointer((const void *)args[1], f->esp);  
+      check_valid_user_pointer((const void *)args[1] + args[2], f->esp);  
       check_write((void *)args[1]);
-      check_valid_user_pointer((const void *)args[1]);  
-      check_valid_user_pointer((const void *)args[1] + args[2]);  
       f->eax = read(args[0], (void *)args[1], (unsigned)args[2]);
       break;
 
     case SYS_WRITE:                  /* Write to a file. */
       get_args(f, args, 3);
-      check_write((void *)args[1]);
-      check_valid_user_pointer((const void *)args[1]);  
-      check_valid_user_pointer((const void *)args[1] + args[2]);  
+      check_valid_user_pointer((const void *)args[1], f->esp);  
+      check_valid_user_pointer((const void *)args[1] + args[2], f->esp);  
       f->eax = write(args[0], (const void *)args[1], (unsigned)args[2]);
       break;
 
@@ -129,13 +133,44 @@ syscall_handler (struct intr_frame *f UNUSED)
   }
 }
 
-void check_valid_user_pointer(const void *user_pointer) {  
+void check_valid_user_pointer(const void *user_pointer, void *esp) {  
   struct thread *curr = thread_current ();
+  void *uaddr = pg_round_down(user_pointer);
   uint32_t *pd;
   
   pd = curr->pagedir;
 
-  if(user_pointer == NULL || is_kernel_vaddr(user_pointer) || pagedir_get_page(pd, user_pointer) == NULL) exit(-1);
+  //if(user_pointer == NULL || is_kernel_vaddr(user_pointer) || pagedir_get_page(pd, user_pointer) == NULL) exit(-1);
+  if(user_pointer == NULL || is_kernel_vaddr(user_pointer)) exit(-1);
+  if(pagedir_get_page(pd, user_pointer) == NULL) {
+      bool success = false;
+      struct sup_page_table_entry *spte = get_sup_page_table_entry(curr, uaddr);
+      if (spte != NULL) {
+          success = load_page (spte);
+      }
+      else if (user_pointer >= esp - 32) {
+          if ((size_t) (PHYS_BASE - uaddr) > (1 << 23)) exit (-1);
+          uint8_t *frame = frame_alloc(PAL_USER | PAL_ZERO, uaddr, true);
+
+          if (frame != NULL) {
+              if (!(success = (pagedir_get_page (curr->pagedir, uaddr) == NULL && pagedir_set_page (curr->pagedir, uaddr, frame, true)))) {
+                  single_frame_free (frame);
+              }
+          }
+      }
+      if (!success) {
+          exit(-1);
+      }
+  }
+}
+
+void check_valid_string (const void *user_pointer, void *esp) {
+  char *str = (char *)user_pointer;
+  check_valid_user_pointer (user_pointer, esp);
+  while (*str != 0) {
+      str = str + 1;
+      check_valid_user_pointer ((const void *)str, esp);
+  }  
 }
 
 void halt(void) {
@@ -148,7 +183,7 @@ void exit (int status) {
     thread_exit();
 }
 
-int exec (const char *cmd_line) {
+int exec (char *cmd_line) {
     return (int)process_execute(cmd_line);
 }
 
@@ -157,18 +192,22 @@ int wait (int pid) {
 }
 
 bool create (const char *file, unsigned initial_size) {
-    return filesys_create(file, initial_size);
+    bool success = filesys_create(file, initial_size);
+    return success;
 }
 
 bool remove (const char *file) {
-    return filesys_remove(file);
+    bool success = filesys_remove(file);
+    return success;
 }
 
 int open (const char *file) {
     struct thread *t = thread_current();
     struct file *fp = filesys_open(file);
     
-    if (fp == NULL) return -1;
+    if (fp == NULL) {
+        return -1;
+    }
     
     struct file_info *fi = malloc (sizeof(struct file_info));
     
@@ -186,7 +225,6 @@ int filesize (int fd) {
     f = fd_to_file(fd);
 
     size = file_length(f);
-
     return size;
 }
 
@@ -205,7 +243,9 @@ int read (int fd, void *buffer, unsigned size) {
     else {
         struct file *f = fd_to_file(fd);
         
-        if(f == NULL) return -1;
+        if(f == NULL) { 
+            return -1;
+        }
 
         int read_bytes = file_read(f, buffer, size);
         return read_bytes;
@@ -224,7 +264,9 @@ int write (int fd, const void *buffer, unsigned size) {
     else {
         struct file *f = fd_to_file(fd);
 
-        if(f == NULL) return -1;
+        if(f == NULL) {
+            return -1;
+        }
 
         int write_bytes = file_write(f, buffer, size);
         return write_bytes;
@@ -235,16 +277,18 @@ int write (int fd, const void *buffer, unsigned size) {
 void seek (int fd, unsigned position) {
     struct file *f = fd_to_file(fd);
 
-    if(f == NULL) return;
-
+    if(f == NULL) {
+        return;
+    }
     file_seek(f, position);
 }
 
 unsigned tell (int fd) {
     struct file *f = fd_to_file(fd);
 
-    if(f == NULL) return -1;
-
+    if(f == NULL) {
+        return -1;
+    }
     off_t offset = file_tell(f);
     return offset;
 }
@@ -285,7 +329,7 @@ void get_args(struct intr_frame *f, int *args, int num) {
     int i;
 
     for(i = 1; i <= num; i++) {
-        check_valid_user_pointer((const void *)(f->esp + i * 4));
+        check_valid_user_pointer((const void *)(f->esp + i * 4), f->esp);
         args[i - 1] = *((int *)f->esp + i);
     }
 }

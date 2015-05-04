@@ -1,6 +1,6 @@
-Copying tests/vm/page-shuffle into /tmp/uL31L7tPWh.dsk...
-Writing command line to /tmp/HibhYFiclf.dsk...
-qemu -hda /tmp/HibhYFiclf.dsk -hdb /tmp/fB640jjjE7.dsk -hdc /tmp/uL31L7tPWh.dsk -hdd /tmp/PzsgfnXeW7.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/page-shuffle into /tmp/O4S2pE5ID6.dsk...
+Writing command line to /tmp/Y77bSXM5XX.dsk...
+qemu -hda /tmp/Y77bSXM5XX.dsk -hdb /tmp/1YaQO9jH4I.dsk -hdc /tmp/O4S2pE5ID6.dsk -hdd /tmp/bu3UMIZ6by.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put page-shuffle run page-shuffle
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -29,13 +29,13 @@ Executing 'page-shuffle':
 (page-shuffle) end
 page-shuffle: exit(0)
 Execution of 'page-shuffle' complete.
-Timer: 111 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 50 user ticks
+Timer: 112 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 50 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 69 reads, 170 writes
 hd1:0: 81 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1392 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 37 page faults
 Powering off...

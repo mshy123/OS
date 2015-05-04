@@ -1,7 +1,7 @@
-Copying tests/userprog/exec-once into /tmp/jM0XblNxLF.dsk...
-Copying tests/userprog/child-simple into /tmp/jM0XblNxLF.dsk...
-Writing command line to /tmp/9QFFaCZMqM.dsk...
-qemu -hda /tmp/9QFFaCZMqM.dsk -hdb /tmp/qSTDoaLcd4.dsk -hdc /tmp/jM0XblNxLF.dsk -hdd /tmp/Jf5bAkQ6EL.dsk -m 4 -net none -nographic -monitor null
+Copying tests/userprog/exec-once into /tmp/gEoewGtlC2.dsk...
+Copying tests/userprog/child-simple into /tmp/gEoewGtlC2.dsk...
+Writing command line to /tmp/8GLtCDVPpz.dsk...
+qemu -hda /tmp/8GLtCDVPpz.dsk -hdb /tmp/zAumyfZg5f.dsk -hdc /tmp/gEoewGtlC2.dsk -hdd /tmp/wTyAdkKPSJ.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put exec-once put child-simple run exec-once
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -22,13 +22,13 @@ child-simple: exit(81)
 (exec-once) end
 exec-once: exit(0)
 Execution of 'exec-once' complete.
-Timer: 71 ticks
-Thread: 0 idle ticks, 70 kernel ticks, 1 user ticks
+Timer: 70 ticks
+Thread: 0 idle ticks, 69 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 120 reads, 300 writes
 hd1:0: 145 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1010 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 8 page faults
 Powering off...

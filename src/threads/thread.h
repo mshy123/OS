@@ -127,6 +127,7 @@ struct thread
 
     /* Project3 : supplemental page table */
     struct list sup_page_table;
+    struct lock sup_page_table_lock;
     void *bottom_stack_pointer;
 
     /* Owned by thread.c. */

@@ -1,6 +1,7 @@
 #include "threads/malloc.h"
 #include "threads/palloc.h"
 #include "userprog/pagedir.h"
+#include "userprog/syscall.h"
 #include "vm/frame.h"
 #include "vm/page.h"
 #include "vm/swap.h"
@@ -12,7 +13,7 @@ void frame_table_init (void) {
 }
 
 void *frame_alloc (enum palloc_flags flag, void *page, bool writable) {
-    uint8_t *frame;
+    void *frame;
 
     if ((flag & PAL_USER) == 0) return NULL;
     frame = palloc_get_page(flag);
@@ -54,6 +55,8 @@ void frame_free (struct thread *current_t) {
         next_f_elem = list_next(f_elem);
         if(fte->own_thread->tid == current_t->tid) {
             list_remove(f_elem);
+            pagedir_clear_page(current_t->pagedir, fte->page);
+            palloc_free_page(fte->frame);
             free(fte);
         }
         f_elem = next_f_elem;

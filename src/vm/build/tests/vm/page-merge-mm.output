@@ -1,7 +1,7 @@
-Copying tests/vm/page-merge-mm into /tmp/52GglSaMeG.dsk...
-Copying tests/vm/child-qsort-mm into /tmp/52GglSaMeG.dsk...
-Writing command line to /tmp/WGmiR1WrwA.dsk...
-qemu -hda /tmp/WGmiR1WrwA.dsk -hdb /tmp/fnZ4X3hvS2.dsk -hdc /tmp/52GglSaMeG.dsk -hdd /tmp/hZVNhhrlG7.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/page-merge-mm into /tmp/u37DXR0deK.dsk...
+Copying tests/vm/child-qsort-mm into /tmp/u37DXR0deK.dsk...
+Writing command line to /tmp/fF8VoBckSR.dsk...
+qemu -hda /tmp/fF8VoBckSR.dsk -hdb /tmp/YJYeLfNOdv.dsk -hdc /tmp/u37DXR0deK.dsk -hdd /tmp/0bzGJTl9sQ.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put page-merge-mm put child-qsort-mm run page-merge-mm
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -19,7 +19,6 @@ Executing 'page-merge-mm':
 (page-merge-mm) begin
 (page-merge-mm) init
 (page-merge-mm) sort chunk 0
-(page-merge-mm) sort chunk 1
 Page fault at 0x10000000: not present error reading page in user context.
 child-qsort-mm: dying due to interrupt 0x0e (#PF Page-Fault Exception).
 Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048322
@@ -28,6 +27,7 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048322
  esi=00020000 edi=10000000 esp=bfffff54 ebp=bfffff58
  cs=001b ds=0023 es=0023 ss=0023
 child-qsort-mm: exit(-1)
+(page-merge-mm) sort chunk 1
 Page fault at 0x10000000: not present error reading page in user context.
 child-qsort-mm: dying due to interrupt 0x0e (#PF Page-Fault Exception).
 Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048322
@@ -94,13 +94,13 @@ child-qsort-mm: exit(-1)
 (page-merge-mm) wait for child 0: FAILED
 page-merge-mm: exit(1)
 Execution of 'page-merge-mm' complete.
-Timer: 731 ticks
-Thread: 0 idle ticks, 71 kernel ticks, 660 user ticks
+Timer: 288 ticks
+Thread: 0 idle ticks, 72 kernel ticks, 216 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 740 reads, 4458 writes
+hd0:1: 676 reads, 4458 writes
 hd1:0: 160 reads, 0 writes
-hd1:1: 2088 reads, 3632 writes
-Console: 4505 characters output
+hd1:1: 0 reads, 0 writes
+Console: 4499 characters output
 Keyboard: 0 keys pressed
-Exception: 269 page faults
+Exception: 294 page faults
 Powering off...

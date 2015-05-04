@@ -1,6 +1,6 @@
-Copying tests/vm/page-linear into /tmp/YAkon8rkm5.dsk...
-Writing command line to /tmp/m4QFBtnzp5.dsk...
-qemu -hda /tmp/m4QFBtnzp5.dsk -hdb /tmp/ZIXK4UcWPm.dsk -hdc /tmp/YAkon8rkm5.dsk -hdd /tmp/FsY341Orpo.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/page-linear into /tmp/mqjgSSCejn.dsk...
+Writing command line to /tmp/qMhCtcZDU4.dsk...
+qemu -hda /tmp/qMhCtcZDU4.dsk -hdb /tmp/ZpYDQVbAqy.dsk -hdc /tmp/mqjgSSCejn.dsk -hdd /tmp/SDDQSim0jG.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put page-linear run page-linear
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -16,22 +16,20 @@ Putting 'page-linear' into the file system...
 Executing 'page-linear':
 (page-linear) begin
 (page-linear) initialize
-Page fault at 0x5a5a5a5a: not present error reading page in user context.
-page-linear: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x5a5a5a5a
- cr2=5a5a5a5a error=00000004
- eax=0804bc80 ebx=5a5a5a5a ecx=ffffffff edx=00000001
- esi=5a5a5a5a edi=5a5a5a5a esp=bffffe80 ebp=5a5a5a5a
- cs=001b ds=0023 es=0023 ss=0023
-page-linear: exit(-1)
+(page-linear) read pass
+(page-linear) read/modify/write pass one
+(page-linear) read/modify/write pass two
+(page-linear) read pass
+(page-linear) end
+page-linear: exit(0)
 Execution of 'page-linear' complete.
-Timer: 357 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 296 user ticks
+Timer: 919 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 857 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 60 reads, 164 writes
 hd1:0: 78 reads, 0 writes
-hd1:1: 4136 reads, 5296 writes
-Console: 1305 characters output
+hd1:1: 16600 reads, 17760 writes
+Console: 1083 characters output
 Keyboard: 0 keys pressed
-Exception: 518 page faults
+Exception: 2592 page faults
 Powering off...

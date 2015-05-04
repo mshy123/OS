@@ -1,7 +1,7 @@
-Copying tests/vm/mmap-null into /tmp/2JvlbEf8Ed.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/2JvlbEf8Ed.dsk...
-Writing command line to /tmp/hwBnFSXf6Z.dsk...
-qemu -hda /tmp/hwBnFSXf6Z.dsk -hdb /tmp/zfBTH2zIHG.dsk -hdc /tmp/2JvlbEf8Ed.dsk -hdd /tmp/1Clo1NYm48.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-null into /tmp/NQHTUlXicT.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/NQHTUlXicT.dsk...
+Writing command line to /tmp/Ti0b89YUrH.dsk...
+qemu -hda /tmp/Ti0b89YUrH.dsk -hdb /tmp/i6oUyOjNhi.dsk -hdc /tmp/NQHTUlXicT.dsk -hdd /tmp/41qF4qwYzN.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-null put sample.txt run mmap-null
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -23,12 +23,12 @@ Executing 'mmap-null':
 mmap-null: exit(1)
 Execution of 'mmap-null' complete.
 Timer: 63 ticks
-Thread: 0 idle ticks, 63 kernel ticks, 0 user ticks
+Thread: 0 idle ticks, 62 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 90 reads, 162 writes
 hd1:0: 76 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1057 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 4 page faults
 Powering off...

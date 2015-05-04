@@ -23,19 +23,12 @@ Differences in `diff -u' format:
 - (page-parallel) wait for child 2
 - (page-parallel) wait for child 3
 - (page-parallel) end
-+ Page fault at 0x804822c: not present error reading page in user context.
-+ child-linear: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-+ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804822c
-+  cr2=0804822c error=00000004
-+  eax=0000006e ebx=0812d816 ecx=bfffff17 edx=00000032
-+  esi=bffffea0 edi=0001e388 esp=bffffe64 ebp=bffffe78
-+  cs=001b ds=0023 es=0023 ss=0023
-+ Page fault at 0x804a045: not present error reading page in user context.
++ Page fault at 0: not present error reading page in user context.
 + page-parallel: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-+ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804a045
-+  cr2=0804a045 error=00000004
++ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0
++  cr2=00000000 error=00000004
 +  eax=00000005 ebx=00000001 ecx=0804bac0 edx=00000024
-+  esi=00000000 edi=00000000 esp=bfffff70 ebp=bfffff78
++  esi=00000000 edi=00000000 esp=bfffff80 ebp=00000000
 +  cs=001b ds=0023 es=0023 ss=0023
 
 (Process exit codes are excluded for matching purposes.)

@@ -1,4 +1,4 @@
-TOTAL TESTING SCORE: 58.5%
+TOTAL TESTING SCORE: 72.1%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -6,13 +6,13 @@ SUMMARY BY TEST SET
 
 Test Set                                      Pts Max  % Ttl  % Max
 --------------------------------------------- --- --- ------ ------
-tests/vm/Rubric.functionality                  17/ 55  15.5%/ 50.0%
+tests/vm/Rubric.functionality                  32/ 55  29.1%/ 50.0%
 tests/vm/Rubric.robustness                     15/ 28   8.0%/ 15.0%
 tests/userprog/Rubric.functionality           108/108  10.0%/ 10.0%
 tests/userprog/Rubric.robustness               88/ 88   5.0%/  5.0%
 tests/filesys/base/Rubric                      30/ 30  20.0%/ 20.0%
 --------------------------------------------- --- --- ------ ------
-Total                                                  58.5%/100.0%
+Total                                                  72.1%/100.0%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -26,13 +26,13 @@ Functionality of virtual memory subsystem (tests/vm/Rubric.functionality):
 	     3/ 3 tests/vm/pt-grow-pusha
 
 	- Test paging behavior.
-	  ** 0/ 3 tests/vm/page-linear
+	     3/ 3 tests/vm/page-linear
 	  ** 0/ 3 tests/vm/page-parallel
 	     3/ 3 tests/vm/page-shuffle
-	  ** 0/ 4 tests/vm/page-merge-seq
-	  ** 0/ 4 tests/vm/page-merge-par
+	     4/ 4 tests/vm/page-merge-seq
+	     4/ 4 tests/vm/page-merge-par
 	  ** 0/ 4 tests/vm/page-merge-mm
-	  ** 0/ 4 tests/vm/page-merge-stk
+	     4/ 4 tests/vm/page-merge-stk
 
 	- Test "mmap" system call.
 	  ** 0/ 2 tests/vm/mmap-read
@@ -50,8 +50,8 @@ Functionality of virtual memory subsystem (tests/vm/Rubric.functionality):
 	  ** 0/ 2 tests/vm/mmap-remove
 
 	- Section summary.
-	      6/ 20 tests passed
-	     17/ 55 points subtotal
+	     10/ 20 tests passed
+	     32/ 55 points subtotal
 
 Robustness of virtual memory subsystem (tests/vm/Rubric.robustness):
 	- Test robustness of page table support.
@@ -216,78 +216,6 @@ Functionality of base file system (tests/filesys/base/Rubric):
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-DETAILS OF tests/vm/page-linear FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (page-linear) begin
-  (page-linear) initialize
-  (page-linear) read pass
-  (page-linear) read/modify/write pass one
-  (page-linear) read/modify/write pass two
-  (page-linear) read pass
-  (page-linear) end
-Differences in `diff -u' format:
-  (page-linear) begin
-  (page-linear) initialize
-- (page-linear) read pass
-- (page-linear) read/modify/write pass one
-- (page-linear) read/modify/write pass two
-- (page-linear) read pass
-- (page-linear) end
-+ Page fault at 0x5a5a5a5a: not present error reading page in user context.
-+ page-linear: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-+ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x5a5a5a5a
-+  cr2=5a5a5a5a error=00000004
-+  eax=0804bc80 ebx=5a5a5a5a ecx=ffffffff edx=00000001
-+  esi=5a5a5a5a edi=5a5a5a5a esp=bffffe80 ebp=5a5a5a5a
-+  cs=001b ds=0023 es=0023 ss=0023
-
-(Process exit codes are excluded for matching purposes.)
-
-OUTPUT FROM tests/vm/page-linear:
-
-Copying tests/vm/page-linear into /tmp/YAkon8rkm5.dsk...
-Writing command line to /tmp/m4QFBtnzp5.dsk...
-qemu -hda /tmp/m4QFBtnzp5.dsk -hdb /tmp/ZIXK4UcWPm.dsk -hdc /tmp/YAkon8rkm5.dsk -hdd /tmp/FsY341Orpo.dsk -m 4 -net none -nographic -monitor null
-Kernel command line: -q -f put page-linear run page-linear
-Pintos booting with 4,096 kB RAM...
-374 pages available in kernel pool.
-373 pages available in user pool.
-Calibrating timer...  78,540,800 loops/s.
-hd0:0: detected 145 sector (72 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 78 sector (39 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'page-linear' into the file system...
-Executing 'page-linear':
-(page-linear) begin
-(page-linear) initialize
-Page fault at 0x5a5a5a5a: not present error reading page in user context.
-page-linear: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x5a5a5a5a
- cr2=5a5a5a5a error=00000004
- eax=0804bc80 ebx=5a5a5a5a ecx=ffffffff edx=00000001
- esi=5a5a5a5a edi=5a5a5a5a esp=bffffe80 ebp=5a5a5a5a
- cs=001b ds=0023 es=0023 ss=0023
-page-linear: exit(-1)
-Execution of 'page-linear' complete.
-Timer: 357 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 296 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 60 reads, 164 writes
-hd1:0: 78 reads, 0 writes
-hd1:1: 4136 reads, 5296 writes
-Console: 1305 characters output
-Keyboard: 0 keys pressed
-Exception: 518 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
 DETAILS OF tests/vm/page-parallel FAILURE:
 
 Test output failed to match any acceptable form.
@@ -314,29 +242,22 @@ Differences in `diff -u' format:
 - (page-parallel) wait for child 2
 - (page-parallel) wait for child 3
 - (page-parallel) end
-+ Page fault at 0x804822c: not present error reading page in user context.
-+ child-linear: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-+ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804822c
-+  cr2=0804822c error=00000004
-+  eax=0000006e ebx=0812d816 ecx=bfffff17 edx=00000032
-+  esi=bffffea0 edi=0001e388 esp=bffffe64 ebp=bffffe78
-+  cs=001b ds=0023 es=0023 ss=0023
-+ Page fault at 0x804a045: not present error reading page in user context.
++ Page fault at 0: not present error reading page in user context.
 + page-parallel: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-+ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804a045
-+  cr2=0804a045 error=00000004
++ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0
++  cr2=00000000 error=00000004
 +  eax=00000005 ebx=00000001 ecx=0804bac0 edx=00000024
-+  esi=00000000 edi=00000000 esp=bfffff70 ebp=bfffff78
++  esi=00000000 edi=00000000 esp=bfffff80 ebp=00000000
 +  cs=001b ds=0023 es=0023 ss=0023
 
 (Process exit codes are excluded for matching purposes.)
 
 OUTPUT FROM tests/vm/page-parallel:
 
-Copying tests/vm/page-parallel into /tmp/qaft5EB4cx.dsk...
-Copying tests/vm/child-linear into /tmp/qaft5EB4cx.dsk...
-Writing command line to /tmp/uh2655UGyu.dsk...
-qemu -hda /tmp/uh2655UGyu.dsk -hdb /tmp/T61fhrV0FY.dsk -hdc /tmp/qaft5EB4cx.dsk -hdd /tmp/nQZULkFzyM.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/page-parallel into /tmp/k5u0XYKFJm.dsk...
+Copying tests/vm/child-linear into /tmp/k5u0XYKFJm.dsk...
+Writing command line to /tmp/HRTav4q4cN.dsk...
+qemu -hda /tmp/HRTav4q4cN.dsk -hdb /tmp/0AmaRAN6Qf.dsk -hdc /tmp/k5u0XYKFJm.dsk -hdd /tmp/g0tiPmkAMZ.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put page-parallel put child-linear run page-parallel
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -354,187 +275,24 @@ Executing 'page-parallel':
 (page-parallel) begin
 (page-parallel) exec "child-linear"
 (page-parallel) exec "child-linear"
-Page fault at 0x804822c: not present error reading page in user context.
-child-linear: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804822c
- cr2=0804822c error=00000004
- eax=0000006e ebx=0812d816 ecx=bfffff17 edx=00000032
- esi=bffffea0 edi=0001e388 esp=bffffe64 ebp=bffffe78
- cs=001b ds=0023 es=0023 ss=0023
-child-linear: exit(-1)
-Page fault at 0x804a045: not present error reading page in user context.
+Page fault at 0: not present error reading page in user context.
 page-parallel: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804a045
- cr2=0804a045 error=00000004
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0
+ cr2=00000000 error=00000004
  eax=00000005 ebx=00000001 ecx=0804bac0 edx=00000024
- esi=00000000 edi=00000000 esp=bfffff70 ebp=bfffff78
+ esi=00000000 edi=00000000 esp=bfffff80 ebp=00000000
  cs=001b ds=0023 es=0023 ss=0023
 page-parallel: exit(-1)
 Execution of 'page-parallel' complete.
-Timer: 150 ticks
-Thread: 0 idle ticks, 69 kernel ticks, 81 user ticks
+Timer: 92 ticks
+Thread: 0 idle ticks, 70 kernel ticks, 22 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 157 reads, 308 writes
+hd0:1: 129 reads, 308 writes
 hd1:0: 149 reads, 0 writes
-hd1:1: 0 reads, 1248 writes
-Console: 1822 characters output
+hd1:1: 0 reads, 96 writes
+Console: 1410 characters output
 Keyboard: 0 keys pressed
-Exception: 2 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/vm/page-merge-seq FAILURE:
-
-run: wait for child-sort: FAILED
-
-OUTPUT FROM tests/vm/page-merge-seq:
-
-Copying tests/vm/page-merge-seq into /tmp/2AH4mklZXP.dsk...
-Copying tests/vm/child-sort into /tmp/2AH4mklZXP.dsk...
-Writing command line to /tmp/IHUfnIhZOv.dsk...
-qemu -hda /tmp/IHUfnIhZOv.dsk -hdb /tmp/iqlWHSSsUP.dsk -hdc /tmp/2AH4mklZXP.dsk -hdd /tmp/z7XBLfTvvU.dsk -m 4 -net none -nographic -monitor null
-Kernel command line: -q -f put page-merge-seq put child-sort run page-merge-seq
-Pintos booting with 4,096 kB RAM...
-374 pages available in kernel pool.
-373 pages available in user pool.
-Calibrating timer...  78,540,800 loops/s.
-hd0:0: detected 145 sector (72 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 153 sector (76 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'page-merge-seq' into the file system...
-Putting 'child-sort' into the file system...
-Executing 'page-merge-seq':
-(page-merge-seq) begin
-(page-merge-seq) init
-(page-merge-seq) sort chunk 0
-child-sort: exit(123)
-(page-merge-seq) sort chunk 1
-child-sort: exit(-1)
-(page-merge-seq) wait for child-sort: FAILED
-page-merge-seq: exit(1)
-Execution of 'page-merge-seq' complete.
-Timer: 292 ticks
-Thread: 0 idle ticks, 70 kernel ticks, 222 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 455 reads, 824 writes
-hd1:0: 153 reads, 0 writes
-hd1:1: 2056 reads, 3456 writes
-Console: 1162 characters output
-Keyboard: 0 keys pressed
-Exception: 257 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/vm/page-merge-par FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (page-merge-par) begin
-  (page-merge-par) init
-  (page-merge-par) sort chunk 0
-  (page-merge-par) sort chunk 1
-  (page-merge-par) sort chunk 2
-  (page-merge-par) sort chunk 3
-  (page-merge-par) sort chunk 4
-  (page-merge-par) sort chunk 5
-  (page-merge-par) sort chunk 6
-  (page-merge-par) sort chunk 7
-  (page-merge-par) wait for child 0
-  (page-merge-par) wait for child 1
-  (page-merge-par) wait for child 2
-  (page-merge-par) wait for child 3
-  (page-merge-par) wait for child 4
-  (page-merge-par) wait for child 5
-  (page-merge-par) wait for child 6
-  (page-merge-par) wait for child 7
-  (page-merge-par) merge
-  (page-merge-par) verify
-  (page-merge-par) success, buf_idx=1,048,576
-  (page-merge-par) end
-Differences in `diff -u' format:
-  (page-merge-par) begin
-  (page-merge-par) init
-  (page-merge-par) sort chunk 0
-  (page-merge-par) sort chunk 1
-  (page-merge-par) sort chunk 2
-- (page-merge-par) sort chunk 3
-- (page-merge-par) sort chunk 4
-- (page-merge-par) sort chunk 5
-- (page-merge-par) sort chunk 6
-- (page-merge-par) sort chunk 7
-- (page-merge-par) wait for child 0
-- (page-merge-par) wait for child 1
-- (page-merge-par) wait for child 2
-- (page-merge-par) wait for child 3
-- (page-merge-par) wait for child 4
-- (page-merge-par) wait for child 5
-- (page-merge-par) wait for child 6
-- (page-merge-par) wait for child 7
-- (page-merge-par) merge
-- (page-merge-par) verify
-- (page-merge-par) success, buf_idx=1,048,576
-- (page-merge-par) end
-+ Page fault at 0xbffffda8: not present error reading page in user context.
-+ page-merge-par: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-+ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804a498
-+  cr2=bffffda8 error=00000004
-+  eax=00000006 ebx=bffffe50 ecx=bffffd70 edx=0000000e
-+  esi=bffffed0 edi=00000002 esp=bffffda8 ebp=bffffda8
-+  cs=001b ds=0023 es=0023 ss=0023
-
-(Process exit codes are excluded for matching purposes.)
-
-OUTPUT FROM tests/vm/page-merge-par:
-
-Copying tests/vm/page-merge-par into /tmp/j21mbK1zDK.dsk...
-Copying tests/vm/child-sort into /tmp/j21mbK1zDK.dsk...
-Writing command line to /tmp/djjQ7jWa62.dsk...
-qemu -hda /tmp/djjQ7jWa62.dsk -hdb /tmp/3hhkH5ky2Z.dsk -hdc /tmp/j21mbK1zDK.dsk -hdd /tmp/zeJZMGViXJ.dsk -m 4 -net none -nographic -monitor null
-Kernel command line: -q -f put page-merge-par put child-sort run page-merge-par
-Pintos booting with 4,096 kB RAM...
-374 pages available in kernel pool.
-373 pages available in user pool.
-Calibrating timer...  78,540,800 loops/s.
-hd0:0: detected 145 sector (72 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 155 sector (77 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'page-merge-par' into the file system...
-Putting 'child-sort' into the file system...
-Executing 'page-merge-par':
-(page-merge-par) begin
-(page-merge-par) init
-(page-merge-par) sort chunk 0
-(page-merge-par) sort chunk 1
-child-sort: exit(123)
-(page-merge-par) sort chunk 2
-child-sort: exit(123)
-Page fault at 0xbffffda8: not present error reading page in user context.
-page-merge-par: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804a498
- cr2=bffffda8 error=00000004
- eax=00000006 ebx=bffffe50 ecx=bffffd70 edx=0000000e
- esi=bffffed0 edi=00000002 esp=bffffda8 ebp=bffffda8
- cs=001b ds=0023 es=0023 ss=0023
-page-merge-par: exit(-1)
-Execution of 'page-merge-par' complete.
-Timer: 437 ticks
-Thread: 0 idle ticks, 70 kernel ticks, 367 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 1072 reads, 2438 writes
-hd1:0: 155 reads, 0 writes
-hd1:1: 2096 reads, 4168 writes
-Console: 1524 characters output
-Keyboard: 0 keys pressed
-Exception: 263 page faults
+Exception: 388 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -545,10 +303,10 @@ run: wait for child 0: FAILED
 
 OUTPUT FROM tests/vm/page-merge-mm:
 
-Copying tests/vm/page-merge-mm into /tmp/52GglSaMeG.dsk...
-Copying tests/vm/child-qsort-mm into /tmp/52GglSaMeG.dsk...
-Writing command line to /tmp/WGmiR1WrwA.dsk...
-qemu -hda /tmp/WGmiR1WrwA.dsk -hdb /tmp/fnZ4X3hvS2.dsk -hdc /tmp/52GglSaMeG.dsk -hdd /tmp/hZVNhhrlG7.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/page-merge-mm into /tmp/u37DXR0deK.dsk...
+Copying tests/vm/child-qsort-mm into /tmp/u37DXR0deK.dsk...
+Writing command line to /tmp/fF8VoBckSR.dsk...
+qemu -hda /tmp/fF8VoBckSR.dsk -hdb /tmp/YJYeLfNOdv.dsk -hdc /tmp/u37DXR0deK.dsk -hdd /tmp/0bzGJTl9sQ.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put page-merge-mm put child-qsort-mm run page-merge-mm
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -566,7 +324,6 @@ Executing 'page-merge-mm':
 (page-merge-mm) begin
 (page-merge-mm) init
 (page-merge-mm) sort chunk 0
-(page-merge-mm) sort chunk 1
 Page fault at 0x10000000: not present error reading page in user context.
 child-qsort-mm: dying due to interrupt 0x0e (#PF Page-Fault Exception).
 Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048322
@@ -575,6 +332,7 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048322
  esi=00020000 edi=10000000 esp=bfffff54 ebp=bfffff58
  cs=001b ds=0023 es=0023 ss=0023
 child-qsort-mm: exit(-1)
+(page-merge-mm) sort chunk 1
 Page fault at 0x10000000: not present error reading page in user context.
 child-qsort-mm: dying due to interrupt 0x0e (#PF Page-Fault Exception).
 Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048322
@@ -641,125 +399,15 @@ child-qsort-mm: exit(-1)
 (page-merge-mm) wait for child 0: FAILED
 page-merge-mm: exit(1)
 Execution of 'page-merge-mm' complete.
-Timer: 731 ticks
-Thread: 0 idle ticks, 71 kernel ticks, 660 user ticks
+Timer: 288 ticks
+Thread: 0 idle ticks, 72 kernel ticks, 216 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 740 reads, 4458 writes
+hd0:1: 676 reads, 4458 writes
 hd1:0: 160 reads, 0 writes
-hd1:1: 2088 reads, 3632 writes
-Console: 4505 characters output
+hd1:1: 0 reads, 0 writes
+Console: 4499 characters output
 Keyboard: 0 keys pressed
-Exception: 269 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/vm/page-merge-stk FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (page-merge-stk) begin
-  (page-merge-stk) init
-  (page-merge-stk) sort chunk 0
-  (page-merge-stk) sort chunk 1
-  (page-merge-stk) sort chunk 2
-  (page-merge-stk) sort chunk 3
-  (page-merge-stk) sort chunk 4
-  (page-merge-stk) sort chunk 5
-  (page-merge-stk) sort chunk 6
-  (page-merge-stk) sort chunk 7
-  (page-merge-stk) wait for child 0
-  (page-merge-stk) wait for child 1
-  (page-merge-stk) wait for child 2
-  (page-merge-stk) wait for child 3
-  (page-merge-stk) wait for child 4
-  (page-merge-stk) wait for child 5
-  (page-merge-stk) wait for child 6
-  (page-merge-stk) wait for child 7
-  (page-merge-stk) merge
-  (page-merge-stk) verify
-  (page-merge-stk) success, buf_idx=1,048,576
-  (page-merge-stk) end
-Differences in `diff -u' format:
-  (page-merge-stk) begin
-  (page-merge-stk) init
-  (page-merge-stk) sort chunk 0
-  (page-merge-stk) sort chunk 1
-  (page-merge-stk) sort chunk 2
-  (page-merge-stk) sort chunk 3
-- (page-merge-stk) sort chunk 4
-- (page-merge-stk) sort chunk 5
-- (page-merge-stk) sort chunk 6
-- (page-merge-stk) sort chunk 7
-- (page-merge-stk) wait for child 0
-- (page-merge-stk) wait for child 1
-- (page-merge-stk) wait for child 2
-- (page-merge-stk) wait for child 3
-- (page-merge-stk) wait for child 4
-- (page-merge-stk) wait for child 5
-- (page-merge-stk) wait for child 6
-- (page-merge-stk) wait for child 7
-- (page-merge-stk) merge
-- (page-merge-stk) verify
-- (page-merge-stk) success, buf_idx=1,048,576
-- (page-merge-stk) end
-+ Page fault at 0xbffffda8: not present error reading page in user context.
-+ page-merge-stk: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-+ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804a52c
-+  cr2=bffffda8 error=00000004
-+  eax=00020000 ebx=00000005 ecx=080ac4a0 edx=00020000
-+  esi=bffffed0 edi=00000003 esp=bffffda8 ebp=bffffda8
-+  cs=001b ds=0023 es=0023 ss=0023
-
-(Process exit codes are excluded for matching purposes.)
-
-OUTPUT FROM tests/vm/page-merge-stk:
-
-Copying tests/vm/page-merge-stk into /tmp/acHcbrbLf9.dsk...
-Copying tests/vm/child-qsort into /tmp/acHcbrbLf9.dsk...
-Writing command line to /tmp/23pXgGnfdv.dsk...
-qemu -hda /tmp/23pXgGnfdv.dsk -hdb /tmp/Uco4nV5w5X.dsk -hdc /tmp/acHcbrbLf9.dsk -hdd /tmp/jRBFJGfK8C.dsk -m 4 -net none -nographic -monitor null
-Kernel command line: -q -f put page-merge-stk put child-qsort run page-merge-stk
-Pintos booting with 4,096 kB RAM...
-374 pages available in kernel pool.
-373 pages available in user pool.
-Calibrating timer...  78,540,800 loops/s.
-hd0:0: detected 145 sector (72 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 160 sector (80 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'page-merge-stk' into the file system...
-Putting 'child-qsort' into the file system...
-Executing 'page-merge-stk':
-(page-merge-stk) begin
-(page-merge-stk) init
-(page-merge-stk) sort chunk 0
-(page-merge-stk) sort chunk 1
-child-qsort: exit(72)
-(page-merge-stk) sort chunk 2
-child-qsort: exit(72)
-(page-merge-stk) sort chunk 3
-Page fault at 0xbffffda8: not present error reading page in user context.
-page-merge-stk: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804a52c
- cr2=bffffda8 error=00000004
- eax=00020000 ebx=00000005 ecx=080ac4a0 edx=00020000
- esi=bffffed0 edi=00000003 esp=bffffda8 ebp=bffffda8
- cs=001b ds=0023 es=0023 ss=0023
-page-merge-stk: exit(-1)
-Execution of 'page-merge-stk' complete.
-Timer: 641 ticks
-Thread: 0 idle ticks, 70 kernel ticks, 571 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 1108 reads, 2906 writes
-hd1:0: 160 reads, 0 writes
-hd1:1: 2088 reads, 4160 writes
-Console: 1556 characters output
-Keyboard: 0 keys pressed
-Exception: 265 page faults
+Exception: 294 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -790,10 +438,10 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/vm/mmap-read:
 
-Copying tests/vm/mmap-read into /tmp/x1AzthiT1u.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/x1AzthiT1u.dsk...
-Writing command line to /tmp/jpYHrhWE38.dsk...
-qemu -hda /tmp/jpYHrhWE38.dsk -hdb /tmp/PwIrrdfCHc.dsk -hdc /tmp/x1AzthiT1u.dsk -hdd /tmp/LuQlIW7sG3.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-read into /tmp/T2Lo8btAgw.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/T2Lo8btAgw.dsk...
+Writing command line to /tmp/C9yRTN2cC6.dsk...
+qemu -hda /tmp/C9yRTN2cC6.dsk -hdb /tmp/eCKYscWvw9.dsk -hdc /tmp/T2Lo8btAgw.dsk -hdd /tmp/9TeTBTMZgK.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-read put sample.txt run mmap-read
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -828,7 +476,7 @@ hd1:0: 79 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1374 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 6 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -863,9 +511,9 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/vm/mmap-write:
 
-Copying tests/vm/mmap-write into /tmp/e85GbffMPr.dsk...
-Writing command line to /tmp/ZB58PFsrYo.dsk...
-qemu -hda /tmp/ZB58PFsrYo.dsk -hdb /tmp/kUFIoCfaij.dsk -hdc /tmp/e85GbffMPr.dsk -hdd /tmp/saukagQVG9.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-write into /tmp/wLh2JscPy9.dsk...
+Writing command line to /tmp/3sIXZSGDt7.dsk...
+qemu -hda /tmp/3sIXZSGDt7.dsk -hdb /tmp/9epPc5lZH7.dsk -hdc /tmp/wLh2JscPy9.dsk -hdd /tmp/dfoddAmfoN.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-write run mmap-write
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -900,7 +548,7 @@ hd1:0: 76 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1357 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 6 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -955,9 +603,9 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/vm/mmap-shuffle:
 
-Copying tests/vm/mmap-shuffle into /tmp/QVouCUFY7I.dsk...
-Writing command line to /tmp/Ci0CQ8TAKn.dsk...
-qemu -hda /tmp/Ci0CQ8TAKn.dsk -hdb /tmp/1G8dQUHfZu.dsk -hdc /tmp/QVouCUFY7I.dsk -hdd /tmp/6HKS8uRaMu.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-shuffle into /tmp/ixYk8b0vvE.dsk...
+Writing command line to /tmp/eTGeioIi0O.dsk...
+qemu -hda /tmp/eTGeioIi0O.dsk -hdb /tmp/eI0DI4TuWl.dsk -hdc /tmp/ixYk8b0vvE.dsk -hdd /tmp/oH9C5N5MHG.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-shuffle run mmap-shuffle
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -992,7 +640,7 @@ hd1:0: 81 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1368 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 6 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1031,10 +679,10 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/vm/mmap-twice:
 
-Copying tests/vm/mmap-twice into /tmp/vAAMBc8B0G.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/vAAMBc8B0G.dsk...
-Writing command line to /tmp/kUJ7ylhnyh.dsk...
-qemu -hda /tmp/kUJ7ylhnyh.dsk -hdb /tmp/0iPoNvmT0y.dsk -hdc /tmp/vAAMBc8B0G.dsk -hdd /tmp/KJKH2kjaT6.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-twice into /tmp/q6HmQ9TpGj.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/q6HmQ9TpGj.dsk...
+Writing command line to /tmp/nJUr7aLXi7.dsk...
+qemu -hda /tmp/nJUr7aLXi7.dsk -hdb /tmp/KltsFYEYLo.dsk -hdc /tmp/q6HmQ9TpGj.dsk -hdd /tmp/bmM2lMQx8G.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-twice put sample.txt run mmap-twice
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1072,7 +720,7 @@ hd1:0: 79 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1535 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 6 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1083,10 +731,10 @@ run: wait for child (should return 0): FAILED
 
 OUTPUT FROM tests/vm/mmap-exit:
 
-Copying tests/vm/mmap-exit into /tmp/BviYZbCJ1B.dsk...
-Copying tests/vm/child-mm-wrt into /tmp/BviYZbCJ1B.dsk...
-Writing command line to /tmp/p0TGBswHAH.dsk...
-qemu -hda /tmp/p0TGBswHAH.dsk -hdb /tmp/6tOnje1pDj.dsk -hdc /tmp/BviYZbCJ1B.dsk -hdd /tmp/PLrjEKUqoh.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-exit into /tmp/zBxFHG1G1C.dsk...
+Copying tests/vm/child-mm-wrt into /tmp/zBxFHG1G1C.dsk...
+Writing command line to /tmp/wYqwrqq55v.dsk...
+qemu -hda /tmp/wYqwrqq55v.dsk -hdb /tmp/tjZ1aYjAmr.dsk -hdc /tmp/zBxFHG1G1C.dsk -hdd /tmp/468TQ05ygO.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-exit put child-mm-wrt run mmap-exit
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1117,15 +765,15 @@ child-mm-wrt: exit(-1)
 (mmap-exit) wait for child (should return 0): FAILED
 mmap-exit: exit(1)
 Execution of 'mmap-exit' complete.
-Timer: 73 ticks
-Thread: 0 idle ticks, 70 kernel ticks, 3 user ticks
+Timer: 72 ticks
+Thread: 0 idle ticks, 69 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 158 reads, 316 writes
 hd1:0: 150 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1521 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 11 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1166,10 +814,10 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/vm/mmap-clean:
 
-Copying tests/vm/mmap-clean into /tmp/XzlEmji9rG.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/XzlEmji9rG.dsk...
-Writing command line to /tmp/RIOHGK8ZI6.dsk...
-qemu -hda /tmp/RIOHGK8ZI6.dsk -hdb /tmp/yKVfnafnps.dsk -hdc /tmp/XzlEmji9rG.dsk -hdd /tmp/NQ80vBL1n2.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-clean into /tmp/XUJcUTbu6r.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/XUJcUTbu6r.dsk...
+Writing command line to /tmp/LK5h7jeqqi.dsk...
+qemu -hda /tmp/LK5h7jeqqi.dsk -hdb /tmp/n5XiMQXTfw.dsk -hdc /tmp/XUJcUTbu6r.dsk -hdd /tmp/6kA0Oz2VHo.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-clean put sample.txt run mmap-clean
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1196,15 +844,15 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048127
  cs=001b ds=0023 es=0023 ss=0023
 mmap-clean: exit(-1)
 Execution of 'mmap-clean' complete.
-Timer: 64 ticks
-Thread: 0 idle ticks, 62 kernel ticks, 2 user ticks
+Timer: 63 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 100 reads, 170 writes
 hd1:0: 80 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1385 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 6 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1235,10 +883,10 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/vm/mmap-close:
 
-Copying tests/vm/mmap-close into /tmp/8twRI6YcN3.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/8twRI6YcN3.dsk...
-Writing command line to /tmp/GvVUmYDFap.dsk...
-qemu -hda /tmp/GvVUmYDFap.dsk -hdb /tmp/EiVy9l8UZR.dsk -hdc /tmp/8twRI6YcN3.dsk -hdd /tmp/ecTG9wr7m4.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-close into /tmp/ZiogeMfY0z.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/ZiogeMfY0z.dsk...
+Writing command line to /tmp/MiRoX20vSX.dsk...
+qemu -hda /tmp/MiRoX20vSX.dsk -hdb /tmp/PMAGhtDYbU.dsk -hdc /tmp/ZiogeMfY0z.dsk -hdd /tmp/x4orQzkNxg.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-close put sample.txt run mmap-close
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1265,15 +913,15 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048133
  cs=001b ds=0023 es=0023 ss=0023
 mmap-close: exit(-1)
 Execution of 'mmap-close' complete.
-Timer: 63 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
+Timer: 64 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 98 reads, 168 writes
 hd1:0: 79 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1384 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 6 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1310,10 +958,10 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/vm/mmap-remove:
 
-Copying tests/vm/mmap-remove into /tmp/Oy4Vi7MlBn.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/Oy4Vi7MlBn.dsk...
-Writing command line to /tmp/KI0nHXAigU.dsk...
-qemu -hda /tmp/KI0nHXAigU.dsk -hdb /tmp/rrGBsrFBPs.dsk -hdc /tmp/Oy4Vi7MlBn.dsk -hdd /tmp/DtZ9nLFSPq.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-remove into /tmp/GtOscxgBsy.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/GtOscxgBsy.dsk...
+Writing command line to /tmp/2mkhXHPAKm.dsk...
+qemu -hda /tmp/2mkhXHPAKm.dsk -hdb /tmp/teEVZQU0aY.dsk -hdc /tmp/GtOscxgBsy.dsk -hdd /tmp/DcSZMCeGPg.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-remove put sample.txt run mmap-remove
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1343,15 +991,15 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x80481ae
  cs=001b ds=0023 es=0023 ss=0023
 mmap-remove: exit(-1)
 Execution of 'mmap-remove' complete.
-Timer: 67 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 6 user ticks
+Timer: 68 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 7 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 145 reads, 255 writes
 hd1:0: 79 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1499 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 6 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1362,9 +1010,9 @@ run: try to mmap invalid fd: FAILED
 
 OUTPUT FROM tests/vm/mmap-bad-fd:
 
-Copying tests/vm/mmap-bad-fd into /tmp/Hbgixs9iVQ.dsk...
-Writing command line to /tmp/IPi56ubN50.dsk...
-qemu -hda /tmp/IPi56ubN50.dsk -hdb /tmp/yNlTyRHF6M.dsk -hdc /tmp/Hbgixs9iVQ.dsk -hdd /tmp/DqKsNDozPu.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-bad-fd into /tmp/S1CzmLWzdj.dsk...
+Writing command line to /tmp/o2H76RFLWq.dsk...
+qemu -hda /tmp/o2H76RFLWq.dsk -hdb /tmp/RqeA9qcnkP.dsk -hdc /tmp/S1CzmLWzdj.dsk -hdd /tmp/pQuH60jwjs.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-bad-fd run mmap-bad-fd
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1391,7 +1039,7 @@ hd1:0: 73 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 981 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 4 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1426,11 +1074,11 @@ Differences in `diff -u' format:
 
 OUTPUT FROM tests/vm/mmap-inherit:
 
-Copying tests/vm/mmap-inherit into /tmp/kUNYTnjfAN.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/kUNYTnjfAN.dsk...
-Copying tests/vm/child-inherit into /tmp/kUNYTnjfAN.dsk...
-Writing command line to /tmp/IT7sdM0gwG.dsk...
-qemu -hda /tmp/IT7sdM0gwG.dsk -hdb /tmp/skk8tx3zS7.dsk -hdc /tmp/kUNYTnjfAN.dsk -hdd /tmp/hjIGB9PRpM.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-inherit into /tmp/jExcfnSVvi.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/jExcfnSVvi.dsk...
+Copying tests/vm/child-inherit into /tmp/jExcfnSVvi.dsk...
+Writing command line to /tmp/TYukpfTIXg.dsk...
+qemu -hda /tmp/TYukpfTIXg.dsk -hdb /tmp/SfMHrED3Pd.dsk -hdc /tmp/jExcfnSVvi.dsk -hdd /tmp/BuYT8puxqI.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-inherit put sample.txt put child-inherit run mmap-inherit
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1458,15 +1106,15 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048122
  cs=001b ds=0023 es=0023 ss=0023
 mmap-inherit: exit(-1)
 Execution of 'mmap-inherit' complete.
-Timer: 71 ticks
-Thread: 0 idle ticks, 69 kernel ticks, 2 user ticks
+Timer: 72 ticks
+Thread: 0 idle ticks, 70 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 127 reads, 320 writes
 hd1:0: 154 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1473 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 6 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1477,10 +1125,10 @@ run: try to mmap at address 0: FAILED
 
 OUTPUT FROM tests/vm/mmap-null:
 
-Copying tests/vm/mmap-null into /tmp/2JvlbEf8Ed.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/2JvlbEf8Ed.dsk...
-Writing command line to /tmp/hwBnFSXf6Z.dsk...
-qemu -hda /tmp/hwBnFSXf6Z.dsk -hdb /tmp/zfBTH2zIHG.dsk -hdc /tmp/2JvlbEf8Ed.dsk -hdd /tmp/1Clo1NYm48.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-null into /tmp/NQHTUlXicT.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/NQHTUlXicT.dsk...
+Writing command line to /tmp/Ti0b89YUrH.dsk...
+qemu -hda /tmp/Ti0b89YUrH.dsk -hdb /tmp/i6oUyOjNhi.dsk -hdc /tmp/NQHTUlXicT.dsk -hdd /tmp/41qF4qwYzN.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-null put sample.txt run mmap-null
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1502,14 +1150,14 @@ Executing 'mmap-null':
 mmap-null: exit(1)
 Execution of 'mmap-null' complete.
 Timer: 63 ticks
-Thread: 0 idle ticks, 63 kernel ticks, 0 user ticks
+Thread: 0 idle ticks, 62 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 90 reads, 162 writes
 hd1:0: 76 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1057 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 4 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1520,10 +1168,10 @@ run: try to mmap at misaligned address: FAILED
 
 OUTPUT FROM tests/vm/mmap-misalign:
 
-Copying tests/vm/mmap-misalign into /tmp/OxwRH59h1s.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/OxwRH59h1s.dsk...
-Writing command line to /tmp/24xE3QLfPg.dsk...
-qemu -hda /tmp/24xE3QLfPg.dsk -hdb /tmp/i1Moyb2Gba.dsk -hdc /tmp/OxwRH59h1s.dsk -hdd /tmp/0dFNf0269R.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-misalign into /tmp/qClrXSLnNB.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/qClrXSLnNB.dsk...
+Writing command line to /tmp/Yv4VwUd1pc.dsk...
+qemu -hda /tmp/Yv4VwUd1pc.dsk -hdb /tmp/b95mNTeQuR.dsk -hdc /tmp/qClrXSLnNB.dsk -hdd /tmp/hXUdd7dMJM.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-misalign put sample.txt run mmap-misalign
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1552,7 +1200,7 @@ hd1:0: 76 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1115 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 4 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1563,10 +1211,10 @@ run: try to mmap over code segment: FAILED
 
 OUTPUT FROM tests/vm/mmap-over-code:
 
-Copying tests/vm/mmap-over-code into /tmp/0GLumSzzmD.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/0GLumSzzmD.dsk...
-Writing command line to /tmp/gYIMwS90HU.dsk...
-qemu -hda /tmp/gYIMwS90HU.dsk -hdb /tmp/JrDRnpDNZA.dsk -hdc /tmp/0GLumSzzmD.dsk -hdd /tmp/biRsBxs3M1.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-over-code into /tmp/reaxbNgvxX.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/reaxbNgvxX.dsk...
+Writing command line to /tmp/VEbxmqHHAk.dsk...
+qemu -hda /tmp/VEbxmqHHAk.dsk -hdb /tmp/tHRCQ8H6U0.dsk -hdc /tmp/reaxbNgvxX.dsk -hdd /tmp/fwMwtfboWl.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-over-code put sample.txt run mmap-over-code
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1587,15 +1235,15 @@ Executing 'mmap-over-code':
 (mmap-over-code) try to mmap over code segment: FAILED
 mmap-over-code: exit(1)
 Execution of 'mmap-over-code' complete.
-Timer: 62 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 1 user ticks
+Timer: 63 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 90 reads, 162 writes
 hd1:0: 76 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1117 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 4 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1606,10 +1254,10 @@ run: try to mmap over data segment: FAILED
 
 OUTPUT FROM tests/vm/mmap-over-data:
 
-Copying tests/vm/mmap-over-data into /tmp/g1vB02aO5s.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/g1vB02aO5s.dsk...
-Writing command line to /tmp/CBsJCm03eH.dsk...
-qemu -hda /tmp/CBsJCm03eH.dsk -hdb /tmp/bv2Iu98qVX.dsk -hdc /tmp/g1vB02aO5s.dsk -hdd /tmp/syx1RrNhKs.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-over-data into /tmp/WKHcL897Yh.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/WKHcL897Yh.dsk...
+Writing command line to /tmp/MbKOCrGHzJ.dsk...
+qemu -hda /tmp/MbKOCrGHzJ.dsk -hdb /tmp/jdWs2r532m.dsk -hdc /tmp/WKHcL897Yh.dsk -hdd /tmp/4KQtUiAqQX.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-over-data put sample.txt run mmap-over-data
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1638,7 +1286,7 @@ hd1:0: 77 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1117 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 4 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1649,10 +1297,10 @@ run: try to mmap over stack segment: FAILED
 
 OUTPUT FROM tests/vm/mmap-over-stk:
 
-Copying tests/vm/mmap-over-stk into /tmp/IYPyjXmG0y.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/IYPyjXmG0y.dsk...
-Writing command line to /tmp/CbHxje2cyP.dsk...
-qemu -hda /tmp/CbHxje2cyP.dsk -hdb /tmp/jHEP9EDkVT.dsk -hdc /tmp/IYPyjXmG0y.dsk -hdd /tmp/gbzSJ4fK65.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-over-stk into /tmp/TIvL0d1A2Z.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/TIvL0d1A2Z.dsk...
+Writing command line to /tmp/7zLGoylW1f.dsk...
+qemu -hda /tmp/7zLGoylW1f.dsk -hdb /tmp/q0okqOekDV.dsk -hdc /tmp/TIvL0d1A2Z.dsk -hdd /tmp/obDsHdc4PR.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-over-stk put sample.txt run mmap-over-stk
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -1681,7 +1329,7 @@ hd1:0: 76 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1109 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 4 page faults
 Powering off...
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -1692,15 +1340,15 @@ run: try to mmap "zeros" again: FAILED
 
 OUTPUT FROM tests/vm/mmap-overlap:
 
-Copying tests/vm/mmap-overlap into /tmp/DeBuujgbdH.dsk...
-Copying tests/vm/zeros into /tmp/DeBuujgbdH.dsk...
-Writing command line to /tmp/SQtBe6NRgN.dsk...
-qemu -hda /tmp/SQtBe6NRgN.dsk -hdb /tmp/BYKk6Ah5A8.dsk -hdc /tmp/DeBuujgbdH.dsk -hdd /tmp/wpS8SaeLjd.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-overlap into /tmp/VErGtQADsF.dsk...
+Copying tests/vm/zeros into /tmp/VErGtQADsF.dsk...
+Writing command line to /tmp/REa7Y89bS7.dsk...
+qemu -hda /tmp/REa7Y89bS7.dsk -hdb /tmp/36Vsap45R9.dsk -hdc /tmp/VErGtQADsF.dsk -hdd /tmp/5cGIGpSXfx.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-overlap put zeros run mmap-overlap
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
 373 pages available in user pool.
-Calibrating timer...  52,377,600 loops/s.
+Calibrating timer...  78,540,800 loops/s.
 hd0:0: detected 145 sector (72 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 89 sector (44 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1718,13 +1366,13 @@ Executing 'mmap-overlap':
 (mmap-overlap) try to mmap "zeros" again: FAILED
 mmap-overlap: exit(1)
 Execution of 'mmap-overlap' complete.
-Timer: 62 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 1 user ticks
+Timer: 64 ticks
+Thread: 0 idle ticks, 63 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 100 reads, 188 writes
 hd1:0: 89 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1142 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 5 page faults
 Powering off...

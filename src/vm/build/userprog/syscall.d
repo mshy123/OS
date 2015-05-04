@@ -8,4 +8,6 @@ userprog/syscall.o: ../../userprog/syscall.c ../../userprog/syscall.h \
   ../../threads/synch.h ../../threads/palloc.h ../../threads/vaddr.h \
   ../../threads/loader.h ../../threads/init.h ../../threads/malloc.h \
   ../../userprog/process.h ../../userprog/pagedir.h ../../devices/input.h \
-  ../../filesys/file.h ../../filesys/filesys.h
+  ../../filesys/file.h ../../filesys/filesys.h ../../vm/frame.h \
+  ../../vm/page.h ../../devices/disk.h ../../lib/inttypes.h \
+  ../../vm/swap.h ../../threads/vaddr.h ../../lib/kernel/bitmap.h

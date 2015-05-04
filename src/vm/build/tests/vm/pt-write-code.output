@@ -1,6 +1,6 @@
-Copying tests/vm/pt-write-code into /tmp/QW93EeHfV2.dsk...
-Writing command line to /tmp/f3K521tl2v.dsk...
-qemu -hda /tmp/f3K521tl2v.dsk -hdb /tmp/RLGp62F8Sj.dsk -hdc /tmp/QW93EeHfV2.dsk -hdd /tmp/Q0rjvDmnOR.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/pt-write-code into /tmp/eFSTbyogzn.dsk...
+Writing command line to /tmp/rlrNGH4RYY.dsk...
+qemu -hda /tmp/rlrNGH4RYY.dsk -hdb /tmp/Q30L12ofkA.dsk -hdc /tmp/eFSTbyogzn.dsk -hdd /tmp/pA4PtAt4gQ.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put pt-write-code run pt-write-code
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -25,12 +25,12 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x80480a6
 pt-write-code: exit(-1)
 Execution of 'pt-write-code' complete.
 Timer: 62 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 1 user ticks
+Thread: 0 idle ticks, 60 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 59 reads, 154 writes
 hd1:0: 73 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1290 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 5 page faults
 Powering off...

@@ -1,7 +1,7 @@
-Copying tests/userprog/rox-multichild into /tmp/ZRdrENFqHs.dsk...
-Copying tests/userprog/child-rox into /tmp/ZRdrENFqHs.dsk...
-Writing command line to /tmp/BDQ1n14qru.dsk...
-qemu -hda /tmp/BDQ1n14qru.dsk -hdb /tmp/eON3Uk0Bul.dsk -hdc /tmp/ZRdrENFqHs.dsk -hdd /tmp/bdcNopEMQR.dsk -m 4 -net none -nographic -monitor null
+Copying tests/userprog/rox-multichild into /tmp/MEhPPumXtp.dsk...
+Copying tests/userprog/child-rox into /tmp/MEhPPumXtp.dsk...
+Writing command line to /tmp/zDotvEHcyv.dsk...
+qemu -hda /tmp/zDotvEHcyv.dsk -hdb /tmp/i6bPAN1CGs.dsk -hdc /tmp/MEhPPumXtp.dsk -hdd /tmp/i2dCga7j1k.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put rox-multichild put child-rox run rox-multichild
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -55,12 +55,12 @@ child-rox: exit(12)
 rox-multichild: exit(0)
 Execution of 'rox-multichild' complete.
 Timer: 75 ticks
-Thread: 0 idle ticks, 72 kernel ticks, 3 user ticks
+Thread: 0 idle ticks, 70 kernel ticks, 5 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 288 reads, 324 writes
+hd0:1: 283 reads, 324 writes
 hd1:0: 156 reads, 0 writes
 hd1:1: 0 reads, 0 writes
 Console: 1940 characters output
 Keyboard: 0 keys pressed
-Exception: 0 page faults
+Exception: 25 page faults
 Powering off...

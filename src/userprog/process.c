@@ -59,7 +59,7 @@ struct thread *get_child_process(int pid) {
 tid_t
 process_execute (const char *file_name) 
 {
-  char *fn_copy;
+  char *fn_copy, *name_copy;
   tid_t tid;
 
   /* Make a copy of FILE_NAME.
@@ -69,23 +69,32 @@ process_execute (const char *file_name)
     return TID_ERROR;
   strlcpy (fn_copy, file_name, PGSIZE);
 
+  name_copy = palloc_get_page (0);
+  if (name_copy == NULL) {
+      palloc_free_page (fn_copy);
+      return TID_ERROR;
+  }
+
+  strlcpy (name_copy, file_name, PGSIZE);
+
   /* Project2 : Argument Passing , Tokenize the Name of file_name */
   char *save_ptr;
-  file_name = strtok_r((char *)file_name, " ", &save_ptr);
+  name_copy = strtok_r((char *)name_copy, " ", &save_ptr);
 
   /* Create a new thread to execute FILE_NAME. */
-  tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
+  tid = thread_create (name_copy, PRI_DEFAULT, start_process, fn_copy);
   
   /* Project2 : Wait for child thread success */
   sema_down(&thread_current()->success_load);
   
-  /* Project2 : If child fail to success */
-  if(!thread_current()->success_b) {
-      return -1;
-  }
-
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy); 
+  
+  /* Project2 : If child fail to success */
+  if(!thread_current()->success_b) {
+      tid = TID_ERROR;
+  }
+  palloc_free_page (name_copy);
 
   return tid;
 }
@@ -180,20 +189,22 @@ process_exit (void)
   uint32_t *pd;
 
   /* Project2 : File allow write when executable file thread exit */
-  file_close (thread_current()->own_file);
+  frame_free(curr);
+  destroy_sup_page_table(curr); 
   
+  if(thread_current()->own_file != NULL) file_close (thread_current()->own_file);
+  remove_all_file();
+
   /* Project2 : print it exit, and remove it's child list and file structure */
   printf("%s: exit(%d)\n", curr->name, curr->exit_status);
   remove_child_process_all();
-  remove_all_file();
-
+  
   /* Project3 : remove frame entry */
-  frame_free(curr);
   
   /* Project2 : Wait for parent get our structure */
   sema_up(&curr->c_sema);
   sema_down(&curr->p_sema);
- 
+  
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
   
@@ -498,8 +509,7 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
          and zero the final PAGE_ZERO_BYTES bytes. */
       size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
       size_t page_zero_bytes = PGSIZE - page_read_bytes;
-
-      /* Get a page of memory. */
+/*
       uint8_t *kpage;
       if (page_read_bytes == 0) kpage = frame_alloc (PAL_USER | PAL_ZERO, upage, writable); 
       else kpage = frame_alloc (PAL_USER, upage, writable);
@@ -507,7 +517,6 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
       if (kpage == NULL)
         return false;
 
-      /* Load this page. */
       if (file_read (file, kpage, page_read_bytes) != (int) page_read_bytes)
         {
           single_frame_free (kpage);
@@ -515,16 +524,19 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
         }
       memset (kpage + page_read_bytes, 0, page_zero_bytes);
 
-      /* Add the page to the process's address space. */
       if (!install_page (upage, kpage, writable)) 
         {
           single_frame_free (kpage);
           return false; 
         }
+*/
+
+      if (!add_file_page_table_entry (file, ofs, upage, page_read_bytes, page_zero_bytes, writable)) return false;
 
       /* Advance. */
       read_bytes -= page_read_bytes;
       zero_bytes -= page_zero_bytes;
+      ofs += page_read_bytes;
       upage += PGSIZE;
     }
   return true;

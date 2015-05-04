@@ -1,7 +1,7 @@
-Copying tests/vm/page-merge-par into /tmp/j21mbK1zDK.dsk...
-Copying tests/vm/child-sort into /tmp/j21mbK1zDK.dsk...
-Writing command line to /tmp/djjQ7jWa62.dsk...
-qemu -hda /tmp/djjQ7jWa62.dsk -hdb /tmp/3hhkH5ky2Z.dsk -hdc /tmp/j21mbK1zDK.dsk -hdd /tmp/zeJZMGViXJ.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/page-merge-par into /tmp/8wh7gVJ56G.dsk...
+Copying tests/vm/child-sort into /tmp/8wh7gVJ56G.dsk...
+Writing command line to /tmp/58Uaaixl4C.dsk...
+qemu -hda /tmp/58Uaaixl4C.dsk -hdb /tmp/SPbwQ4XC4o.dsk -hdc /tmp/8wh7gVJ56G.dsk -hdd /tmp/CElIRr4iej.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put page-merge-par put child-sort run page-merge-par
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -23,22 +23,38 @@ Executing 'page-merge-par':
 child-sort: exit(123)
 (page-merge-par) sort chunk 2
 child-sort: exit(123)
-Page fault at 0xbffffda8: not present error reading page in user context.
-page-merge-par: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804a498
- cr2=bffffda8 error=00000004
- eax=00000006 ebx=bffffe50 ecx=bffffd70 edx=0000000e
- esi=bffffed0 edi=00000002 esp=bffffda8 ebp=bffffda8
- cs=001b ds=0023 es=0023 ss=0023
-page-merge-par: exit(-1)
+(page-merge-par) sort chunk 3
+child-sort: exit(123)
+(page-merge-par) sort chunk 4
+child-sort: exit(123)
+(page-merge-par) sort chunk 5
+child-sort: exit(123)
+(page-merge-par) sort chunk 6
+child-sort: exit(123)
+(page-merge-par) sort chunk 7
+child-sort: exit(123)
+(page-merge-par) wait for child 0
+child-sort: exit(123)
+(page-merge-par) wait for child 1
+(page-merge-par) wait for child 2
+(page-merge-par) wait for child 3
+(page-merge-par) wait for child 4
+(page-merge-par) wait for child 5
+(page-merge-par) wait for child 6
+(page-merge-par) wait for child 7
+(page-merge-par) merge
+(page-merge-par) verify
+(page-merge-par) success, buf_idx=1,048,576
+(page-merge-par) end
+page-merge-par: exit(0)
 Execution of 'page-merge-par' complete.
-Timer: 437 ticks
-Thread: 0 idle ticks, 70 kernel ticks, 367 user ticks
+Timer: 493 ticks
+Thread: 0 idle ticks, 71 kernel ticks, 423 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 1072 reads, 2438 writes
+hd0:1: 4824 reads, 6496 writes
 hd1:0: 155 reads, 0 writes
-hd1:1: 2096 reads, 4168 writes
-Console: 1524 characters output
+hd1:1: 432 reads, 1592 writes
+Console: 1815 characters output
 Keyboard: 0 keys pressed
-Exception: 263 page faults
+Exception: 851 page faults
 Powering off...
