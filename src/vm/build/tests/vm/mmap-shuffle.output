@@ -1,6 +1,6 @@
-Copying tests/vm/mmap-shuffle into /tmp/ixYk8b0vvE.dsk...
-Writing command line to /tmp/eTGeioIi0O.dsk...
-qemu -hda /tmp/eTGeioIi0O.dsk -hdb /tmp/eI0DI4TuWl.dsk -hdc /tmp/ixYk8b0vvE.dsk -hdd /tmp/oH9C5N5MHG.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-shuffle into /tmp/A8u6V6p4ec.dsk...
+Writing command line to /tmp/VdpDFcqEzD.dsk...
+qemu -hda /tmp/VdpDFcqEzD.dsk -hdb /tmp/GnzCvg1fTV.dsk -hdc /tmp/A8u6V6p4ec.dsk -hdd /tmp/ldT0fPEoPc.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-shuffle run mmap-shuffle
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -18,22 +18,27 @@ Executing 'mmap-shuffle':
 (mmap-shuffle) create "buffer"
 (mmap-shuffle) open "buffer"
 (mmap-shuffle) mmap "buffer"
-Page fault at 0x10000000: not present error writing page in user context.
-mmap-shuffle: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804813a
- cr2=10000000 error=00000006
- eax=10000000 ebx=00000000 ecx=0804c120 edx=10000000
- esi=00000000 edi=00000000 esp=bfffff90 ebp=bfffffa8
- cs=001b ds=0023 es=0023 ss=0023
-mmap-shuffle: exit(-1)
+(mmap-shuffle) init: cksum=3115322833
+(mmap-shuffle) shuffle 0: cksum=1691062564
+(mmap-shuffle) shuffle 1: cksum=1973575879
+(mmap-shuffle) shuffle 2: cksum=1647619479
+(mmap-shuffle) shuffle 3: cksum=96566261
+(mmap-shuffle) shuffle 4: cksum=3885786467
+(mmap-shuffle) shuffle 5: cksum=3022003332
+(mmap-shuffle) shuffle 6: cksum=3614934266
+(mmap-shuffle) shuffle 7: cksum=2704001777
+(mmap-shuffle) shuffle 8: cksum=735775156
+(mmap-shuffle) shuffle 9: cksum=1864109763
+(mmap-shuffle) end
+mmap-shuffle: exit(0)
 Execution of 'mmap-shuffle' complete.
-Timer: 77 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 16 user ticks
+Timer: 132 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 71 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 95 reads, 430 writes
+hd0:1: 351 reads, 686 writes
 hd1:0: 81 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1368 characters output
+Console: 1482 characters output
 Keyboard: 0 keys pressed
-Exception: 6 page faults
+Exception: 37 page faults
 Powering off...

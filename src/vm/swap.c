@@ -1,6 +1,7 @@
 #include <bitmap.h>
 #include "devices/disk.h"
 #include "vm/swap.h"
+#include "vm/frame.h"
 
 struct disk *swap_disk;
 struct bitmap *swap_table;
@@ -24,7 +25,7 @@ disk_sector_t swap_out(void *frame) {
     if (idx == BITMAP_ERROR) PANIC ("swap disk is already full.");
 
     for(i=0; i<DISK_UNIT_SIZE; i++) {
-      disk_write(swap_disk, (disk_sector_t)idx*DISK_UNIT_SIZE + i, (const void *)(frame + i*DISK_SECTOR_SIZE));
+        disk_write(swap_disk, (disk_sector_t)idx*DISK_UNIT_SIZE + i, (const void *)(frame + i*DISK_SECTOR_SIZE));
     }
     lock_release(&swap_lock);
 
@@ -38,8 +39,9 @@ void swap_in(disk_sector_t sec_n, void *frame) {
     bitmap_flip(swap_table, (size_t)sec_n);
 
     for(i=0; i<DISK_UNIT_SIZE; i++) {
-      disk_read(swap_disk, (disk_sector_t)sec_n*DISK_UNIT_SIZE + i, (void *)(frame + i*DISK_SECTOR_SIZE));
-
+        lock_acquire(&frame_lock);
+        disk_read(swap_disk, (disk_sector_t)sec_n*DISK_UNIT_SIZE + i, (void *)(frame + i*DISK_SECTOR_SIZE));
+        lock_release(&frame_lock);
     }
 
     lock_release(&swap_lock);

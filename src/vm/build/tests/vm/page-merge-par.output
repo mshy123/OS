@@ -1,7 +1,7 @@
-Copying tests/vm/page-merge-par into /tmp/8wh7gVJ56G.dsk...
-Copying tests/vm/child-sort into /tmp/8wh7gVJ56G.dsk...
-Writing command line to /tmp/58Uaaixl4C.dsk...
-qemu -hda /tmp/58Uaaixl4C.dsk -hdb /tmp/SPbwQ4XC4o.dsk -hdc /tmp/8wh7gVJ56G.dsk -hdd /tmp/CElIRr4iej.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/page-merge-par into /tmp/2TDtbZxZzC.dsk...
+Copying tests/vm/child-sort into /tmp/2TDtbZxZzC.dsk...
+Writing command line to /tmp/1RL9KtrZY6.dsk...
+qemu -hda /tmp/1RL9KtrZY6.dsk -hdb /tmp/VRpbbA5FG9.dsk -hdc /tmp/2TDtbZxZzC.dsk -hdd /tmp/1pjZ14ELpr.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put page-merge-par put child-sort run page-merge-par
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -34,10 +34,10 @@ child-sort: exit(123)
 (page-merge-par) sort chunk 7
 child-sort: exit(123)
 (page-merge-par) wait for child 0
-child-sort: exit(123)
 (page-merge-par) wait for child 1
 (page-merge-par) wait for child 2
 (page-merge-par) wait for child 3
+child-sort: exit(123)
 (page-merge-par) wait for child 4
 (page-merge-par) wait for child 5
 (page-merge-par) wait for child 6
@@ -48,8 +48,8 @@ child-sort: exit(123)
 (page-merge-par) end
 page-merge-par: exit(0)
 Execution of 'page-merge-par' complete.
-Timer: 493 ticks
-Thread: 0 idle ticks, 71 kernel ticks, 423 user ticks
+Timer: 505 ticks
+Thread: 0 idle ticks, 70 kernel ticks, 435 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 4824 reads, 6496 writes
 hd1:0: 155 reads, 0 writes

@@ -1,7 +1,7 @@
-Copying tests/vm/mmap-clean into /tmp/XUJcUTbu6r.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/XUJcUTbu6r.dsk...
-Writing command line to /tmp/LK5h7jeqqi.dsk...
-qemu -hda /tmp/LK5h7jeqqi.dsk -hdb /tmp/n5XiMQXTfw.dsk -hdc /tmp/XUJcUTbu6r.dsk -hdd /tmp/6kA0Oz2VHo.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-clean into /tmp/vvv98wiIbL.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/vvv98wiIbL.dsk...
+Writing command line to /tmp/TNRsMIuMPs.dsk...
+qemu -hda /tmp/TNRsMIuMPs.dsk -hdb /tmp/PKeD1Q5UPR.dsk -hdc /tmp/vvv98wiIbL.dsk -hdd /tmp/B43wP59aGo.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-clean put sample.txt run mmap-clean
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -19,22 +19,21 @@ Executing 'mmap-clean':
 (mmap-clean) begin
 (mmap-clean) open "sample.txt"
 (mmap-clean) mmap "sample.txt"
-Page fault at 0x54321000: not present error reading page in user context.
-mmap-clean: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048127
- cr2=54321000 error=00000004
- eax=00000000 ebx=54321000 ecx=0000031a edx=54321000
- esi=54321000 edi=0804bd80 esp=bfffff80 ebp=bfffffa8
- cs=001b ds=0023 es=0023 ss=0023
-mmap-clean: exit(-1)
+(mmap-clean) write "sample.txt"
+(mmap-clean) munmap "sample.txt"
+(mmap-clean) seek "sample.txt"
+(mmap-clean) read "sample.txt"
+(mmap-clean) file change was retained after munmap
+(mmap-clean) end
+mmap-clean: exit(0)
 Execution of 'mmap-clean' complete.
-Timer: 63 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
+Timer: 64 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 100 reads, 170 writes
+hd0:1: 105 reads, 171 writes
 hd1:0: 80 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1385 characters output
+Console: 1210 characters output
 Keyboard: 0 keys pressed
 Exception: 6 page faults
 Powering off...

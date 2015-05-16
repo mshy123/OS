@@ -1,6 +1,6 @@
-Copying tests/filesys/base/lg-full into /tmp/7UPz0hB0ax.dsk...
-Writing command line to /tmp/tgwGcefmVH.dsk...
-qemu -hda /tmp/tgwGcefmVH.dsk -hdb /tmp/PSBg6SLLOn.dsk -hdc /tmp/7UPz0hB0ax.dsk -hdd /tmp/IAcMPbOX3b.dsk -m 4 -net none -nographic -monitor null
+Copying tests/filesys/base/lg-full into /tmp/4TyZtofAwv.dsk...
+Writing command line to /tmp/VGvHDTqqJG.dsk...
+qemu -hda /tmp/VGvHDTqqJG.dsk -hdb /tmp/pqCqEoIdda.dsk -hdc /tmp/4TyZtofAwv.dsk -hdd /tmp/XsYXHspnVu.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put lg-full run lg-full
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -25,8 +25,8 @@ Executing 'lg-full':
 (lg-full) end
 lg-full: exit(0)
 Execution of 'lg-full' complete.
-Timer: 78 ticks
-Thread: 0 idle ticks, 60 kernel ticks, 18 user ticks
+Timer: 80 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 19 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 238 reads, 460 writes
 hd1:0: 76 reads, 0 writes

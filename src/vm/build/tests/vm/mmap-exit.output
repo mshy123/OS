@@ -1,7 +1,7 @@
-Copying tests/vm/mmap-exit into /tmp/zBxFHG1G1C.dsk...
-Copying tests/vm/child-mm-wrt into /tmp/zBxFHG1G1C.dsk...
-Writing command line to /tmp/wYqwrqq55v.dsk...
-qemu -hda /tmp/wYqwrqq55v.dsk -hdb /tmp/tjZ1aYjAmr.dsk -hdc /tmp/zBxFHG1G1C.dsk -hdd /tmp/468TQ05ygO.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-exit into /tmp/AaLmnAMz9n.dsk...
+Copying tests/vm/child-mm-wrt into /tmp/AaLmnAMz9n.dsk...
+Writing command line to /tmp/ksZSYK8T0k.dsk...
+qemu -hda /tmp/ksZSYK8T0k.dsk -hdb /tmp/pfcbbyooZn.dsk -hdc /tmp/AaLmnAMz9n.dsk -hdd /tmp/U9JJJaZ8gg.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-exit put child-mm-wrt run mmap-exit
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -21,24 +21,21 @@ Executing 'mmap-exit':
 (child-mm-wrt) create "sample.txt"
 (child-mm-wrt) open "sample.txt"
 (child-mm-wrt) mmap "sample.txt"
-Page fault at 0x10000000: not present error writing page in user context.
-child-mm-wrt: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8049486
- cr2=10000000 error=00000006
- eax=0000003d ebx=0804bae1 ecx=0000031a edx=10000001
- esi=10000000 edi=10000000 esp=bfffff60 ebp=bfffff88
- cs=001b ds=0023 es=0023 ss=0023
-child-mm-wrt: exit(-1)
-(mmap-exit) wait for child (should return 0): FAILED
-mmap-exit: exit(1)
+(child-mm-wrt) end
+child-mm-wrt: exit(0)
+(mmap-exit) open "sample.txt" for verification
+(mmap-exit) verified contents of "sample.txt"
+(mmap-exit) close "sample.txt"
+(mmap-exit) end
+mmap-exit: exit(0)
 Execution of 'mmap-exit' complete.
-Timer: 72 ticks
-Thread: 0 idle ticks, 69 kernel ticks, 3 user ticks
+Timer: 74 ticks
+Thread: 0 idle ticks, 70 kernel ticks, 4 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 158 reads, 316 writes
+hd0:1: 168 reads, 318 writes
 hd1:0: 150 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1521 characters output
+Console: 1255 characters output
 Keyboard: 0 keys pressed
 Exception: 11 page faults
 Powering off...

@@ -92,6 +92,14 @@ struct file_info
    struct list_elem elem;
 };
 
+/* Project3 : mmap file structure, match mapid with sup_page */
+struct mmap_file_info
+{
+  int mapid;
+  struct file *file;
+  struct list_elem elem;
+};
+
 struct thread
   {
     /* Owned by thread.c. */
@@ -130,6 +138,9 @@ struct thread
     struct lock sup_page_table_lock;
     void *bottom_stack_pointer;
 
+    /* Project3-2 : mmap list and mapid */
+    struct list mmap_list;
+    int mapid;
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
   };

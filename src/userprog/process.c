@@ -189,8 +189,8 @@ process_exit (void)
   uint32_t *pd;
 
   /* Project2 : File allow write when executable file thread exit */
-  frame_free(curr);
-  destroy_sup_page_table(curr); 
+  
+  munmap_all();
   
   if(thread_current()->own_file != NULL) file_close (thread_current()->own_file);
   remove_all_file();
@@ -199,15 +199,18 @@ process_exit (void)
   printf("%s: exit(%d)\n", curr->name, curr->exit_status);
   remove_child_process_all();
   
+  frame_free(curr);
+  destroy_sup_page_table(curr); 
+ 
   /* Project3 : remove frame entry */
-  
+
   /* Project2 : Wait for parent get our structure */
   sema_up(&curr->c_sema);
   sema_down(&curr->p_sema);
   
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
-  
+
   pd = curr->pagedir;
   if (pd != NULL) 
     {
@@ -222,6 +225,7 @@ process_exit (void)
       pagedir_activate (NULL);
       pagedir_destroy (pd);
     }
+
 }
 
 /* Sets up the CPU for running user code in the current

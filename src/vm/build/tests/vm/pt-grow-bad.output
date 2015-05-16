@@ -1,6 +1,6 @@
-Copying tests/vm/pt-grow-bad into /tmp/xYysHHa0hU.dsk...
-Writing command line to /tmp/PQnLzbbtDk.dsk...
-qemu -hda /tmp/PQnLzbbtDk.dsk -hdb /tmp/9747buzswy.dsk -hdc /tmp/xYysHHa0hU.dsk -hdd /tmp/wduvPfbFzp.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/pt-grow-bad into /tmp/WF0LRZAG8s.dsk...
+Writing command line to /tmp/hw3E1Kccg5.dsk...
+qemu -hda /tmp/hw3E1Kccg5.dsk -hdb /tmp/CUjiOKTb6r.dsk -hdc /tmp/WF0LRZAG8s.dsk -hdd /tmp/iAYhfVab1L.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put pt-grow-bad run pt-grow-bad
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -24,8 +24,8 @@ Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x80480a3
  cs=001b ds=0023 es=0023 ss=0023
 pt-grow-bad: exit(-1)
 Execution of 'pt-grow-bad' complete.
-Timer: 63 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
+Timer: 62 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 58 reads, 154 writes
 hd1:0: 73 reads, 0 writes

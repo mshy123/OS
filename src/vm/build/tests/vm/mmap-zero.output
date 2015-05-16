@@ -1,6 +1,6 @@
-Copying tests/vm/mmap-zero into /tmp/sSpaSxg71n.dsk...
-Writing command line to /tmp/JvGJHQVZv3.dsk...
-qemu -hda /tmp/JvGJHQVZv3.dsk -hdb /tmp/2GoC2Ciy0z.dsk -hdc /tmp/sSpaSxg71n.dsk -hdd /tmp/i9QFW1Qkdb.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-zero into /tmp/4FL8obEm9V.dsk...
+Writing command line to /tmp/CIMh05ExoL.dsk...
+qemu -hda /tmp/CIMh05ExoL.dsk -hdb /tmp/jkRe8uo3yF.dsk -hdc /tmp/4FL8obEm9V.dsk -hdd /tmp/xQNZ19s2d7.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-zero run mmap-zero
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -22,13 +22,13 @@ Page fault at 0x7f000000: not present error reading page in user context.
 mmap-zero: dying due to interrupt 0x0e (#PF Page-Fault Exception).
 Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048124
  cr2=7f000000 error=00000004
- eax=00000002 ebx=00000002 ecx=0804bb00 edx=7f000000
+ eax=ffffffff ebx=00000002 ecx=0804bb00 edx=7f000000
  esi=7f000000 edi=00000000 esp=bfffff90 ebp=bfffffa8
  cs=001b ds=0023 es=0023 ss=0023
 mmap-zero: exit(-1)
 Execution of 'mmap-zero' complete.
-Timer: 62 ticks
-Thread: 0 idle ticks, 60 kernel ticks, 2 user ticks
+Timer: 63 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 85 reads, 158 writes
 hd1:0: 73 reads, 0 writes

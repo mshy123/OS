@@ -460,6 +460,9 @@ init_thread (struct thread *t, const char *name, int priority)
   /* Project3 : Initialize supplemental page table */
   list_init(&t->sup_page_table);
   lock_init(&t->sup_page_table_lock);
+  /* Project 3-2 : Initialize mmap list */
+  list_init(&t->mmap_list);
+  t->mapid = 0;
 }
 
 /* Allocates a SIZE-byte frame at the top of thread T's stack and

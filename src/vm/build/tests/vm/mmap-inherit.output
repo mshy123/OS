@@ -1,8 +1,8 @@
-Copying tests/vm/mmap-inherit into /tmp/jExcfnSVvi.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/jExcfnSVvi.dsk...
-Copying tests/vm/child-inherit into /tmp/jExcfnSVvi.dsk...
-Writing command line to /tmp/TYukpfTIXg.dsk...
-qemu -hda /tmp/TYukpfTIXg.dsk -hdb /tmp/SfMHrED3Pd.dsk -hdc /tmp/jExcfnSVvi.dsk -hdd /tmp/BuYT8puxqI.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-inherit into /tmp/ew7jmTONnb.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/ew7jmTONnb.dsk...
+Copying tests/vm/child-inherit into /tmp/ew7jmTONnb.dsk...
+Writing command line to /tmp/UA18pIMuc5.dsk...
+qemu -hda /tmp/UA18pIMuc5.dsk -hdb /tmp/MJXnNDPCv7.dsk -hdc /tmp/ew7jmTONnb.dsk -hdd /tmp/bR0Q7rHMBi.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-inherit put sample.txt put child-inherit run mmap-inherit
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -21,22 +21,27 @@ Executing 'mmap-inherit':
 (mmap-inherit) begin
 (mmap-inherit) open "sample.txt"
 (mmap-inherit) mmap "sample.txt"
-Page fault at 0x54321000: not present error reading page in user context.
-mmap-inherit: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048122
- cr2=54321000 error=00000004
- eax=00000000 ebx=00000002 ecx=0000031a edx=54321000
- esi=54321000 edi=0804bc00 esp=bfffff90 ebp=bfffffa8
+(mmap-inherit) exec "child-inherit"
+(child-inherit) begin
+Page fault at 0x54321000: not present error writing page in user context.
+child-inherit: dying due to interrupt 0x0e (#PF Page-Fault Exception).
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8049994
+ cr2=54321000 error=00000006
+ eax=00000000 ebx=54321000 ecx=00000fff edx=00000001
+ esi=54321000 edi=00000000 esp=bfffff60 ebp=bfffff88
  cs=001b ds=0023 es=0023 ss=0023
-mmap-inherit: exit(-1)
+child-inherit: exit(-1)
+(mmap-inherit) checking that mmap'd file still has same data
+(mmap-inherit) end
+mmap-inherit: exit(0)
 Execution of 'mmap-inherit' complete.
-Timer: 72 ticks
-Thread: 0 idle ticks, 70 kernel ticks, 2 user ticks
+Timer: 73 ticks
+Thread: 0 idle ticks, 69 kernel ticks, 4 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 127 reads, 320 writes
+hd0:1: 167 reads, 320 writes
 hd1:0: 154 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1473 characters output
+Console: 1635 characters output
 Keyboard: 0 keys pressed
-Exception: 6 page faults
+Exception: 12 page faults
 Powering off...

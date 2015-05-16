@@ -33,6 +33,10 @@ void seek (int fd, unsigned position);
 unsigned tell (int fd);
 void close (int fd);
 
+/* Project3 : add mmap and munmap */
+int mmap (int fd, void *addr);
+void munmap (int mapping);
+
 /* Project2 : additiona function */
 void check_valid_user_pointer(const void *user_pointer, void *esp);
 void check_valid_string (const void *user_pointer, void *esp);
@@ -55,7 +59,7 @@ syscall_handler (struct intr_frame *f UNUSED)
   check_valid_user_pointer((const void *)f->esp, f->esp);
   
   int args[4];
-  
+  //printf("call : %d\n\n", *(int *)f->esp);
   switch(*(int *) f->esp) {
     case SYS_HALT:                   /* Halt the operating system. */
       halt();
@@ -68,7 +72,9 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_EXEC:                   /* Start another process. */ 
       get_args(f, args, 1);
-      check_valid_string((const void *)args[0], f->esp);  
+      check_valid_string((const void *)args[0], f->esp);
+          //hex_dump(pg_round_down(args[0]), pg_round_down(args[0]), PGSIZE, true);
+          //printf("\n");
       f->eax = exec((char *)args[0]);
       break;
 
@@ -130,6 +136,16 @@ syscall_handler (struct intr_frame *f UNUSED)
       get_args(f, args, 1);
       close(args[0]);
       break;
+    
+    case SYS_MMAP:
+      get_args(f, args, 2);
+      f->eax = mmap(args[0], (void *)args[1]);
+      break;
+
+    case SYS_MUNMAP:
+      get_args(f, args, 1);
+      munmap(args[0]);
+      break;
   }
 }
 
@@ -140,8 +156,12 @@ void check_valid_user_pointer(const void *user_pointer, void *esp) {
   
   pd = curr->pagedir;
 
+  lock_acquire(&frame_lock);
+  lock_release(&frame_lock);
+
   //if(user_pointer == NULL || is_kernel_vaddr(user_pointer) || pagedir_get_page(pd, user_pointer) == NULL) exit(-1);
   if(user_pointer == NULL || is_kernel_vaddr(user_pointer)) exit(-1);
+
   if(pagedir_get_page(pd, user_pointer) == NULL) {
       bool success = false;
       struct sup_page_table_entry *spte = get_sup_page_table_entry(curr, uaddr);
@@ -167,6 +187,12 @@ void check_valid_user_pointer(const void *user_pointer, void *esp) {
 void check_valid_string (const void *user_pointer, void *esp) {
   char *str = (char *)user_pointer;
   check_valid_user_pointer (user_pointer, esp);
+  void *bottom = pg_round_down(user_pointer);
+  while (bottom <= str) {
+      //printf("aaa\n");
+      bottom += 1;
+      check_valid_user_pointer((const void *)bottom, esp);
+  }
   while (*str != 0) {
       str = str + 1;
       check_valid_user_pointer ((const void *)str, esp);
@@ -308,6 +334,124 @@ void close (int fd) {
         }
         f_elem = list_next(f_elem);
     }
+}
+
+int mmap (int fd, void *addr) {
+    struct file *f = fd_to_file(fd);
+    struct thread *t = thread_current();
+    if (fd == 0 || fd == 1 || addr == 0 || f == NULL || is_kernel_vaddr(addr)) {
+       return -1;
+    }
+    if(pagedir_get_page(t->pagedir, addr) != NULL) {
+      return -1;
+    }
+    //if((size_t) (PHYS_BASE - addr) > (1 << 23) || ((uint32_t) addr % PGSIZE) != 0) {
+    if((uint32_t) addr % PGSIZE != 0) {
+      return -1;
+    }
+    
+    void *uaddr = pg_round_down(addr);
+    struct sup_page_table_entry *spte = get_sup_page_table_entry(t, uaddr);
+    if (spte != NULL) 
+      return -1;
+    struct file *mmap_file = file_reopen(f);
+    if(mmap_file == NULL || file_length(mmap_file) == 0)
+      return -1;
+
+    t->mapid++;
+
+    struct mmap_file_info *mfi = malloc(sizeof(struct mmap_file_info));
+    mfi->mapid = t->mapid;
+    mfi->file = mmap_file; 
+    list_push_back(&thread_current()->mmap_list, &mfi->elem);
+    
+    off_t ofs = 0;
+    uint32_t read_bytes = file_length(mmap_file);
+    while (read_bytes > 0) {        
+      size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
+      size_t page_zero_bytes = PGSIZE - page_read_bytes;
+
+      if (!add_mmap_file_page_table_entry (t->mapid, mmap_file, ofs, addr, page_read_bytes, page_zero_bytes)) {
+        munmap(t->mapid); 
+        return -1;
+      }
+
+      read_bytes -= page_read_bytes;
+      ofs += page_read_bytes;
+      addr += PGSIZE;
+    }
+ 
+    return t->mapid;
+}
+
+void munmap (int mapping) {
+    struct thread *t = thread_current();
+    struct list_elem *m_elem = list_begin(&t->mmap_list);
+    struct list_elem *f_elem = list_begin(&frame_table);
+    struct list_elem *n_elem = list_next(f_elem);
+    struct mmap_file_info *mfi;
+    struct frame_table_entry *fte;
+
+    while(f_elem != list_end(&frame_table)) {
+        fte = list_entry(f_elem, struct frame_table_entry, elem);
+        if(fte->own_thread == t && fte->mapping && fte->mapid == mapping) {
+            if(pagedir_is_dirty(t->pagedir, fte->page)) {
+                file_write_at(mapid_to_file(fte->mapid), fte->frame, fte->read_bytes, fte->ofs);
+            }
+            single_frame_free(fte->frame);
+        }
+        f_elem = n_elem;
+        if(f_elem != list_end(&frame_table)) n_elem = list_next(f_elem);
+    }
+
+    struct list_elem *s_elem = list_begin(&t->sup_page_table);
+    if(s_elem != list_end(&t->sup_page_table)) n_elem = list_next(s_elem);
+    struct sup_page_table_entry *spte;
+    while(s_elem != list_end(&t->sup_page_table)) {
+        spte = list_entry(s_elem, struct sup_page_table_entry, elem);
+        list_remove(s_elem);
+        free(spte);
+        s_elem = n_elem;
+        if(s_elem != list_end(&t->sup_page_table)) n_elem = list_next(s_elem);
+    }
+
+    while(m_elem != list_end(&t->mmap_list)) {
+        mfi = list_entry(m_elem, struct mmap_file_info, elem);
+        if(mfi->mapid == mapping) {
+            file_close(mfi->file);
+            list_remove(&mfi->elem);
+            free(mfi);
+            break;
+        }
+        m_elem = list_next(m_elem);
+    }
+}
+
+void munmap_all (void) {
+    struct thread *t = thread_current();
+    struct list_elem *m_elem;
+    struct mmap_file_info *mfi;
+
+    while(!list_empty(&t->mmap_list)) {
+        m_elem = list_begin(&t->mmap_list);
+        mfi = list_entry(m_elem, struct mmap_file_info, elem);
+        munmap(mfi->mapid);
+    }
+}
+struct file *mapid_to_file (int mapid) {
+    struct thread *t = thread_current();
+    struct list_elem *m_elem = list_begin(&t->mmap_list);
+    struct mmap_file_info *mfi;
+
+    while(m_elem != list_end(&t->mmap_list)) {
+        mfi = list_entry(m_elem, struct mmap_file_info, elem);
+        if(mfi->mapid == mapid) {
+            ASSERT(mfi->file != NULL);
+            return mfi->file;
+        }
+        m_elem = list_next(m_elem);
+    }
+    return NULL;
 }
 
 struct file *fd_to_file (int fd) {

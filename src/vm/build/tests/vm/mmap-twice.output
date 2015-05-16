@@ -1,7 +1,7 @@
-Copying tests/vm/mmap-twice into /tmp/q6HmQ9TpGj.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/q6HmQ9TpGj.dsk...
-Writing command line to /tmp/nJUr7aLXi7.dsk...
-qemu -hda /tmp/nJUr7aLXi7.dsk -hdb /tmp/KltsFYEYLo.dsk -hdc /tmp/q6HmQ9TpGj.dsk -hdd /tmp/bmM2lMQx8G.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-twice into /tmp/EZzRqkkLoj.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/EZzRqkkLoj.dsk...
+Writing command line to /tmp/ifn1Mxvheo.dsk...
+qemu -hda /tmp/ifn1Mxvheo.dsk -hdb /tmp/2RieEh1dzp.dsk -hdc /tmp/EZzRqkkLoj.dsk -hdd /tmp/uwM9WiK8jS.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-twice put sample.txt run mmap-twice
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -22,22 +22,17 @@ Executing 'mmap-twice':
 (mmap-twice) open "sample.txt" #1
 (mmap-twice) mmap "sample.txt" #1 at 0x20000000
 (mmap-twice) compare mmap'd file 0 against data
-Page fault at 0x10000000: not present error reading page in user context.
-mmap-twice: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x804819c
- cr2=10000000 error=00000004
- eax=00000000 ebx=ffffffff ecx=0000031a edx=0804bb80
- esi=10000000 edi=0804bb80 esp=bfffff70 ebp=bfffffa8
- cs=001b ds=0023 es=0023 ss=0023
-mmap-twice: exit(-1)
+(mmap-twice) compare mmap'd file 1 against data
+(mmap-twice) end
+mmap-twice: exit(0)
 Execution of 'mmap-twice' complete.
-Timer: 63 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
+Timer: 64 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 101 reads, 168 writes
+hd0:1: 105 reads, 168 writes
 hd1:0: 79 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1535 characters output
+Console: 1230 characters output
 Keyboard: 0 keys pressed
-Exception: 6 page faults
+Exception: 7 page faults
 Powering off...

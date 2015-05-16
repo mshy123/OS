@@ -1,7 +1,7 @@
-Copying tests/vm/mmap-read into /tmp/T2Lo8btAgw.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/T2Lo8btAgw.dsk...
-Writing command line to /tmp/C9yRTN2cC6.dsk...
-qemu -hda /tmp/C9yRTN2cC6.dsk -hdb /tmp/eCKYscWvw9.dsk -hdc /tmp/T2Lo8btAgw.dsk -hdd /tmp/9TeTBTMZgK.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-read into /tmp/DtwcS6VyF5.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/DtwcS6VyF5.dsk...
+Writing command line to /tmp/LiYw9R4ytF.dsk...
+qemu -hda /tmp/LiYw9R4ytF.dsk -hdb /tmp/TRWuidcm6w.dsk -hdc /tmp/DtwcS6VyF5.dsk -hdd /tmp/ixYIqzo0vJ.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-read put sample.txt run mmap-read
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -19,22 +19,16 @@ Executing 'mmap-read':
 (mmap-read) begin
 (mmap-read) open "sample.txt"
 (mmap-read) mmap "sample.txt"
-Page fault at 0x10000000: not present error reading page in user context.
-mmap-read: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048127
- cr2=10000000 error=00000004
- eax=00000000 ebx=10000000 ecx=0000031a edx=10000000
- esi=10000000 edi=0804bb80 esp=bfffff80 ebp=bfffffa8
- cs=001b ds=0023 es=0023 ss=0023
-mmap-read: exit(-1)
+(mmap-read) end
+mmap-read: exit(0)
 Execution of 'mmap-read' complete.
-Timer: 63 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
+Timer: 64 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 98 reads, 168 writes
+hd0:1: 100 reads, 168 writes
 hd1:0: 79 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1374 characters output
+Console: 1022 characters output
 Keyboard: 0 keys pressed
 Exception: 6 page faults
 Powering off...

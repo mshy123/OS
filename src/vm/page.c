@@ -52,6 +52,7 @@ bool load_page (struct sup_page_table_entry *spte) {
     bool success = false;
 
     if(spte->type == 1) {
+
         frame = frame_alloc (PAL_USER | PAL_ZERO, spte->page, spte->writable);
         if (frame == NULL) {
             return success;
@@ -61,13 +62,16 @@ bool load_page (struct sup_page_table_entry *spte) {
             single_frame_free (frame);
         }
         else {
+            lock_acquire(&thread_current()->sup_page_table_lock);
             swap_in(spte->disk_num, frame);
+            lock_release(&thread_current()->sup_page_table_lock);
             remove_sup_page_table_entry(spte);
         }
     }
 
     else if(spte->type == 2) {
         enum palloc_flags flag = (PAL_USER | PAL_ZERO);
+
         frame = frame_alloc (flag, spte->page, spte->writable);
         if (frame == NULL) {
             return success;
@@ -75,8 +79,8 @@ bool load_page (struct sup_page_table_entry *spte) {
         if (spte->read_bytes > 0) {
             lock_acquire(&thread_current()->sup_page_table_lock);
             if ((int) spte->read_bytes != file_read_at (spte->file, frame, spte->read_bytes, spte->offset)) {
-                lock_release(&thread_current()->sup_page_table_lock);
                 single_frame_free(frame);
+                lock_release(&thread_current()->sup_page_table_lock);
                 return success;
             }
             lock_release(&thread_current()->sup_page_table_lock);
@@ -90,13 +94,39 @@ bool load_page (struct sup_page_table_entry *spte) {
         remove_sup_page_table_entry(spte);
     }
 
+    else if(spte->type == 3) {
+        enum palloc_flags flag = (PAL_USER | PAL_ZERO);
+
+        frame = frame_alloc_for_mmap (flag, spte->page, spte->mapid, spte->offset, spte->read_bytes, spte->zero_bytes);
+        if (frame == NULL) {
+            return success;
+        }
+        if (spte->read_bytes > 0) {
+            lock_acquire(&thread_current()->sup_page_table_lock);
+            if ((int) spte->read_bytes != file_read_at (spte->file, frame, spte->read_bytes, spte->offset)) {
+                single_frame_free(frame);
+                lock_release(&thread_current()->sup_page_table_lock);
+                return success;
+            }
+            lock_release(&thread_current()->sup_page_table_lock);
+            memset (frame + spte->read_bytes, 0, spte->zero_bytes);
+        }
+        success = (pagedir_get_page (t->pagedir, spte->page) == NULL && pagedir_set_page (t->pagedir, spte->page, frame, spte->writable));
+        if(!success) {
+            single_frame_free(frame);
+            return success;
+        }
+        pagedir_set_dirty(t->pagedir, spte->page, false);
+        remove_sup_page_table_entry(spte);
+    }
+
     return success;
 }
 
 bool add_file_page_table_entry (struct file *file, int32_t offset, uint8_t *upage, uint32_t read_bytes, uint32_t zero_bytes, bool writable) {
+    lock_acquire(&thread_current()->sup_page_table_lock);
     struct sup_page_table_entry *spte = malloc(sizeof(struct sup_page_table_entry));
     if(spte == NULL) return false;
-    lock_acquire(&thread_current()->sup_page_table_lock);
     spte->type = 2;
     spte->file = file;
     spte->offset = offset;
@@ -109,9 +139,26 @@ bool add_file_page_table_entry (struct file *file, int32_t offset, uint8_t *upag
     return true;
 }
 
-void add_sup_page_table_entry (disk_sector_t disk_n, void *page, bool writable) {
-    struct sup_page_table_entry *spte = malloc(sizeof(struct sup_page_table_entry));
+bool add_mmap_file_page_table_entry (int mapid, struct file *file, int32_t offset, uint8_t *upage, uint32_t read_bytes, uint32_t zero_bytes) {
     lock_acquire(&thread_current()->sup_page_table_lock);
+    struct sup_page_table_entry *spte = malloc(sizeof(struct sup_page_table_entry));
+    if(spte == NULL) return false;
+    spte->mapid = mapid;
+    spte->type = 3;
+    spte->file = file;
+    spte->offset = offset;
+    spte->page = upage;
+    spte->read_bytes = read_bytes;
+    spte->zero_bytes = zero_bytes;
+    spte->writable = true;
+    list_push_back (&thread_current()->sup_page_table, &spte->elem);
+    lock_release(&thread_current()->sup_page_table_lock);
+    return true;
+}
+
+void add_sup_page_table_entry (disk_sector_t disk_n, void *page, bool writable) {
+    lock_acquire(&thread_current()->sup_page_table_lock);
+    struct sup_page_table_entry *spte = malloc(sizeof(struct sup_page_table_entry));
     spte->type = 1;
     spte->disk_num = disk_n;
     spte->page = page;

@@ -169,16 +169,6 @@ page_fault (struct intr_frame *f)
           success = load_page(spte);
       }
       else if (fault_addr >= f->esp - 32) {
-
-          /*while (t->bottom_stack_pointer > uaddr) {
-              t->bottom_stack_pointer -= PGSIZE;
-              uint8_t *frame = frame_alloc(PAL_USER | PAL_ZERO, t->bottom_stack_pointer, true);
-
-              if (frame != NULL) {
-                  success = (pagedir_get_page (t->pagedir, t->bottom_stack_pointer) == NULL && pagedir_set_page (t->pagedir, t->bottom_stack_pointer, frame, true));
-                  if(!success) single_frame_free (frame);
-              }
-          }*/
           if ((size_t) (PHYS_BASE - uaddr) > (1 << 23)) success = false;
           else {
               uint8_t *frame = frame_alloc(PAL_USER | PAL_ZERO, uaddr, true);

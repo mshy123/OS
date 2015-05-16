@@ -1,7 +1,7 @@
-Copying tests/vm/mmap-over-stk into /tmp/TIvL0d1A2Z.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/TIvL0d1A2Z.dsk...
-Writing command line to /tmp/7zLGoylW1f.dsk...
-qemu -hda /tmp/7zLGoylW1f.dsk -hdb /tmp/q0okqOekDV.dsk -hdc /tmp/TIvL0d1A2Z.dsk -hdd /tmp/obDsHdc4PR.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-over-stk into /tmp/4AXvA9exkq.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/4AXvA9exkq.dsk...
+Writing command line to /tmp/jAFEdYBVoe.dsk...
+qemu -hda /tmp/jAFEdYBVoe.dsk -hdb /tmp/EaWAkzrRS7.dsk -hdc /tmp/4AXvA9exkq.dsk -hdd /tmp/huHIGWPugh.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-over-stk put sample.txt run mmap-over-stk
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -19,8 +19,8 @@ Executing 'mmap-over-stk':
 (mmap-over-stk) begin
 (mmap-over-stk) open "sample.txt"
 (mmap-over-stk) try to mmap over stack segment
-(mmap-over-stk) try to mmap over stack segment: FAILED
-mmap-over-stk: exit(1)
+(mmap-over-stk) end
+mmap-over-stk: exit(0)
 Execution of 'mmap-over-stk' complete.
 Timer: 62 ticks
 Thread: 0 idle ticks, 61 kernel ticks, 1 user ticks
@@ -28,7 +28,7 @@ hd0:0: 0 reads, 0 writes
 hd0:1: 90 reads, 162 writes
 hd1:0: 76 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1109 characters output
+Console: 1074 characters output
 Keyboard: 0 keys pressed
 Exception: 4 page faults
 Powering off...

@@ -1,7 +1,7 @@
-Copying tests/vm/mmap-unmap into /tmp/QxCiggOcjc.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/QxCiggOcjc.dsk...
-Writing command line to /tmp/RWGoTVqluy.dsk...
-qemu -hda /tmp/RWGoTVqluy.dsk -hdb /tmp/6svntgCTUH.dsk -hdc /tmp/QxCiggOcjc.dsk -hdd /tmp/IdgDf1iQMP.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-unmap into /tmp/SKWtz3msdJ.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/SKWtz3msdJ.dsk...
+Writing command line to /tmp/gvOHKj2IdC.dsk...
+qemu -hda /tmp/gvOHKj2IdC.dsk -hdb /tmp/4BCubjsiyf.dsk -hdc /tmp/SKWtz3msdJ.dsk -hdd /tmp/DvDyGzy93O.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-unmap put sample.txt run mmap-unmap
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -23,13 +23,13 @@ Page fault at 0x10000000: not present error reading page in user context.
 mmap-unmap: dying due to interrupt 0x0e (#PF Page-Fault Exception).
 Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8048107
  cr2=10000000 error=00000004
- eax=00000002 ebx=00000002 ecx=0804be00 edx=10000000
+ eax=00000001 ebx=00000002 ecx=0804be00 edx=10000000
  esi=00000000 edi=00000000 esp=bfffff90 ebp=bfffffa8
  cs=001b ds=0023 es=0023 ss=0023
 mmap-unmap: exit(-1)
 Execution of 'mmap-unmap' complete.
 Timer: 63 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
+Thread: 0 idle ticks, 62 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 97 reads, 166 writes
 hd1:0: 78 reads, 0 writes

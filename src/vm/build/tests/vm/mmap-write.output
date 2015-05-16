@@ -1,6 +1,6 @@
-Copying tests/vm/mmap-write into /tmp/wLh2JscPy9.dsk...
-Writing command line to /tmp/3sIXZSGDt7.dsk...
-qemu -hda /tmp/3sIXZSGDt7.dsk -hdb /tmp/9epPc5lZH7.dsk -hdc /tmp/wLh2JscPy9.dsk -hdd /tmp/dfoddAmfoN.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-write into /tmp/P0vq7wlple.dsk...
+Writing command line to /tmp/9X6Jhksrfh.dsk...
+qemu -hda /tmp/9X6Jhksrfh.dsk -hdb /tmp/pGlKQxy1t8.dsk -hdc /tmp/P0vq7wlple.dsk -hdd /tmp/KG8j3R01eC.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-write run mmap-write
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -18,22 +18,17 @@ Executing 'mmap-write':
 (mmap-write) create "sample.txt"
 (mmap-write) open "sample.txt"
 (mmap-write) mmap "sample.txt"
-Page fault at 0x10000000: not present error writing page in user context.
-mmap-write: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x8049546
- cr2=10000000 error=00000006
- eax=0000003d ebx=0804bbc1 ecx=00000319 edx=10000001
- esi=10000000 edi=10000000 esp=bffffb40 ebp=bffffb68
- cs=001b ds=0023 es=0023 ss=0023
-mmap-write: exit(-1)
+(mmap-write) compare read data against written data
+(mmap-write) end
+mmap-write: exit(0)
 Execution of 'mmap-write' complete.
-Timer: 63 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 2 user ticks
+Timer: 64 ticks
+Thread: 0 idle ticks, 61 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 93 reads, 166 writes
+hd0:1: 98 reads, 168 writes
 hd1:0: 76 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1357 characters output
+Console: 1056 characters output
 Keyboard: 0 keys pressed
 Exception: 6 page faults
 Powering off...

@@ -1,7 +1,7 @@
-Copying tests/vm/mmap-remove into /tmp/GtOscxgBsy.dsk...
-Copying ../../tests/vm/sample.txt into /tmp/GtOscxgBsy.dsk...
-Writing command line to /tmp/2mkhXHPAKm.dsk...
-qemu -hda /tmp/2mkhXHPAKm.dsk -hdb /tmp/teEVZQU0aY.dsk -hdc /tmp/GtOscxgBsy.dsk -hdd /tmp/DcSZMCeGPg.dsk -m 4 -net none -nographic -monitor null
+Copying tests/vm/mmap-remove into /tmp/bq31stI6rB.dsk...
+Copying ../../tests/vm/sample.txt into /tmp/bq31stI6rB.dsk...
+Writing command line to /tmp/PFewAK3BHz.dsk...
+qemu -hda /tmp/PFewAK3BHz.dsk -hdb /tmp/Ddprx4ooZF.dsk -hdc /tmp/bq31stI6rB.dsk -hdd /tmp/SciVuUiL4H.dsk -m 4 -net none -nographic -monitor null
 Kernel command line: -q -f put mmap-remove put sample.txt run mmap-remove
 Pintos booting with 4,096 kB RAM...
 374 pages available in kernel pool.
@@ -22,22 +22,16 @@ Executing 'mmap-remove':
 (mmap-remove) remove "sample.txt"
 (mmap-remove) try to open "sample.txt"
 (mmap-remove) create "another"
-Page fault at 0x10000000: not present error reading page in user context.
-mmap-remove: dying due to interrupt 0x0e (#PF Page-Fault Exception).
-Interrupt 0x0e (#PF Page-Fault Exception) at eip=0x80481ae
- cr2=10000000 error=00000004
- eax=00000000 ebx=00000002 ecx=0000031a edx=0000a000
- esi=10000000 edi=0804bc40 esp=bfffff80 ebp=bfffffa8
- cs=001b ds=0023 es=0023 ss=0023
-mmap-remove: exit(-1)
+(mmap-remove) end
+mmap-remove: exit(0)
 Execution of 'mmap-remove' complete.
-Timer: 68 ticks
-Thread: 0 idle ticks, 61 kernel ticks, 7 user ticks
+Timer: 69 ticks
+Thread: 0 idle ticks, 62 kernel ticks, 7 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 145 reads, 255 writes
+hd0:1: 146 reads, 255 writes
 hd1:0: 79 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1499 characters output
+Console: 1146 characters output
 Keyboard: 0 keys pressed
 Exception: 6 page faults
 Powering off...
