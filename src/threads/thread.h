@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include "threads/synch.h"
 #include "filesys/file.h"
-#include "vm/frame.h"
+
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -92,14 +92,6 @@ struct file_info
    struct list_elem elem;
 };
 
-/* Project3 : mmap file structure, match mapid with sup_page */
-struct mmap_file_info
-{
-  int mapid;
-  struct file *file;
-  struct list_elem elem;
-};
-
 struct thread
   {
     /* Owned by thread.c. */
@@ -116,6 +108,10 @@ struct thread
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */
 #endif
+    /* Project1 : Alarm Clock */
+    struct list_elem wakeup_elem;
+    int64_t wakeup_time;
+    
     /* Project2 : Structure using in Userprog */
     struct list file_list;              /* Each thread has file list */
     int max_fd;                         /* Number of open file */
@@ -132,15 +128,6 @@ struct thread
     struct file* own_file;              /* Save thread's file */
 
     struct semaphore success_load;      /* sema for success load */
-
-    /* Project3 : supplemental page table */
-    struct list sup_page_table;
-    struct lock sup_page_table_lock;
-    void *bottom_stack_pointer;
-
-    /* Project3-2 : mmap list and mapid */
-    struct list mmap_list;
-    int mapid;
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
   };
