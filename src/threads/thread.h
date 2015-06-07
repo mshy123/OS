@@ -6,7 +6,8 @@
 #include <stdint.h>
 #include "threads/synch.h"
 #include "filesys/file.h"
-
+#include "filesys/filesys.h"
+#include "devices/disk.h"
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -90,6 +91,9 @@ struct file_info
    int fd;
    struct file *file;
    struct list_elem elem;
+   /* Project4 : directory structure */
+   bool isdir;
+   struct dir *dir;
 };
 
 struct thread
@@ -128,6 +132,10 @@ struct thread
     struct file* own_file;              /* Save thread's file */
 
     struct semaphore success_load;      /* sema for success load */
+    
+    /* Project4 : Filesys Thread's Directory */
+    disk_sector_t current_dir_sec;
+    
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
   };

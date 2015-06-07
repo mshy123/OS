@@ -29,6 +29,14 @@ int write (int fd, const void *buffer, unsigned size);
 void seek (int fd, unsigned position);
 unsigned tell (int fd);
 void close (int fd);
+/* Project4 : filesys syscall function */
+/*
+bool chdir (const char *dir);
+bool mkdir (const char *dir);
+bool readdir (int fd, char *name);
+bool isdir (int fd);
+int inumber (int fd);
+*/
 
 /* Project2 : additiona function */
 void check_valid_user_pointer(const void *user_pointer);
@@ -118,6 +126,35 @@ syscall_handler (struct intr_frame *f UNUSED)
       get_args(f, args, 1);
       close(args[0]);
       break;
+
+    /* Project4 : Syscall function */
+//    case SYS_CHDIR:                  /* Change Directory */
+//      get_args(f, args, 1);
+//      check_vaild_user_pointer((const void *)args[0]);
+//      f->eax = chdir((const char *)args[0]);
+//      break;
+
+//    case SYS_MKDIR:                  /* Make Directory */
+//      get_args(f, args, 1);
+//      check_vaild_user_pointer((const void *)args[0]);
+//      f->eax = chdir((const char *)args[0]);
+//      break;
+     
+//    case SYS_READDIR:                /* Read Directory */
+//      get_args(f, args, 2);
+//      check_vaild_user_pointer((const void *)args[1]);
+//      f->eax = chdir(args[0], (char *)args[1]);
+//      break;
+
+//    case SYS_ISDIR:                   /* Check Directory */
+//      get_args(f, args, 1);
+//      f->eax = chdir(args[0]);
+//      break;
+
+//    case SYS_INUMBER:                 /* Return inode number */
+//      get_args(f, args, 1);
+//      f->eax = inumber(args[0]);
+//      break;
   }
 }
 
@@ -166,6 +203,8 @@ int open (const char *file) {
     
     fi->fd = t->max_fd++;
     fi->file = fp;
+    fi->isdir = false;
+    fi->dir = NULL;
     list_push_back(&t->file_list, &fi->elem);
 
     return fi->fd;
@@ -176,7 +215,9 @@ int filesize (int fd) {
     int size = -1;
 
     f = fd_to_file(fd);
-
+    if (f == NULL) {
+        return -1;
+    }
     size = file_length(f);
 
     return size;
@@ -274,6 +315,21 @@ struct file *fd_to_file (int fd) {
     return NULL;
 }
 
+struct file_info *fd_to_file_info (int fd) {
+    struct thread *t = thread_current();
+    struct list_elem *f_elem = list_begin(&t->file_list);
+    struct file_info *fi;
+
+    while(f_elem != list_end(&t->file_list)) {
+        fi = list_entry(f_elem, struct file_info, elem);
+        if(fi->fd == fd) {
+            return fi;
+        }
+        f_elem = list_next(f_elem);
+    }
+    return NULL;
+}
+
 void get_args(struct intr_frame *f, int *args, int num) {
     int i;
 
@@ -307,4 +363,25 @@ void remove_child_process_all(void) {
         sema_up(&c_p->p_sema);
     }
 }
+/*
+bool chdir (const char *dir) {
+}
 
+bool mkdir (const char *dir) {
+}
+
+bool readdir (int fd, char *name) {
+}
+
+bool isdir (int fd) {
+    struct file_info *fi = fd_to_file_info(fd);
+    
+    if (fi == NULL) {
+        return -1;
+    }
+    return fi->isdir;
+}
+
+int inumber (int fd) {
+}
+*/

@@ -234,3 +234,61 @@ dir_readdir (struct dir *dir, char name[NAME_MAX + 1])
     }
   return false;
 }
+
+disk_sector_t
+path_parsing (char *path, char *filename) {
+    char *name = malloc(strlen(path) + 1);
+    char *save_ptr, *token, *next_token = NULL;
+    disk_sector_t current_dir;
+
+    memcpy(name, path, strlen(path) + 1);
+
+    if (*name == '/') {
+        current_dir = ROOT_DIR_SECTOR;
+    }
+    else {
+        current_dir = thread_current()->current_dir_sec;
+    }
+    
+    token = strtok_r(name, "/", &save_ptr);
+    if (token != NULL) {
+        next_token = strtok_r(NULL, "/", &save_ptr);
+    }
+
+    while (next_token != NULL) {
+        if (strcmp(token, ".") == 0) continue;
+        if (strcmp(token, "..") == 0) {
+            struct inode *id = inode_open(current_dir);
+            current_dir = id->data.parent_sec;
+            inode_close(id);
+            continue;
+        }
+        struct inode *id = inode_open(current_dir);
+        if (!id->data.isdir) {
+            inode_close(id);
+            return -1;
+        }
+        struct dir *d = dir_open(id);
+        struct inode *mid;
+        if (!dir_lookup(d, token, &mid)) {
+            dir_close(d);
+            return -1;
+        }
+        if (!mid->data.isdir) {
+            dir_close(d);
+            inode_close(mid);
+            return -1;
+        }
+        current_dir = mid->sector;
+        dir_close(d);
+        inode_close(mid);
+        
+        token = next_token;
+        next_token = strtok_r(NULL, "/", &save_ptr);
+    }
+
+    filename = token;
+    
+    return current_dir;
+}
+

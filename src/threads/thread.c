@@ -97,6 +97,8 @@ thread_init (void)
   init_thread (initial_thread, "main", PRI_DEFAULT);
   initial_thread->status = THREAD_RUNNING;
   initial_thread->tid = allocate_tid ();
+  /* Project4 : Initial thread has Root Directory */
+  initial_thread->current_dir_sec = ROOT_DIR_SECTOR;
 }
 
 /* Starts preemptive thread scheduling by enabling interrupts.
@@ -200,6 +202,7 @@ thread_create (const char *name, int priority,
 
   /* Project2 : Add parent thread to child */
   t->parent_t = thread_current();
+  t->current_dir_sec = thread_current()->current_dir_sec;
 
   return tid;
 }
